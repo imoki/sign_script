@@ -25,7 +25,7 @@
 | 🟢️ | 签到 | WEB | 百度贴吧 | https://tieba.baidu.com | tieba.js | 2023-07-21 | 是 | 是 | 签到 |
 | 🟢️ | 签到 | WEB | 吾爱论坛 | https://www.52pojie.cn | 52pojie.js | 2023-07-20 | 是 | 是 | 签到 |
 | 🟢️ | 签到 | WEB | 有道云笔记 | https://note.youdao.com/ |noteyoudao.js | 2023-07-21 | 是 | 是 | 签到、领取空间 |
-| 🟢️ | 签到 | WEB | WPS(轻量版) | https://vip.wps.cn/ |wps_light.js | 2023-07-21 | 是 | 是 | 适用于手机端签到，不具备绕验证码功能 |
+| 🟢️ | 签到 | 移动端 | WPS(轻量版) | https://vip.wps.cn/ |wps_light.js | 2023-07-21 | 是 | 是 | 适用于手机端签到，不具备绕验证码功能 |
 
 ## 支持的通知列表
 
