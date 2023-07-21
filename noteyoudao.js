@@ -1,13 +1,39 @@
 // 推送bark消息
 function bark(message){
-  let bark_push = Application.Range("E"+2).Text
-  if(bark_push == "是"){
-    let bark_id = Application.Range("D"+2).Text
-    let BARK_PUSH = 'https://api.day.app/' + bark_id + "/" + message;
-    let barkdata = HTTP.get(BARK_PUSH,
+  let push = Application.Range("E"+2).Text
+  let bark_id = Application.Range("D"+2).Text
+  if(push == "是" && bark_id != ""){
+    let url = 'https://api.day.app/' + bark_id + "/" + message;
+    let resp = HTTP.get(url,
       {headers:{'Content-Type': 'application/x-www-form-urlencoded'}}
     )
-    barkdata = barkdata.json()
+    sleep(5000)
+  }
+}
+
+// 推送pushplus消息
+function pushplus(message){
+  let push = Application.Range("G"+2).Text
+  let token = Application.Range("F"+2).Text
+  if(push == "是" && token != ""){
+    url = 'http://www.pushplus.plus/send?token=' + token + '&content=' + message
+    let resp = HTTP.fetch(url, {
+      method: "get"
+    })
+    sleep(5000)
+  }
+}
+
+// 推送serverchan消息
+function serverchan(message){
+  let push = Application.Range("I"+2).Text
+  let key = Application.Range("H"+2).Text
+  if(push == "是" && key != ""){
+    url = "https://sctapi.ftqq.com/" + key + ".send"  + "?title=消息推送"  + "&desp=" + message
+    let resp = HTTP.fetch(url, {
+      method: "get"
+    })
+    sleep(5000)
   }
 }
 
@@ -53,3 +79,5 @@ for (let i = 2; i <= line; i++){
 }
 
 bark(message);
+pushplus(message);
+serverchan(message);
