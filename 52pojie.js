@@ -7,6 +7,8 @@ function bark(message){
   if(bark_push == "是"){
     let bark_id = Application.Range("D"+2).Text
     let BARK_PUSH = 'https://api.day.app/' + bark_id + "/" + message;
+    // 若需要修改推送的分组，则将上面一行改为如下的形式
+    // let BARK_PUSH = 'https://api.day.app/' + bark_id + "/" + message + "?group=分组名";
     let barkdata = HTTP.get(BARK_PUSH,
       {headers:{'Content-Type': 'application/x-www-form-urlencoded'}}
     )
@@ -78,6 +80,8 @@ for (let i = 2; i <= line; i++){
           })
           console.log("签到完成")
           message =  message + "单元格A" + i + "签到 "
+          // 若需要修改bark推送的内容为昵称，则将上面一行改为如下的形式
+          // message += Application.Range("C"+i).Text + "签到 "
         }catch{
           console.log("单元格A" + i + "的cookie有误，请重新填写")
         }
@@ -85,5 +89,4 @@ for (let i = 2; i <= line; i++){
   }
 }
 
-// 发送推送消息，若不需要推送消息，则注释掉下面这一行
 bark(message);
