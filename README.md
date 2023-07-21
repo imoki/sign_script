@@ -27,9 +27,17 @@
 | 🟢️ | 签到 | WEB | 有道云笔记 | https://note.youdao.com/ |noteyoudao.js | 2023-07-21 | 是 | 是 | 签到、领取空间 |
 | 🟢️ | 签到 | 移动端 | WPS(轻量版) | https://vip.wps.cn/ |wps_light.js | 2023-07-21 | 是 | 是 | 适用于手机端签到，不具备绕验证码功能 |
 
+## 表格内容参考
+| cookie(默认20个) | 是否执行(是/否) | 账号名称(可不填写) | bark | 是否推送(是/否) | pushplus | 是否推送(是/否) | ServerChan | 是否推送(是/否) |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| xxxxxxxx1| 是 | 昵称1 | xxxxxx | 否 | xxxxxx | 否 | xxxxxx | 否 | 
+| xxxxxxxx2 | 否 | 昵称2 | 阿里云盘(多用户版)  |   |   |   |   |   |				
+
 ## 支持的通知列表
 
 - Bark（iOS）
+- pushplus
+- Server酱
 
 ## 特别声明
 
