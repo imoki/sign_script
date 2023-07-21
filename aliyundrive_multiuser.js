@@ -1,15 +1,44 @@
 // 阿里云盘自动签到领取奖励（多用户版，支持bark推送）
 // 需配合“金山文档”中的表格内容
+
 // 推送bark消息
 function bark(message){
-  let bark_push = Application.Range("E"+2).Text
-  if(bark_push == "是"){
-    let bark_id = Application.Range("D"+2).Text
-    let BARK_PUSH = 'https://api.day.app/' + bark_id + "/" + message;
-    let barkdata = HTTP.get(BARK_PUSH,
-          {headers:{'Content-Type': 'application/x-www-form-urlencoded'}}
+  let push = Application.Range("E"+2).Text
+  let bark_id = Application.Range("D"+2).Text
+  if(push == "是" && bark_id != ""){
+    let url = 'https://api.day.app/' + bark_id + "/" + message;
+    // 若需要修改推送的分组，则将上面一行改为如下的形式
+    // let url = 'https://api.day.app/' + bark_id + "/" + message + "?group=分组名";
+    let resp = HTTP.get(url,
+      {headers:{'Content-Type': 'application/x-www-form-urlencoded'}}
     )
-    barkdata = barkdata.json()
+    sleep(5000)
+  }
+}
+
+// 推送pushplus消息
+function pushplus(message){
+  let push = Application.Range("G"+2).Text
+  let token = Application.Range("F"+2).Text
+  if(push == "是" && token != ""){
+    url = 'http://www.pushplus.plus/send?token=' + token + '&content=' + message
+    let resp = HTTP.fetch(url, {
+      method: "get"
+    })
+    sleep(5000)
+  }
+}
+
+// 推送serverchan消息
+function serverchan(message){
+  let push = Application.Range("I"+2).Text
+  let key = Application.Range("H"+2).Text
+  if(push == "是" && key != ""){
+    url = "https://sctapi.ftqq.com/" + key + ".send"  + "?title=消息推送"  + "&desp=" + message
+    let resp = HTTP.fetch(url, {
+      method: "get"
+    })
+    sleep(5000)
   }
 }
 
@@ -72,9 +101,11 @@ for (let i = 2; i <= line; i++){
       }
 
       console.log(message)
-      // 发送推送消息，若不需要推送消息，则注释掉下面这一行
-      bark(message);
 
     }
   }
 }
+
+bark(message);
+pushplus(message);
+serverchan(message);
