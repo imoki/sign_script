@@ -1,4 +1,4 @@
-// 阿里云盘自动签到领取奖励（多用户版，支持bark推送）
+// 阿里云盘自动签到领取奖励（多用户版，支持推送）
 // 需配合“金山文档”中的表格内容
 
 // 推送bark消息
@@ -63,7 +63,7 @@ for (let i = 2; i <= line; i++){
     var access_token = res['access_token']
 
     if  (access_token == undefined){
-      var message ="单元格【" + refresh_token_pos + "】的refresh_token值错误，请填写正确的refresh_token值 "
+      message += "单元格【" + refresh_token_pos + "】的refresh_token值错误，请填写正确的refresh_token值 "
     }else{
       try{
         // 签到
@@ -73,10 +73,10 @@ for (let i = 2; i <= line; i++){
         )
         res2=res2.json()
         var signInCount = res2['result']['signInCount']
-        var message = message + "账号："+ res["user_name"] + "-签到成功, 本月累计签到" + signInCount + "天 "
+        message = message + "账号："+ res["user_name"] + "-签到成功, 本月累计签到" + signInCount + "天 "
 
       }catch{
-        var message ="单元格【" + refresh_token_pos + "】的refresh_token签到失败 "
+        message ="单元格【" + refresh_token_pos + "】的refresh_token签到失败 "
         return
       }
       sleep(1000)
@@ -92,9 +92,9 @@ for (let i = 2; i <= line; i++){
             {headers:{"Authorization" : 'Bearer '+ access_token}}
           )
           res3 = res3.json()
-          var message = message + "签到获得" + res3["result"]["name"] + "," + res3["result"]["description"] + " "
+          message = message + "签到获得" + res3["result"]["name"] + "," + res3["result"]["description"] + " "
         }catch{
-              var message = message + "账号：" + res["user_name"] + "-领取奖励失败 "
+              message = message + "账号：" + res["user_name"] + "-领取奖励失败 "
         }
       }else{
         message = message +"  奖励待领取 "
