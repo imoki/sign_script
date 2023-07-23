@@ -3,14 +3,16 @@
 
 // 推送bark消息
 function bark(message){
-  let bark_push = Application.Range("E"+2).Text
-  if(bark_push == "是"){
-    let bark_id = Application.Range("D"+2).Text
-    let BARK_PUSH = 'https://api.day.app/' + bark_id + "/" + message;
-    let barkdata = HTTP.get(BARK_PUSH,
+  let push = Application.Range("E"+2).Text
+  let bark_id = Application.Range("D"+2).Text
+  if(push == "是" && bark_id != ""){
+    let url = 'https://api.day.app/' + bark_id + "/" + message;
+    // 若需要修改推送的分组，则将上面一行改为如下的形式
+    // let url = 'https://api.day.app/' + bark_id + "/" + message + "?group=分组名";
+    let resp = HTTP.get(url,
       {headers:{'Content-Type': 'application/x-www-form-urlencoded'}}
     )
-    barkdata = barkdata.json()
+    sleep(5000)
   }
 }
 
