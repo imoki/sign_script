@@ -1,4 +1,6 @@
 // 阿里云盘自动签到领取奖励（极简版）
+// 无推送功能。若需要推送功能，请使用阿里云盘自动签到（多用户版）
+
 // 将如下的xxxxxxxx替换成自己的refresh_token值
 var refresh_token = "xxxxxxxx"
 
