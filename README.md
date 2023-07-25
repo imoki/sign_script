@@ -20,15 +20,19 @@
 
 | 状态 | 类别 | 终端 | 任务名称 | 名称 | 脚本名称 | 检查日期 | 是否支持多用户 | 是否需要表格 |备注 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 🟢️ | 签到 | WEB | 阿里云盘(极简版) | https://www.aliyundrive.com | aliyundrive_light.js | 2023-07-23 | 否 | 是 | 签到，无推送功能 |
-| 🟢️ | 签到 | WEB | 阿里云盘(多用户版)  | https://www.aliyundrive.com | aliyundrive_multiuser.js | 2023-07-23 | 是 | 是 | 签到 |
-| 🟤 | 签到 | WEB | 百度贴吧 | https://tieba.baidu.com | tieba.js | 2023-07-23 | 是 | 是 | 签到 |
-| 🟢️ | 签到 | WEB | 吾爱论坛 | https://www.52pojie.cn | 52pojie.js | 2023-07-23 | 是 | 是 | 签到 |
-| 🟢️ | 签到 | WEB | 有道云笔记 | https://note.youdao.com/ | noteyoudao.js | 2023-07-23 | 是 | 是 | 签到、领取空间 |
-| 🟤 | 签到 | 移动端 | WPS(轻量版) | https://vip.wps.cn/ | wps_light.js | 2023-07-23 | 是 | 是 | 适用于手机端签到，不具备绕验证码功能 |
-| 🟢️ | 签到 | 客户端 | WPS(客户端版) | https://vip.wps.cn/ | wps_client.js | 2023-07-23 | 是 | 是 | 适用于PC端签到，需要手动兑换奖励 |
+| 🟢️ | 签到 | WEB | 阿里云盘(极简版) | https://www.aliyundrive.com | aliyundrive_light.js | 2023-07-25 | 否 | 是 | 签到，无推送功能 |
+| 🟢️ | 签到 | WEB | 阿里云盘(多用户版)  | https://www.aliyundrive.com | aliyundrive_multiuser.js | 2023-07-25 | 是 | 是 | 签到 |
+| 🟤 | 签到 | WEB | 百度贴吧 | https://tieba.baidu.com | tieba.js | 2023-07-25 | 是 | 是 | 签到 |
+| 🟢️ | 签到 | WEB | 吾爱论坛 | https://www.52pojie.cn | 52pojie.js | 2023-07-25 | 是 | 是 | 签到 |
+| 🟢️ | 签到 | WEB | 有道云笔记 | https://note.youdao.com/ | noteyoudao.js | 2023-07-25 | 是 | 是 | 签到、领取空间 |
+| 🟤 | 签到 | 移动端 | WPS(轻量版) | https://vip.wps.cn/ | wps_light.js | 2023-07-25 | 是 | 是 | 适用于手机端签到，不具备绕验证码功能 |
+| 🟢️ | 签到 | 客户端 | WPS(客户端版) | https://vip.wps.cn/ | wps_client.js | 2023-07-25 | 是 | 是 | 适用于PC端签到，需要手动兑换奖励 |
+| 🟢️ | 签到 | 小程序 | WPS(稻壳版) | https://vip.wps.cn/ | wps_docker.js | 2023-07-25 | 是 | 是 | 适用于稻壳签到 |
 
-## 表格内容参考
+## 聚合脚本
+运行UPDATE.js即可自动生成表格及配置内容。
+
+## 非聚合脚本（单独脚本）表格内容参考
 | cookie(默认20个) | 是否执行(是/否) | 账号名称(可不填写) | bark | 是否推送(是/否) | pushplus | 是否推送(是/否) | ServerChan | 是否推送(是/否) |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | xxxxxxxx1| 是 | 昵称1 | xxxxxx | 否 | xxxxxx | 否 | xxxxxx | 否 | 
