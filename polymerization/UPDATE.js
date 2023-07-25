@@ -19,7 +19,7 @@ var configContent=[
   ['noteyoudao','有道云笔记','否','否'],
   ['tieba','百度贴吧','否','否'],
   ['wps_light','wps(轻量版)','否','否'],
-  ['wps_client','wps(客户端版','否','是'],
+  ['wps_client','wps(客户端版','否','否'],
   ['wps_docer','wps(稻壳版）','否','否'],
 ]
 
