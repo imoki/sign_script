@@ -208,12 +208,14 @@ function execHandle(cookie, pos){
 
       if (resp.status == 200) {
           resp = resp.json()
+          console.log(resp)
           total = resp['total'] / 1048576
           space = resp['space'] / 1048576
           messageSuccess += '帐号：' + messageName + '签到成功，本次获取 ' + space + ' M, 总共获取 ' + total + ' M '
           console.log('帐号：' + messageName + '签到成功，本次获取 ' + space + ' M, 总共获取 ' + total + ' M ')
       }else
       {
+        console.log(resp.text())
         messageFail += '帐号：' + messageName + '签到失败 '
         console.log('帐号：' + messageName + '签到失败 ')
       }
@@ -224,10 +226,10 @@ function execHandle(cookie, pos){
     sleep(2000);
     if(messageOnlyError == 1)
     {
-      message = messageFail
+      message += messageFail
     }else
     {
-      message = messageFail + " " + messageSuccess
+      message += messageFail + " " + messageSuccess
     }
     console.log(message)
 }
