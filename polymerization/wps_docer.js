@@ -235,10 +235,10 @@ function execHandle(cookie, pos){
     sleep(2000);
     if(messageOnlyError == 1)
     {
-      message = messageFail
+      message += messageFail
     }else
     {
-      message = messageFail + " " + messageSuccess
+      message += messageFail + " " + messageSuccess
     }
     console.log(message)
 }
