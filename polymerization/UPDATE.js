@@ -1,7 +1,13 @@
+// 更新脚本
+
+// 当前分配置表：
+// 阿里云盘（多用户版）、吾爱破解、有道云笔记、百度贴吧、
+// wps(轻量版)、wps(客户端版)、wps(稻壳版）、网易云游戏
+
 var confiWorkbook = 'CONFIG'  // 主配置表名称
 var pushWorkbook = 'PUSH' // 推送表的名称
 // 分配置表名称
-var subConfigWorkbook=['aliyundrive_multiuser','52pojie','noteyoudao','wps','tieba'];
+var subConfigWorkbook=['aliyundrive_multiuser','52pojie','noteyoudao','wps','tieba','wangyiyungame'];
 var workbook = [] // 存储已存在表数组
 
 // 表中激活的区域的行数和列数
@@ -21,6 +27,7 @@ var configContent=[
   ['wps_light','wps(轻量版)','否','否'],
   ['wps_client','wps(客户端版)','否','否'],
   ['wps_docer','wps(稻壳版）','否','否'],
+  ['wangyiyungame','网易云游戏','否','否'],
 ]
 
 // PUSH表内容 		
