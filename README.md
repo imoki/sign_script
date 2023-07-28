@@ -20,15 +20,15 @@
 
 | 状态 | 类别 | 终端 | 任务名称 | 名称 | 脚本名称 | 检查日期 | 是否支持多用户 | 是否需要表格 |备注 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 🟢️ | 签到 | WEB | 阿里云盘(极简版) | https://www.aliyundrive.com | aliyundrive_light.js | 2023-07-27 | 否 | 是 | 签到，无推送功能 |
-| 🟢️ | 签到 | WEB | 阿里云盘(多用户版)  | https://www.aliyundrive.com | aliyundrive_multiuser.js | 2023-07-27 | 是 | 是 | 签到 |
-| 🟤 | 签到 | WEB | 百度贴吧 | https://tieba.baidu.com | tieba.js | 2023-07-27 | 是 | 是 | 签到 |
-| 🟤 | 签到 | WEB | 吾爱论坛 | https://www.52pojie.cn | 52pojie.js | 2023-07-27 | 是 | 是 | 签到 |
-| 🟢️ | 签到 | WEB | 有道云笔记 | https://note.youdao.com/ | noteyoudao.js | 2023-07-27 | 是 | 是 | 签到、领取空间 |
-| 🟤 | 签到 | 移动端 | WPS(轻量版) | https://vip.wps.cn/ | wps_light.js | 2023-07-27 | 是 | 是 | 适用于手机端签到，不具备绕验证码功能 |
-| 🟤 | 签到 | 客户端 | WPS(客户端版) | https://vip.wps.cn/ | wps_client.js | 2023-07-27 | 是 | 是 | 适用于PC端签到，需要手动兑换奖励 |
-| 🟢️ | 签到 | 小程序 | WPS(稻壳版) | https://vip.wps.cn/ | wps_docker.js | 2023-07-27 | 是 | 是 | 适用于稻壳签到，自动领取每日PPT |
-| 🟢️ | 签到 | WEB | 网易云游戏 | https://cg.163.com/ | wangyiyungame.js | 2023-07-27 | 是 | 是 | 签到 |
+| 🟢️ | 签到 | WEB | 阿里云盘(极简版) | https://www.aliyundrive.com | aliyundrive_light.js | 2023-07-28 | 否 | 是 | 签到，无推送功能 |
+| 🟢️ | 签到 | WEB | 阿里云盘(多用户版)  | https://www.aliyundrive.com | aliyundrive_multiuser.js | 2023-07-28 | 是 | 是 | 签到 |
+| 🟤 | 签到 | WEB | 百度贴吧 | https://tieba.baidu.com | tieba.js | 2023-07-28 | 是 | 是 | 签到 |
+| 🟤 | 签到 | WEB | 吾爱论坛 | https://www.52pojie.cn | 52pojie.js | 2023-07-28 | 是 | 是 | 签到 |
+| 🟢️ | 签到 | WEB | 有道云笔记 | https://note.youdao.com/ | noteyoudao.js | 2023-07-28 | 是 | 是 | 签到、领取空间 |
+| 🟤 | 签到 | 移动端 | WPS(轻量版) | https://vip.wps.cn/ | wps_light.js | 2023-07-28 | 是 | 是 | 适用于手机端签到，不具备绕验证码功能 |
+| 🟤 | 签到 | 客户端 | WPS(客户端版) | https://vip.wps.cn/ | wps_client.js | 2023-07-28 | 是 | 是 | 适用于PC端签到，需要手动兑换奖励 |
+| 🟢️ | 签到 | 小程序 | WPS(稻壳版) | https://vip.wps.cn/ | wps_docker.js | 2023-07-28 | 是 | 是 | 适用于稻壳签到，自动领取每日PPT |
+| 🟢️ | 签到 | WEB | 网易云游戏 | https://cg.163.com/ | wangyiyungame.js | 2023-07-28 | 是 | 是 | 签到 |
 
 ## 聚合脚本
 文件夹“polymerization”为聚合脚本，运行UPDATE.js即可自动生成表格及配置内容。
@@ -68,9 +68,20 @@
 
 > ***您使用或者复制了本仓库且本人制作的任何脚本，则视为 `已接受` 此声明，请仔细阅读***
 
+## 更新日志
+
+- 2023-07-28
+    * 聚合脚本中的【阿里云盘】增加"是否月末才领取奖励"配置
+- 2023-07-27 
+    * 增添【网易云游戏】脚本
+    * 【WPS(稻壳版)】增加自动领取每日PPT功能
+- 2023-07-26 
+    * 推出聚合脚本
+      
 ## 代码参考
 <a href="https://github.com/HeiDaotu/WFRobertQL">WFRobertQL</a></br>
 <a href="https://github.com/kxs2018/daily_sign">daily_sign</a></br>
+<a href="https://www.52pojie.cn/thread-1811357-1-1.html">@qike2391</a></br>
 
 ## README模板来源于
 <a href="https://github.com/Sitoi/dailycheckin">dailycheckin仓库</a>
