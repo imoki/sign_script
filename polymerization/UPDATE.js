@@ -2,7 +2,11 @@
 
 // 当前分配置表：
 // 阿里云盘（多用户版）、吾爱破解、有道云笔记、百度贴吧、
-// wps(轻量版)、wps(客户端版)、wps(稻壳版）、网易云游戏
+// wps(轻量版)、wps(客户端版)、wps(稻壳版）
+// 网易云游戏
+
+// 定制化分配置表:
+// 阿里云盘（多用户版）
 
 var confiWorkbook = 'CONFIG'  // 主配置表名称
 var pushWorkbook = 'PUSH' // 推送表的名称
@@ -45,9 +49,16 @@ var subConfigContent = [
   ['xxxxxxxx2', '否', '昵称2']
 ]
 
-var mosaic = "xxxxxxxx" // 马赛克
-var strFail = "否"
-var strTrue = "是"
+// 定制化分配置表内容
+var subConfigAliyundrive = [
+  ['cookie(默认20个)','是否执行(是/否)','账号名称(可不填写)','月末才领取奖励(是/否)'],
+  ['xxxxxxxx1', '是', '昵称1', '否'],
+  ['xxxxxxxx2', '否', '昵称2', '否']
+]
+
+// var mosaic = "xxxxxxxx" // 马赛克
+// var strFail = "否"
+// var strTrue = "是"
 
 // 主函数执行流程
 storeWorkbook()
@@ -56,20 +67,25 @@ console.log("创建主分配表")
 // sheet.Name = confiWorkbook  // 将当前工作表的名称改为 CONFIG
 createSheet(confiWorkbook)
 ActivateSheet(confiWorkbook)
-editConfig()
+editConfigSheet(configContent)  // editConfig()
 
 console.log("创建推送表")
 createSheet(pushWorkbook)
 ActivateSheet(pushWorkbook)
-editPush()
+editConfigSheet(pushContent)  // editPush()
 
 
 createSubConfig()
 let length = subConfigWorkbook.length
 for(let i = 0; i < length; i++){
   ActivateSheet(subConfigWorkbook[i])
-  editSubConfig()
+  editConfigSheet(subConfigContent)   // editSubConfig()
 }
+
+// 写入定制化内容
+ActivateSheet(subConfigWorkbook[0]) // 激活阿里云盘分配置表
+editConfigSheet(subConfigAliyundrive)  // editSubConfigCustomized(subConfigAliyundrive)
+
 
 // 判断表格行列数，并记录目前已写入的表格行列数。目的是为了不覆盖原有数据，便于更新
 function determineRowCol(){
@@ -112,8 +128,35 @@ function ActivateSheet(sheetName){
   return flag;
 }
 
+// 统一编辑表函数
+function editConfigSheet(content){
+  determineRowCol();
+  let lengthRow = content.length
+  let lengthCol = content[0].length
+  if(row == 0){ // 如果行数为0，认为是空表,开始写表头
+    for(let i = 0; i< lengthCol; i++){
+      Application.Range(colNum[i] + 1).Value = content[0][i]
+    }
 
-// 编辑主分配表
+    row += 1; // 让行数加1，代表写入了表头。
+  }
+
+  // 从已写入的行的后一行开始逐行写入数据
+  // 先写行
+  for(let i = 1 + row; i <= lengthRow; i++){  // 从未写入区域开始写
+    for(let j = 0; j < lengthCol; j++){
+      Application.Range(colNum[j] + i).Value = content[i-1][j]
+    }
+  }
+  // 再写列
+  for(let j = col; j < lengthCol; j++){
+    for(let i = 1; i <= lengthRow; i++){  // 从未写入区域开始写
+      Application.Range(colNum[j] + i).Value = content[i-1][j]
+    }
+  }
+}
+
+// 编辑主分配表(已弃用)
 function editConfig(){
   determineRowCol();
   let lengthRow = configContent.length
@@ -141,7 +184,7 @@ function editConfig(){
   }
 }
 
-// 编辑推送表
+// 编辑推送表(已弃用)
 function editPush(){
   determineRowCol();
   let lengthRow = pushContent.length
@@ -169,7 +212,7 @@ function editPush(){
   }
 }
 
-// 编辑分配置表
+// 编辑分配置表(已弃用)
 function editSubConfig(){
   determineRowCol();
   let lengthRow = subConfigContent.length
@@ -193,6 +236,34 @@ function editSubConfig(){
   for(let j = col; j < lengthCol; j++){
     for(let i = 1; i <= lengthRow; i++){  // 从未写入区域开始写
       Application.Range(colNum[j] + i).Value = subConfigContent[i-1][j]
+    }
+  }
+}
+
+// 编辑定制化分配置表(已弃用)
+function editSubConfigCustomized(content){
+  determineRowCol();
+  let lengthRow = content.length
+  let lengthCol = content[0].length
+  if(row == 0){ // 如果行数为0，认为是空表,开始写表头
+    for(let i = 0; i< lengthCol; i++){
+      Application.Range(colNum[i] + 1).Value = content[0][i]
+    }
+
+    row += 1; // 让行数加1，代表写入了表头。
+  }
+
+  // 从已写入的行的后一行开始逐行写入数据
+  // 先写行
+  for(let i = 1 + row; i <= lengthRow; i++){  // 从未写入区域开始写
+    for(let j = 0; j < lengthCol; j++){
+      Application.Range(colNum[j] + i).Value = content[i-1][j]
+    }
+  }
+  // 再写列
+  for(let j = col; j < lengthCol; j++){
+    for(let i = 1; i <= lengthRow; i++){  // 从未写入区域开始写
+      Application.Range(colNum[j] + i).Value = content[i-1][j]
     }
   }
 }
