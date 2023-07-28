@@ -194,7 +194,8 @@ function execHandle(cookie, pos){
       messageName = "单元格A" + pos + ""
     }
     try{
-      // 发起网络请求-获取token
+      let flagEndOfMonthReward = Application.Range("D" + pos).Text
+      // 发1起网络请求-获取token
       let resp = HTTP.post("https://auth.aliyundrive.com/v2/account/token",
         JSON.stringify({
         "grant_type": "refresh_token",
@@ -218,19 +219,47 @@ function execHandle(cookie, pos){
           var signInCount = resp['result']['signInCount']
           messageSuccess += "账号："+ user_name + "-签到成功, 本月累计签到" + signInCount + "天 "
 
-          // 领取奖励
-          try{
-            let resp = HTTP.post("https://member.aliyundrive.com/v1/activity/sign_in_reward?_rx-s=mobile",
-              JSON.stringify({
-                "signInDay": signInCount
-                }),
-              {headers:{"Authorization" : 'Bearer '+ access_token}}
-            )
-            resp = resp.json()
-            messageSuccess += "签到获得" + resp["result"]["name"] + "," + resp["result"]["description"] + " "
-          }catch{
-            messageFail += "账号：" + user_name + "-领取奖励失败 "
+          
+          if(flagEndOfMonthReward == "是"){
+            let currentDate = new Date(); // 创建一个表示当前时间的 Date 对象
+            let currentDay = currentDate.getDate(); // 获取当前日期的天数
+            let lastDayOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0).getDate(); // 获取当月的最后一天的日期
+
+            // console.log(currentDate)
+            // console.log(lastDayOfMonth)
+            if (currentDay === lastDayOfMonth) { 
+              // 本月末才领取奖励
+              try{
+                let resp = HTTP.post("https://member.aliyundrive.com/v1/activity/sign_in_reward?_rx-s=mobile",
+                  JSON.stringify({
+                    "signInDay": signInCount
+                    }),
+                  {headers:{"Authorization" : 'Bearer '+ access_token}}
+                )
+                resp = resp.json()
+                messageSuccess += "月末签到获得" + resp["result"]["name"] + "," + resp["result"]["description"] + " "
+              }catch{
+                messageFail += "账号：" + user_name + "-领取奖励失败 "
+              }
+            }
+          }else{
+            // 每天都领取奖励
+            try{
+              let resp = HTTP.post("https://member.aliyundrive.com/v1/activity/sign_in_reward?_rx-s=mobile",
+                JSON.stringify({
+                  "signInDay": signInCount
+                  }),
+                {headers:{"Authorization" : 'Bearer '+ access_token}}
+              )
+              resp = resp.json()
+              messageSuccess += "签到获得" + resp["result"]["name"] + "," + resp["result"]["description"] + " "
+            }catch{
+              messageFail += "账号：" + user_name + "-领取奖励失败 "
+            }
           }
+
+
+
         }catch{
           messageFail += messageName + "的refresh_token签到失败 "
           return
@@ -244,10 +273,10 @@ function execHandle(cookie, pos){
     sleep(2000);
     if(messageOnlyError == 1)
     {
-      message += messageFail
+      message = messageFail
     }else
     {
-      message += messageFail + " " + messageSuccess
+      message = messageFail + " " + messageSuccess
     }
     console.log(message)
 }
