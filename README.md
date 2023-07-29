@@ -44,6 +44,7 @@
 - Bark（iOS）
 - pushplus
 - Server酱
+- 邮箱
 
 ## 建议  
 * 不同wps版本签到间隔30分钟  

@@ -5,6 +5,7 @@ let sheetNameSubConfig = "noteyoudao" // 分配置表名称
 let pushHeader = "【有道云笔记】"
 let sheetNameConfig = "CONFIG"  // 总配置表
 let sheetNamePush = "PUSH"  // 推送表名称
+let sheetNameEmail = "EMAIL"  // 邮箱表
 let flagSubConfig = 0; // 激活分配置工作表标志
 let flagConfig = 0; // 激活主配置工作表标志
 let flagPush = 0; // 激活推送工作表标志
@@ -15,7 +16,11 @@ var messageNickname = 0;  // 1为用昵称替代单元格，0为不替代
 var jsonPush = [
   {'name':'bark', 'key':'xxxxxx', 'flag':'0' },
   {'name':'pushplus', 'key':'xxxxxx', 'flag':'0' },
-  {'name':'ServerChan', 'key':'xxxxxx', 'flag':'0' }] // 推送数据，flag=1则推送
+  {'name':'ServerChan', 'key':'xxxxxx', 'flag':'0' },
+  {'name':'email', 'key':'xxxxxx', 'flag':'0' }] // 推送数据，flag=1则推送
+var jsonEmail = {
+  'server':'', 'port':'', 'sender':'', 'authorizationCode':''
+} // 有效邮箱配置
 
 flagConfig = ActivateSheet(sheetNameConfig);  // 激活推送表
 // 主配置工作表存在
@@ -71,6 +76,9 @@ if(flagPush == 1){
   // console.log(jsonPush)
 }
 
+// 邮箱配置函数
+emailConfig()
+
 flagSubConfig =  ActivateSheet(sheetNameSubConfig);  // 激活分配置表
 if(flagSubConfig == 1){
   console.log("开始读取分配置表")
@@ -107,6 +115,8 @@ function push(message){
           pushplus(message, key);
         }else if(name == "ServerChan"){
           serverchan(message, key);
+        }else if(name == "email"){
+          email(message)
         }
       }
     }
@@ -147,6 +157,70 @@ function serverchan(message, key){
       method: "get"
     })
     sleep(5000)
+  }
+}
+
+
+// email邮箱推送
+function email(message) {
+  var myDate = new Date(); // 创建一个表示当前时间的 Date 对象
+  var data_time = myDate.toLocaleDateString(); // 获取当前日期的字符串表示
+  let server = jsonEmail.server
+  let port = parseInt(jsonEmail.port) // 转成整形
+  let sender = jsonEmail.sender
+  let authorizationCode = jsonEmail.authorizationCode
+
+  let mailer;
+  mailer = SMTP.login({
+    host: server,
+    port: port,
+    username: sender,
+    password: authorizationCode,
+    secure: true
+  });
+  mailer.send({
+    from: pushHeader + "<" + sender + ">",
+    to: sender,
+    subject: pushHeader + " - " + data_time,
+    text: message
+  });
+  // console.log("已发送邮件至：" + sender);
+  console.log("已发送邮件")
+}
+
+// 邮箱配置
+function emailConfig(){
+  console.log("开始读取邮箱配置")
+  let length = jsonPush.length  // 因为此json数据可无序，因此需要遍历
+  let name;
+  for(let i = 0; i < length; i++){
+    name = jsonPush[i].name
+    if(name == "email"){
+      if(jsonPush[i].flag == 1)
+      {
+        let flag = ActivateSheet(sheetNameEmail);  // 激活邮箱表
+        // 邮箱表存在
+        // var email = {
+        //   'email':'', 'port':'', 'sender':'', 'authorizationCode':''
+        // } // 有效配置
+        if(flag == 1){
+          console.log("开始读取邮箱表")
+          for (let i = 2; i <= 2; i++){
+            // 从工作表中读取推送数据
+            jsonEmail.server = Application.Range("A" + i).Text
+            jsonEmail.port = Application.Range("B" + i).Text
+            jsonEmail.sender = Application.Range("C" + i).Text
+            jsonEmail.authorizationCode = Application.Range("D" + i).Text
+            if(Application.Range("A" + i).Text == "")  // 如果为空行，则提前结束读取
+            {
+              break;
+            }
+          }
+          // console.log(jsonEmail)
+        }
+        break;
+      }
+    }
   }
 }
 
@@ -205,6 +279,7 @@ function execHandle(cookie, pos){
         method: "post",
         headers: headers
       })
+      
 
       if (resp.status == 200) {
           resp = resp.json()
@@ -219,6 +294,7 @@ function execHandle(cookie, pos){
         messageFail += '帐号：' + messageName + '签到失败 '
         console.log('帐号：' + messageName + '签到失败 ')
       }
+      
     }catch{
       messageFail += messageName + "失败"
     }

@@ -5,6 +5,7 @@ let sheetNameSubConfig = "aliyundrive_multiuser" // 分配置表名称
 let pushHeader = "【阿里云盘（多用户版）】"
 let sheetNameConfig = "CONFIG"  // 总配置表
 let sheetNamePush = "PUSH"  // 推送表名称
+let sheetNameEmail = "EMAIL"  // 邮箱表
 let flagSubConfig = 0; // 激活分配置工作表标志
 let flagConfig = 0; // 激活主配置工作表标志
 let flagPush = 0; // 激活推送工作表标志
@@ -15,10 +16,14 @@ var messageNickname = 0;  // 1为用昵称替代单元格，0为不替代
 var jsonPush = [
   {'name':'bark', 'key':'xxxxxx', 'flag':'0' },
   {'name':'pushplus', 'key':'xxxxxx', 'flag':'0' },
-  {'name':'ServerChan', 'key':'xxxxxx', 'flag':'0' }] // 推送数据，flag=1则推送
+  {'name':'ServerChan', 'key':'xxxxxx', 'flag':'0' },
+  {'name':'email', 'key':'xxxxxx', 'flag':'0' }] // 推送数据，flag=1则推送
+var jsonEmail = {
+  'server':'', 'port':'', 'sender':'', 'authorizationCode':''
+} // 有效邮箱配置
 
-flagConfig = ActivateSheet(sheetNameConfig);  // 激活推送表
 // 主配置工作表存在
+flagConfig = ActivateSheet(sheetNameConfig);  // 激活推送表
 if(flagConfig == 1){
   console.log("开始读取主配置表")
   let name; // 名称
@@ -50,8 +55,8 @@ if(flagConfig == 1){
   }
 }
 
-flagPush = ActivateSheet(sheetNamePush);  // 激活推送表
 // 推送工作表存在
+flagPush = ActivateSheet(sheetNamePush);  // 激活推送表
 if(flagPush == 1){
   console.log("开始读取推送工作表")
   let pushName; // 推送类型
@@ -71,6 +76,10 @@ if(flagPush == 1){
   // console.log(jsonPush)
 }
 
+// 邮箱配置函数
+emailConfig()
+
+// 分配置表存在
 flagSubConfig =  ActivateSheet(sheetNameSubConfig);  // 激活分配置表
 if(flagSubConfig == 1){
   console.log("开始读取分配置表")
@@ -107,6 +116,8 @@ function push(message){
           pushplus(message, key);
         }else if(name == "ServerChan"){
           serverchan(message, key);
+        }else if(name == "email"){
+          email(message)
         }
       }
     }
@@ -147,6 +158,69 @@ function serverchan(message, key){
       method: "get"
     })
     sleep(5000)
+  }
+}
+
+// email邮箱推送
+function email(message) {
+  var myDate = new Date(); // 创建一个表示当前时间的 Date 对象
+  var data_time = myDate.toLocaleDateString(); // 获取当前日期的字符串表示
+  let server = jsonEmail.server
+  let port = parseInt(jsonEmail.port) // 转成整形
+  let sender = jsonEmail.sender
+  let authorizationCode = jsonEmail.authorizationCode
+
+  let mailer;
+  mailer = SMTP.login({
+    host: server,
+    port: port,
+    username: sender,
+    password: authorizationCode,
+    secure: true
+  });
+  mailer.send({
+    from: pushHeader + "<" + sender + ">",
+    to: sender,
+    subject: pushHeader + " - " + data_time,
+    text: message
+  });
+  // console.log("已发送邮件至：" + sender);
+  console.log("已发送邮件")
+}
+
+// 邮箱配置
+function emailConfig(){
+  console.log("开始读取邮箱配置")
+  let length = jsonPush.length  // 因为此json数据可无序，因此需要遍历
+  let name;
+  for(let i = 0; i < length; i++){
+    name = jsonPush[i].name
+    if(name == "email"){
+      if(jsonPush[i].flag == 1)
+      {
+        let flag = ActivateSheet(sheetNameEmail);  // 激活邮箱表
+        // 邮箱表存在
+        // var email = {
+        //   'email':'', 'port':'', 'sender':'', 'authorizationCode':''
+        // } // 有效配置
+        if(flag == 1){
+          console.log("开始读取邮箱表")
+          for (let i = 2; i <= 2; i++){
+            // 从工作表中读取推送数据
+            jsonEmail.server = Application.Range("A" + i).Text
+            jsonEmail.port = Application.Range("B" + i).Text
+            jsonEmail.sender = Application.Range("C" + i).Text
+            jsonEmail.authorizationCode = Application.Range("D" + i).Text
+            if(Application.Range("A" + i).Text == "")  // 如果为空行，则提前结束读取
+            {
+              break;
+            }
+          }
+          // console.log(jsonEmail)
+        }
+        break;
+      }
+    }
   }
 }
 
@@ -203,6 +277,7 @@ function execHandle(cookie, pos){
         })
       )
       resp = resp.json()
+     
       let access_token = resp['access_token']
 
       if  (access_token == undefined || access_token == ""){
@@ -216,18 +291,18 @@ function execHandle(cookie, pos){
               {headers:{"Authorization" : 'Bearer '+ access_token}}
           )
           resp=resp.json()
+           
           var signInCount = resp['result']['signInCount']
           messageSuccess += "账号："+ user_name + "-签到成功, 本月累计签到" + signInCount + "天 "
 
-          
           if(flagEndOfMonthReward == "是"){
-            let currentDate = new Date(); // 创建一个表示当前时间的 Date 对象
-            let currentDay = currentDate.getDate(); // 获取当前日期的天数
-            let lastDayOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0).getDate(); // 获取当月的最后一天的日期
+            let currentDate = new Date(); // 创建一个表示当前时间的 Date 对象 "2023-07-29T10:27:41.244Z"
+            let currentDay = currentDate.getDate(); // 获取当前日期的天数 29
+            let lastDayOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0).getDate(); // 获取当月的最后一天的日期 31
 
-            // console.log(currentDate)
-            // console.log(lastDayOfMonth)
-            if (currentDay === lastDayOfMonth) { 
+            // console.log(currentDay)
+            // console.log(lastDayOfMonth) // 31
+            if (currentDay == lastDayOfMonth) { 
               // 本月末才领取奖励
               try{
                 let resp = HTTP.post("https://member.aliyundrive.com/v1/activity/sign_in_reward?_rx-s=mobile",
