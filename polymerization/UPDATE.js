@@ -10,6 +10,7 @@
 
 var confiWorkbook = 'CONFIG'  // 主配置表名称
 var pushWorkbook = 'PUSH' // 推送表的名称
+var emailWorkbook = 'EMAIL' // 邮箱表的名称
 // 分配置表名称
 var subConfigWorkbook=['aliyundrive_multiuser','52pojie','noteyoudao','wps','tieba','wangyiyungame'];
 var workbook = [] // 存储已存在表数组
@@ -40,6 +41,13 @@ var pushContent=[
   ['bark', 'xxxxxxxx', '否'],
   ['pushplus', 'xxxxxxxx', '否'],
   ['ServerChan', 'xxxxxxxx', '否'],
+  ['email', '若要邮箱发送，请配置EMAIL表', '否'],
+]
+
+// email表内容
+var emailContent=[
+  ['SMTP服务器域名','端口','发送邮箱','授权码'],
+  ['smtp.qq.com','465','xxxxxxxx@qq.com','xxxxxxxx']
 ]
 
 // 分配置表内容
@@ -74,6 +82,10 @@ createSheet(pushWorkbook)
 ActivateSheet(pushWorkbook)
 editConfigSheet(pushContent)  // editPush()
 
+console.log("创建推送表")
+createSheet(emailWorkbook)
+ActivateSheet(emailWorkbook)
+editConfigSheet(emailContent) 
 
 createSubConfig()
 let length = subConfigWorkbook.length
