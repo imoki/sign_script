@@ -45,6 +45,7 @@
 - pushplus
 - Server酱
 - 邮箱
+- 钉钉
 
 ## 建议  
 * 不同wps版本签到间隔30分钟  
@@ -93,6 +94,7 @@
 <a href="https://github.com/HeiDaotu/WFRobertQL">WFRobertQL</a></br>
 <a href="https://github.com/kxs2018/daily_sign">daily_sign</a></br>
 <a href="https://www.52pojie.cn/thread-1811357-1-1.html">@qike2391</a></br>
+<a href="https://github.com/wd210010/just_for_happy">wd210010</a></br>
 
 ## README模板来源于
 <a href="https://github.com/Sitoi/dailycheckin">dailycheckin仓库</a>
