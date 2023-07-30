@@ -87,8 +87,8 @@
 
 
 ## 贡献者  
-<a href="https://github.com/jarryyen">@jarryyen</a></br>、
-<a href="https://github.com/darkbfly">@darkbfly</a></br>
+<a href="https://github.com/jarryyen">@jarryyen</a>、
+<a href="https://github.com/darkbfly">@darkbfly</a>
 
 ## 代码参考
 <a href="https://github.com/HeiDaotu/WFRobertQL">WFRobertQL</a></br>
