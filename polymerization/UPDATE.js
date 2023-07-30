@@ -1,9 +1,9 @@
-// 更新脚本
+// UPDATE.js 更新脚本
 
 // 当前分配置表：
 // 阿里云盘（多用户版）、吾爱破解、有道云笔记、百度贴吧、
 // wps(轻量版)、wps(客户端版)、wps(稻壳版）
-// 网易云游戏
+// 网易云游戏、什么值得买
 
 // 定制化分配置表:
 // 阿里云盘（多用户版）
@@ -12,7 +12,7 @@ var confiWorkbook = 'CONFIG'  // 主配置表名称
 var pushWorkbook = 'PUSH' // 推送表的名称
 var emailWorkbook = 'EMAIL' // 邮箱表的名称
 // 分配置表名称
-var subConfigWorkbook=['aliyundrive_multiuser','52pojie','noteyoudao','wps','tieba','wangyiyungame'];
+var subConfigWorkbook=['aliyundrive_multiuser','52pojie','noteyoudao','wps','tieba','wangyiyungame', 'smzdm'];
 var workbook = [] // 存储已存在表数组
 
 // 表中激活的区域的行数和列数
@@ -33,6 +33,7 @@ var configContent=[
   ['wps_client','wps(客户端版)','否','否'],
   ['wps_docer','wps(稻壳版）','否','否'],
   ['wangyiyungame','网易云游戏','否','否'],
+  ['smzdm','什么值得买抽奖','否','否'],
 ]
 
 // PUSH表内容 		
@@ -42,6 +43,7 @@ var pushContent=[
   ['pushplus', 'xxxxxxxx', '否'],
   ['ServerChan', 'xxxxxxxx', '否'],
   ['email', '若要邮箱发送，请配置EMAIL表', '否'],
+  ['dingtalk', 'xxxxxxxx', '否'],
 ]
 
 // email表内容

@@ -18,7 +18,9 @@ var jsonPush = [
   {'name':'bark', 'key':'xxxxxx', 'flag':'0' },
   {'name':'pushplus', 'key':'xxxxxx', 'flag':'0' },
   {'name':'ServerChan', 'key':'xxxxxx', 'flag':'0' },
-  {'name':'email', 'key':'xxxxxx', 'flag':'0' }] // 推送数据，flag=1则推送
+  {'name':'email', 'key':'xxxxxx', 'flag':'0' },
+  {'name':'dingtalk', 'key':'xxxxxx', 'flag':'0' },
+  ] // 推送数据，flag=1则推送
 var jsonEmail = {
   'server':'', 'port':'', 'sender':'', 'authorizationCode':''
 } // 有效邮箱配置
@@ -118,6 +120,8 @@ function push(message){
           serverchan(message, key);
         }else if(name == "email"){
           email(message)
+        }else if(name == "dingtalk"){
+          dingtalk(message, key);
         }
       }
     }
@@ -187,6 +191,7 @@ function email(message) {
   });
   // console.log("已发送邮件至：" + sender);
   console.log("已发送邮件")
+  sleep(5000)
 }
 
 // 邮箱配置
@@ -225,6 +230,13 @@ function emailConfig(){
   }
 }
 
+// 推送钉钉机器人
+function dingtalk(message, key){
+  let url = "https://oapi.dingtalk.com/robot/send?access_token=" + key;
+  let resp = HTTP.post(url, {"msgtype":"text","text":{"content":message}});
+  // console.log(resp.text())
+  sleep(5000)
+}
 
 function sleep(d){
   for(var t = Date.now();Date.now() - t <= d;);
