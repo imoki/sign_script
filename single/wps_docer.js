@@ -1,5 +1,6 @@
 // WPS自动签到(稻壳版)
 // 需配合“金山文档”中的表格内容
+// 独立脚本
 
 // 推送bark消息
 function bark(message){

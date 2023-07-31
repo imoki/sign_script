@@ -1,5 +1,6 @@
 // WPS（轻量版、手机端签到）
 // 需要配合表格
+// 独立脚本
 
 // 推送bark消息
 function bark(message){
