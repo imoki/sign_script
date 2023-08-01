@@ -11,8 +11,6 @@
     <a href="https://github.com/imoki/sign_script/issues"><img src="https://img.shields.io/github/issues/imoki/sign_script?style=popout-square" alt="GitHub issues"></a>
 </p>
 
-## 使用步骤  
-可参考“默库”公众号文章。
 
 ## 聚合脚本（polymerization）
 文件夹“polymerization”为聚合脚本，运行UPDATE.js即可自动生成表格及配置内容。
