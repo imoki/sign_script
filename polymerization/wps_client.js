@@ -54,9 +54,9 @@
 //         messageNickname = 1;
 //         console.log("单元格用昵称替代")
 //       }
-      
+
 //       break;  // 提前退出，提高效率
-//     } 
+//     }
 
 //   }
 // }
@@ -77,7 +77,7 @@
 //     {
 //       break;
 //     }
-//     jsonPushHandle(pushName, pushFlag, pushKey)    
+//     jsonPushHandle(pushName, pushFlag, pushKey)
 //   }
 //   // console.log(jsonPush)
 // }
@@ -167,7 +167,6 @@
 //     sleep(5000)
 //   }
 // }
-
 
 // // email邮箱推送
 // function email(message) {
@@ -329,7 +328,7 @@
 //     }catch{
 //       messageFail += messageName + "失败"
 //     }
-    
+
 //     sleep(2000);
 //     if(messageOnlyError == 1)
 //     {
