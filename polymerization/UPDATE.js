@@ -3,7 +3,7 @@
 // 当前分配置表：
 // 阿里云盘（多用户版）、吾爱破解、有道云笔记、百度贴吧、
 // wps(轻量版)、wps(客户端版)、wps(稻壳版）
-// 网易云游戏、什么值得买、在线工具
+// 网易云游戏、什么值得买、在线工具、像素蛋糕
 
 // 定制化分配置表:
 // 阿里云盘（多用户版）
@@ -12,7 +12,7 @@ var confiWorkbook = 'CONFIG'  // 主配置表名称
 var pushWorkbook = 'PUSH' // 推送表的名称
 var emailWorkbook = 'EMAIL' // 邮箱表的名称
 // 分配置表名称
-var subConfigWorkbook=['aliyundrive_multiuser','52pojie','noteyoudao','wps','tieba','wangyiyungame', 'smzdm', 'toollu'];
+var subConfigWorkbook=['aliyundrive_multiuser','52pojie','noteyoudao','wps','tieba','wangyiyungame', 'smzdm', 'toollu', 'cake'];
 var workbook = [] // 存储已存在表数组
 
 // 表中激活的区域的行数和列数
@@ -35,6 +35,7 @@ var configContent=[
   ['wangyiyungame','网易云游戏','否','否'],
   ['smzdm','什么值得买抽奖','否','否'],
   ['toollu','在线工具','否','否'],
+  ['cake','像素蛋糕','否','否'],
 ]
 
 // PUSH表内容 		
@@ -66,6 +67,13 @@ var subConfigAliyundrive = [
   ['cookie(默认20个)','是否执行(是/否)','账号名称(可不填写)','月末才领取奖励(是/否)'],
   ['xxxxxxxx1', '是', '昵称1', '否'],
   ['xxxxxxxx2', '否', '昵称2', '否']
+]
+
+// 定制化分配置表内容
+var subConfigCake= [
+  ['cookie(默认20个)','是否执行(是/否)','账号名称(可不填写)','xy-extra-data'],
+  ['xxxxxxxx1', '是', '昵称1', 'xxxxxxxx'],
+  ['xxxxxxxx2', '否', '昵称2', 'xxxxxxxx']
 ]
 
 // var mosaic = "xxxxxxxx" // 马赛克
@@ -101,6 +109,10 @@ for(let i = 0; i < length; i++){
 // 写入定制化内容
 ActivateSheet(subConfigWorkbook[0]) // 激活阿里云盘分配置表
 editConfigSheet(subConfigAliyundrive)  // editSubConfigCustomized(subConfigAliyundrive)
+
+// 写入定制化内容
+ActivateSheet(subConfigWorkbook[8]) // 激活像素蛋糕分配置表
+editConfigSheet(subConfigCake)  
 
 
 // 判断表格行列数，并记录目前已写入的表格行列数。目的是为了不覆盖原有数据，便于更新
