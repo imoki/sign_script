@@ -45,6 +45,7 @@ var pushContent=[
   ['ServerChan', 'xxxxxxxx', '否'],
   ['email', '若要邮箱发送，请配置EMAIL表', '否'],
   ['dingtalk', 'xxxxxxxx', '否'],
+  ['discord', '请填入镜像webhook链接', '否'],
 ]
 
 // email表内容
