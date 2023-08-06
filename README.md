@@ -38,16 +38,17 @@
 | 状态 | 类别 | 终端 | 任务名称 | 名称 | 脚本名称 | 检查日期 | 是否支持多用户 | 是否需要表格 |备注 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | 🟢️ | 签到 | WEB | 阿里云盘(极简版) | https://www.aliyundrive.com | aliyundrive_light.js | 2023-07-31 | 否 | 是 | 签到，无推送功能 |
-| 🟢️ | 签到 | WEB | 阿里云盘(多用户版)  | https://www.aliyundrive.com | aliyundrive_multiuser.js | 2023-08-05 | 是 | 是 | 签到、自动领取首个任务奖励 |
+| 🟢️ | 签到 | WEB | 阿里云盘(多用户版)  | https://www.aliyundrive.com | aliyundrive_multiuser.js | 2023-08-06 | 是 | 是 | 签到、自动领取首个任务奖励 |
 | 🟤 | 签到 | WEB | 百度贴吧 | https://tieba.baidu.com | tieba.js | 2023-08-05 | 是 | 是 | 签到 |
 | 🟤 | 签到 | WEB | 吾爱论坛 | https://www.52pojie.cn | 52pojie.js | 2023-08-05 | 是 | 是 | 签到 |
-| 🟢️ | 签到 | WEB | 有道云笔记 | https://note.youdao.com/ | noteyoudao.js | 2023-08-05 | 是 | 是 | 签到、领取空间 |
+| 🟢️ | 签到 | WEB | 有道云笔记 | https://note.youdao.com/ | noteyoudao.js | 2023-08-06 | 是 | 是 | 签到、领取空间 |
 | 🟤 | 签到 | 移动端 | WPS(轻量版) | https://vip.wps.cn/ | wps_light.js | 2023-07-31 | 是 | 是 | 适用于手机端签到，不具备绕验证码功能 |
 | 🔴 | 签到 | 客户端 | WPS(客户端版) | https://vip.wps.cn/ | wps_client.js | 2023-07-31 | 是 | 是 | 适用于PC端签到，需要手动兑换奖励 |
-| 🟢️ | 签到 | 小程序 | WPS(稻壳版) | https://vip.wps.cn/ | wps_docker.js | 2023-08-05 | 是 | 是 | 适用于稻壳签到，自动领取每日PPT |
-| 🟢️ | 签到 | WEB | 网易云游戏 | https://cg.163.com/ | wangyiyungame.js | 2023-08-05 | 是 | 是 | 签到 |
-| 🟢️ | 抽奖 | WEB | 什么值得买 | https://www.smzdm.com/ | smzdm.js | 2023-08-05 | 是 | 是 | 抽奖 |
-| 🟢️ | 签到 | WEB | 在线工具 | https://tool.lu/ | toolu.js | 2023-08-05 | 是 | 是 | 签到 |
+| 🟢️ | 签到 | 小程序 | WPS(稻壳版) | https://vip.wps.cn/ | wps_docker.js | 2023-08-06 | 是 | 是 | 适用于稻壳签到，自动领取每日PPT |
+| 🟢️ | 签到 | WEB | 网易云游戏 | https://cg.163.com/ | wangyiyungame.js | 2023-08-06 | 是 | 是 | 签到 |
+| 🟢️ | 抽奖 | WEB | 什么值得买 | https://www.smzdm.com/ | smzdm.js | 2023-08-06 | 是 | 是 | 抽奖 |
+| 🟢️ | 签到 | WEB | 在线工具 | https://tool.lu/ | toolu.js | 2023-08-06 | 是 | 是 | 签到获取积分 |
+| 🟢️ | 签到 | 小程序 | 像素蛋糕 | 像素蛋糕AI修图呀 | cake.js | 2023-08-06 | 是 | 是 | 签到 |
 
 ## 支持的通知列表
 
@@ -81,7 +82,10 @@
 > ***您使用或者复制了本仓库且本人制作的任何脚本，则视为 `已接受` 此声明，请仔细阅读***
 
 ## 更新日志  
-- 2023-07-31 
+- 2023-08-06 
+    * 增添【像素蛋糕】脚本
+    * 取消【什么值得买】脚本的第二次抽奖功能
+- 2023-08-05 
     * 增添【在线工具】脚本
 - 2023-07-31 
     * 增添【什么值得买】脚本

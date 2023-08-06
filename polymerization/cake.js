@@ -1,8 +1,8 @@
-// 什么值得买抽奖
+// 像素蛋糕自动签到
 // 需配合“金山文档”中的表格内容
 
-let sheetNameSubConfig = "smzdm" // 分配置表名称
-let pushHeader = "【什么值得买】"
+let sheetNameSubConfig = "cake" // 分配置表名称
+let pushHeader = "【像素蛋糕】"
 let sheetNameConfig = "CONFIG"  // 总配置表
 let sheetNamePush = "PUSH"  // 推送表名称
 let sheetNameEmail = "EMAIL"  // 邮箱表
@@ -281,67 +281,56 @@ function execHandle(cookie, pos){
       messageName = "单元格A" + pos + ""
     }
     try{
-      var url1 = 'https://zhiyou.smzdm.com/user/lottery/jsonp_draw?active_id=ljX8qVlEA7'
-      // var url2 = 'https://zhiyou.smzdm.com/user/lottery/jsonp_draw?active_id=A6X1veWE2O'
+      var url1 = 'https://smp-api.iyouke.com/dtapi/pointsSign/user/sign'
+      let extra = Application.Range("D" + pos).Text
+      // let currentDate = new Date(); // 创建一个表示当前时间的 Date 对象 "2023-07-29T10:27:41.244Z"
+      // let year = currentDate.getFullYear()
+      // let month = currentDate.getMonth() + 1
+      // let day = currentDate.getDate() -1; // 获取当前日期的天数 29
+      // let date = year + " " + month + " " + day;
+      // console.log(date)
 
       headers = {
-        'Host': 'zhiyou.smzdm.com',
-        'Accept': '*/*',
-        'Cookie': cookie,
-        'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 15_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148/smzdm 10.4.6 rv:130.1 (iPhone 13; iOS 15.6; zh_CN)/iphone_smzdmapp/10.4.6/wkwebview/jsbv_1.0.0',
-        'Accept-Language': 'zh-CN,zh-Hans;q=0.9',
-        'Referer': 'https://m.smzdm.com/'
+        'Host': 'smp-api.iyouke.com',
+        'Authorization': cookie,
+        'xy-extra-data': extra
       }
+      // console.log(headers)
+      // data = {
+      //   'date' : date
+      // }
+
+      // console.log(data)
 
       let resp = HTTP.fetch(url1,{
-        method: "post",
-        headers: headers
+        method: "get",
+        headers: headers,
+        // data : data
       })
       
-      console.log("第一次抽奖")
+
       if (resp.status == 200) {
           resp = resp.json()
           console.log(resp)
-          error_code = resp['error_code']
-          error_msg = resp['error_msg']
-          messageSuccess += '帐号：' + messageName + ' 第一次抽奖:' + error_msg
-          console.log('帐号：' + messageName + ' 第一次抽奖:' + error_msg)
+          if(resp['error'] == 0){
+            signReward = resp['data']['signReward']
+            messageSuccess += '帐号：' + messageName + '签到成功,获取' + signReward + '积分 '
+            console.log('帐号：' + messageName + '签到成功,获取' + signReward + '积分 ')
+          }else{
+            errorMsg = resp['errorMsg']
+            messageFail += '帐号：' + messageName  + errorMsg + ' '
+            console.log('帐号：' + messageName  + errorMsg + ' ')
+          }
 
-          // if(error_code == 0){ // 真正的抽奖成功
-          //   messageSuccess += '帐号：' + messageName + error_msg
-          //   console.log('帐号：' + messageName + error_msg)
-          // }else{
-          //   messageFail += '帐号：' + messageName + error_msg
-          //   console.log('帐号：' + messageName + error_msg)
-          // }
       }else
       {
         console.log(resp.text())
-        messageFail += '帐号：' + messageName + ' 第一次抽奖失败 '
-        console.log('帐号：' + messageName + ' 第一次抽奖失败 ')
+        messageFail += '帐号：' + messageName + '签到失败 '
+        console.log('帐号：' + messageName + '签到失败 ')
       }
       
-      // // 第二次抽奖
-      // resp = HTTP.fetch(url2,{
-      //   method: "post",
-      //   headers: headers
-      // })
-      // console.log("第二次抽奖")
-      // if (resp.status == 200) {
-      //     resp = resp.json()
-      //     console.log(resp)
-      //     error_msg = resp['error_msg']
-      //     messageSuccess += " 第二次抽奖:" + error_msg
-      //     console.log(" 第二次抽奖:" + error_msg)
-      // }else
-      // {
-      //   console.log(resp.text())
-      //   messageFail += ' 第二次抽奖失败 '
-      //   console.log( ' 第二次抽奖失败 ')
-      // }
-      
     }catch{
-      messageFail += messageName + "抽奖失败"
+      messageFail += messageName + "失败"
     }
     
     sleep(2000);
