@@ -1,5 +1,5 @@
 // 叮咚买菜-叮咚鱼塘自动签到
-// 20240613
+// 20240620
 
 let sheetNameSubConfig = "ddmc"; // 分配置表名称
 let sheetNameSubConfig2 = "ddmc_ddyt";
@@ -32,7 +32,7 @@ var jsonEmail = {
 flagConfig = ActivateSheet(sheetNameConfig); // 激活推送表
 // 主配置工作表存在
 if (flagConfig == 1) {
-  console.log("开始读取主配置表");
+  console.log("🍳 开始读取主配置表");
   let name; // 名称
   let onlyError;
   let nickname;
@@ -48,12 +48,12 @@ if (flagConfig == 1) {
     if (name == sheetNameSubConfig2) {
       if (onlyError == "是") {
         messageOnlyError = 1;
-        console.log("只推送错误消息");
+        console.log("🍳 只推送错误消息");
       }
 
       if (nickname == "是") {
         messageNickname = 1;
-        console.log("单元格用昵称替代");
+        console.log("🍳 单元格用昵称替代");
       }
 
       break; // 提前退出，提高效率
@@ -64,7 +64,7 @@ if (flagConfig == 1) {
 flagPush = ActivateSheet(sheetNamePush); // 激活推送表
 // 推送工作表存在
 if (flagPush == 1) {
-  console.log("开始读取推送工作表");
+  console.log("🍳 开始读取推送工作表");
   let pushName; // 推送类型
   let pushKey;
   let pushFlag; // 是否推送标志
@@ -87,7 +87,7 @@ emailConfig();
 
 flagSubConfig = ActivateSheet(sheetNameSubConfig); // 激活分配置表
 if (flagSubConfig == 1) {
-  console.log("开始读取分配置表");
+  console.log("🍳 开始读取分配置表");
   for (let i = 2; i <= line; i++) {
     var cookie = Application.Range("A" + i).Text;
     var exec = Application.Range("B" + i).Text;
@@ -130,7 +130,7 @@ function push(message) {
       }
     }
   } else {
-    console.log("消息为空不推送");
+    console.log("🍳 消息为空不推送");
   }
 }
 
@@ -198,14 +198,14 @@ function email(message) {
     subject: pushHeader + " - " + data_time,
     text: message,
   });
-  // console.log("已发送邮件至：" + sender);
-  console.log("已发送邮件");
+  // console.log("🍳 已发送邮件至：" + sender);
+  console.log("🍳 已发送邮件");
   sleep(5000);
 }
 
 // 邮箱配置
 function emailConfig() {
-  console.log("开始读取邮箱配置");
+  console.log("🍳 开始读取邮箱配置");
   let length = jsonPush.length; // 因为此json数据可无序，因此需要遍历
   let name;
   for (let i = 0; i < length; i++) {
@@ -218,7 +218,7 @@ function emailConfig() {
         //   'email':'', 'port':'', 'sender':'', 'authorizationCode':''
         // } // 有效配置
         if (flag == 1) {
-          console.log("开始读取邮箱表");
+          console.log("🍳 开始读取邮箱表");
           for (let i = 2; i <= 2; i++) {
             // 从工作表中读取推送数据
             jsonEmail.server = Application.Range("A" + i).Text;
@@ -263,11 +263,11 @@ function ActivateSheet(sheetName) {
     // 激活工作表
     let sheet = Application.Sheets.Item(sheetName);
     sheet.Activate();
-    console.log("激活工作表：" + sheet.Name);
+    console.log("🥚 激活工作表：" + sheet.Name);
     flag = 1;
   } catch {
     flag = 0;
-    console.log("无法激活工作表，工作表可能不存在");
+    console.log("🍳 无法激活工作表，工作表可能不存在");
   }
   return flag;
 }
@@ -371,20 +371,20 @@ function execHandle(cookie, pos) {
       msg = resp["msg"];
       if(code == 0){
         // content = "帐号：" + messageName + "积分签到成功 "
-        content = "积分签到成功 "
+        content = "🎉 " + "积分签到成功\n"
         messageSuccess += content
         console.log(content);
       }else{
         // {"msg":"出了点问题哦，请稍后再试吧","code":119000001,"timestamp":"2023-08-10 21:06:53","success":false,"exec_time":{}}
         // content += "帐号：" + messageName + msg + " ";
-        content += msg + " ";
+        content += "📢 " + msg + "\n";
         messageFail += content;
         console.log(content);
       }
     } else {
       console.log(resp.text());
       // content = "帐号：" + messageName + "积分签到失败 "
-      content = "积分签到失败 "
+      content = "❌ " + "积分签到失败\n"
       messageFail += content;
       console.log(content);
     }
@@ -405,17 +405,17 @@ function execHandle(cookie, pos) {
       if(code == 0){
         // messageSuccess += "帐号：" + messageName + "鱼塘签到成功 "
         flagSign = 1;
-        console.log("帐号：" + messageName + "鱼塘签到成功 ");
+        console.log("🍳 帐号：" + messageName + "鱼塘签到成功 ");
       }else{
         // {"msg":"今日已完成任务，明日再来吧！","code":601,"timestamp":"2023-08-10 21:23:49","success":false,"exec_time":{}}
         // {"msg":"出了点问题哦，请稍后再试吧","code":119000001,"timestamp":"2023-08-10 21:06:53","success":false,"exec_time":{}}
         // messageFail += "帐号：" + messageName + msg + " ";
-        console.log("帐号：" + messageName + msg + " ");
+        console.log("🍳 帐号：" + messageName + msg + " ");
       }
     } else {
       console.log(resp.text());
       // messageFail += "帐号：" + messageName + "签到失败 ";
-      console.log("帐号：" + messageName + "签到失败 ");
+      console.log("🍳 帐号：" + messageName + "签到失败 ");
     }
 
     resp = HTTP.fetch(url[2], {
@@ -430,16 +430,16 @@ function execHandle(cookie, pos) {
       msg = resp["msg"];
       if(code == 0 ){
         flagSign = 1;
-        console.log("帐号：" + messageName + "鱼塘签到成功 ");
+        console.log("🍳 帐号：" + messageName + "鱼塘签到成功 ");
       }else{
         if(code == 601){
           // 此不为错误消息
           // {"msg":"今日已完成任务，明日再来吧！","code":601,"timestamp":"2024-06-13 20:30:28","success":false}
           flagSign = 1;
-          console.log("帐号：" + messageName + msg + " ");
+          console.log("🍳 帐号：" + messageName + msg + " ");
         }else{
           // content = "帐号：" + messageName + msg + " ";
-          content = msg + " ";
+          content = "❌ " + msg + "\n";
           tempmessageFail = content;
           console.log(content);
 
@@ -449,14 +449,14 @@ function execHandle(cookie, pos) {
     } else {
       console.log(resp.text());
       // content = "帐号：" + messageName + "签到失败 ";
-      content = "签到失败 ";
+      content = "❌ " + "签到失败\n";
       tempmessageFail = content;
       console.log(content);
     }
 
     if(flagSign == 1){
       // content = "帐号：" + messageName + "鱼塘签到成功 "
-      content = "鱼塘签到成功 "
+      content =  "🎉 " + "鱼塘签到成功\n"
       messageSuccess += content;
     }else{
       messageFail += tempmessageFail;
@@ -473,24 +473,24 @@ function execHandle(cookie, pos) {
       // console.log(resp);
       code = resp["code"];
       if(code == 0){
-        console.log("正在获取taskCode ");
+        console.log("🍳 正在获取taskCode ");
         userTasks = resp["data"]["userTasks"];
         for (let j = 0; j < userTasks.length; j++) {
           taskCode[j] = userTasks[j]["taskCode"]
         }
         console.log(taskCode)
       }else{
-        console.log("获取taskCode失败 ");
+        console.log("🍳 获取taskCode失败 ");
       }
     } else {
       console.log(resp.text());
-      console.log("获取taskCode失败 ");
+      console.log("🍳 获取taskCode失败 ");
     }
 
     // taskCode = ["ANY_ORDER","BROWSE_GOODS","BUY_GOODS","CONTINUOUS_SIGN","DAILY_SIGN","FIRST_ORDER","HARD_BOX","INVITATION","LOTTERY","LUCK_DRAW","MULTI_ORDER","STEAL_FEED"]
     // 完成任务
     if(taskCode.length > 0){
-      console.log("尝试完成任务...")
+      console.log("🍳 尝试完成任务...")
       for (let j = 0; j < taskCode.length; j++) {
           urlTask = url[5] + taskCode[j]
           // console.log(urlTask)
@@ -502,7 +502,7 @@ function execHandle(cookie, pos) {
             // console.log(resp.text())
             sleep(2000)
           }catch{
-            console.log("忽略任务：" + taskCode[j])
+            console.log("🍳 忽略任务：" + taskCode[j])
           }
       }
     }
@@ -518,7 +518,7 @@ function execHandle(cookie, pos) {
       // console.log(resp);
       code = resp["code"];
       if(code == 0){
-        console.log("正在获取userTaskLogId ");
+        console.log("🍳 正在获取userTaskLogId ");
         userTasks = resp["data"]["userTasks"];
         let temp
         let num = 0
@@ -533,16 +533,16 @@ function execHandle(cookie, pos) {
         }
         console.log(userTaskLogId)
       }else{
-        console.log("获取userTaskLogId失败 ");
+        console.log("🍳 获取userTaskLogId失败 ");
       }
     } else {
       console.log(resp.text());
-      console.log("获取userTaskLogId失败 ");
+      console.log("🍳 获取userTaskLogId失败 ");
     }
 
     // 领取任务奖励
     if(userTaskLogId.length > 0){
-      console.log("尝试领取任务奖励...")
+      console.log("🍳 尝试领取任务奖励...")
       for (let j = 0; j < userTaskLogId.length; j++) {
           urlTask = url[6] + userTaskLogId[j]
           // console.log(urlTask)
@@ -554,11 +554,11 @@ function execHandle(cookie, pos) {
             // console.log(resp.text())
             sleep(2000)
           }catch{
-            console.log("忽略任务：" + userTaskLogId[j])
+            console.log("🍳 忽略任务：" + userTaskLogId[j])
           }
       }
     }else{
-      console.log("没有可领取的奖励")
+      console.log("🍳 没有可领取的奖励")
     }
 
     // 喂饲料
@@ -591,22 +591,22 @@ function execHandle(cookie, pos) {
           if(countSeedId >=3){  // 浇了三次剩余水量都相同，则认为浇水失败，不再浇水，并提醒用户更换新的seedId值
             msg = "[❗❗❗提醒]seedId值可能过期，请抓包获取最新的值"
             messageFail += "[❗❗❗提醒]seedId值可能过期，请抓包获取最新的值"
-            console.log("提前退出浇水，错误消息为：" + msg)
+            console.log("🍳 提前退出浇水，错误消息为：" + msg)
             amoutCount -= 3;  // 减去浇水失败的次数
             break;  
           }
 
           flagAmount = 1;
           amoutCount += 1;
-          console.log("喂饲料中... ,剩余饲料：" + amount)
+          console.log("🍳 喂饲料中... ,剩余饲料：" + amount)
         }else{
           console.log(resp);
-          console.log("提前退出喂饲料，错误消息为：" + msg)
+          console.log("🍳 提前退出喂饲料，错误消息为：" + msg)
           amount = 0; // 直接置水为0 退出投喂
         }
       } else {
         console.log(resp.text());
-        console.log("提前退出喂饲料")
+        console.log("🍳 提前退出喂饲料")
         amount = 0; // 直接置水为0 退出投喂
       }
 
@@ -614,16 +614,17 @@ function execHandle(cookie, pos) {
     }
 
     if(flagAmount ==  1){
-      messageSuccess += "成功喂饲料" +  amoutCount + "次 "
-      console.log("成功喂饲料" +  amoutCount + "次 ");
+      content = "🎉 " + "成功喂饲料" +  amoutCount + "次\n"
+      messageSuccess += content
+      console.log(content);
     }else{
       // messageFail += "喂饲料日志：" + msg + " ";   // 此错误消息无需推送
-      console.log( "喂饲料日志：" + msg + " ");
+      console.log("📢 " +  "喂饲料日志：" + msg + " ");
     }
 
 
   } catch {
-    messageFail += messageName + "失败";
+    messageFail += "❌ " + messageName + "失败\n";
   }
 
   sleep(2000);
@@ -634,4 +635,4 @@ function execHandle(cookie, pos) {
     message += messageFail + " " + messageSuccess;
   }
   console.log(message);
-}
+} 

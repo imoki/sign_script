@@ -1,5 +1,5 @@
 // 宽带技术网自动签到得积分、做任务、领取猫粮
-// 20240512
+// 20240620
 
 let sheetNameSubConfig = "chinadsl"; // 分配置表名称
 let pushHeader = "【宽带技术网】";
@@ -35,7 +35,7 @@ var jsonEmail = {
 flagConfig = ActivateSheet(sheetNameConfig); // 激活推送表
 // 主配置工作表存在
 if (flagConfig == 1) {
-  console.log("开始读取主配置表");
+  console.log("🍳 开始读取主配置表");
   let name; // 名称
   let onlyError;
   let nickname;
@@ -51,12 +51,12 @@ if (flagConfig == 1) {
     if (name == sheetNameSubConfig) {
       if (onlyError == "是") {
         messageOnlyError = 1;
-        console.log("只推送错误消息");
+        console.log("🍳 只推送错误消息");
       }
 
       if (nickname == "是") {
         messageNickname = 1;
-        console.log("单元格用昵称替代");
+        console.log("🍳 单元格用昵称替代");
       }
 
       break; // 提前退出，提高效率
@@ -67,7 +67,7 @@ if (flagConfig == 1) {
 flagPush = ActivateSheet(sheetNamePush); // 激活推送表
 // 推送工作表存在
 if (flagPush == 1) {
-  console.log("开始读取推送工作表");
+  console.log("🍳 开始读取推送工作表");
   let pushName; // 推送类型
   let pushKey;
   let pushFlag; // 是否推送标志
@@ -90,7 +90,7 @@ emailConfig();
 
 flagSubConfig = ActivateSheet(sheetNameSubConfig); // 激活分配置表
 if (flagSubConfig == 1) {
-  console.log("开始读取分配置表");
+  console.log("🍳 开始读取分配置表");
   for (let i = 2; i <= line; i++) {
     var cookie = Application.Range("A" + i).Text;
     var exec = Application.Range("B" + i).Text;
@@ -149,7 +149,7 @@ function push(message) {
       }
     }
   } else {
-    console.log("消息为空不推送");
+    console.log("🍳 消息为空不推送");
   }
 }
 
@@ -218,14 +218,14 @@ function email(message) {
     subject: pushHeader + " - " + data_time,
     text: message,
   });
-  // console.log("已发送邮件至：" + sender);
-  console.log("已发送邮件");
+  // console.log("🍳 已发送邮件至：" + sender);
+  console.log("🍳 已发送邮件");
   sleep(5000);
 }
 
 // 邮箱配置
 function emailConfig() {
-  console.log("开始读取邮箱配置");
+  console.log("🍳 开始读取邮箱配置");
   let length = jsonPush.length; // 因为此json数据可无序，因此需要遍历
   let name;
   for (let i = 0; i < length; i++) {
@@ -238,7 +238,7 @@ function emailConfig() {
         //   'email':'', 'port':'', 'sender':'', 'authorizationCode':''
         // } // 有效配置
         if (flag == 1) {
-          console.log("开始读取邮箱表");
+          console.log("🍳 开始读取邮箱表");
           for (let i = 2; i <= 2; i++) {
             // 从工作表中读取推送数据
             jsonEmail.server = Application.Range("A" + i).Text;
@@ -283,11 +283,11 @@ function ActivateSheet(sheetName) {
     // 激活工作表
     let sheet = Application.Sheets.Item(sheetName);
     sheet.Activate();
-    console.log("激活工作表：" + sheet.Name);
+    console.log("🥚 激活工作表：" + sheet.Name);
     flag = 1;
   } catch {
     flag = 0;
-    console.log("无法激活工作表，工作表可能不存在");
+    console.log("🍳 无法激活工作表，工作表可能不存在");
   }
   return flag;
 }
@@ -322,7 +322,7 @@ function execHandle(cookie, pos) {
   }
 
   posLabel = pos-2 ;  // 存放下标，从0开始
-  messageHeader[posLabel] = messageName
+  messageHeader[posLabel] = "👨‍🚀 " + messageName
 
   //try {
     var url1;
@@ -366,10 +366,11 @@ function execHandle(cookie, pos) {
         console.log(content)
       } else {
         valueArry[i] = "获取失败"
-        messageFail += valueName[i] + "获取失败 ";
+        content = "❌ " + valueName[i] + "获取失败\n"
+        messageFail += content;
       }
     }
-    messageSuccess += "获得登录奖励 "
+    messageSuccess += "🎉 " + "获得登录奖励\n"
 
     sleep(2000)
 
@@ -418,12 +419,13 @@ function execHandle(cookie, pos) {
         // result = result[0];
         result = result[1];
         valueArry[i] = result
-        content = valueName[i] + ":" + valueArry[i] + " "
+        content = "🎉 " + valueName[i] + ":" + valueArry[i] + "\n"
         messageSuccess += content;
         console.log(content)
       } else {
         valueArry[i] = "获取失败"
-        messageFail += valueName[i] + "获取失败 ";
+        content = "❌ " + valueName[i] + "获取失败\n"
+        messageFail += content;
       }
     }
 
@@ -458,12 +460,13 @@ function execHandle(cookie, pos) {
         // result = result[0];
         result = result[1];
         valueArry[i] = result
-        content = valueName[i] + ":" + valueArry[i] + " "
+        content = "🎉 " + valueName[i] + ":" + valueArry[i] + "\n"
         messageSuccess += content;
         console.log(content)
       } else {
         valueArry[i] = "获取失败"
-        messageFail += valueName[i] + "获取失败 ";
+        content = "❌ " + valueName[i] + "获取失败\n"
+        messageFail += content;
       }
     }
 

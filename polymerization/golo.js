@@ -1,5 +1,5 @@
 // golo汽修大师自动签到
-// 20240508
+// 20240620
 
 let sheetNameSubConfig = "golo"; // 分配置表名称
 let pushHeader = "【golo汽修大师】";
@@ -11,8 +11,12 @@ let flagConfig = 0; // 激活主配置工作表标志
 let flagPush = 0; // 激活推送工作表标志
 let line = 21; // 指定读取从第2行到第line行的内容
 var message = ""; // 待发送的消息
+var messageArray = [];  // 待发送的消息数据，每个元素都是某个账号的消息。目的是将不同用户消息分离，方便个性化消息配置
 var messageOnlyError = 0; // 0为只推送失败消息，1则为推送成功消息。
-var messageNickname = 0; // 1为用昵称替代单元格，0为不替代
+var messageNickname = 0; // 1为推送位置标识（昵称/单元格Ax（昵称为空时）），0为不推送位置标识
+var messageHeader = []; // 存放每个消息的头部，如：单元格A3。目的是分离附加消息和执行结果消息
+var messagePushHeader = pushHeader; // 存放在总消息的头部，默认是pushHeader,如：【xxxx】
+
 var jsonPush = [
   { name: "bark", key: "xxxxxx", flag: "0" },
   { name: "pushplus", key: "xxxxxx", flag: "0" },
@@ -31,7 +35,7 @@ var jsonEmail = {
 flagConfig = ActivateSheet(sheetNameConfig); // 激活推送表
 // 主配置工作表存在
 if (flagConfig == 1) {
-  console.log("开始读取主配置表");
+  console.log("🍳 开始读取主配置表");
   let name; // 名称
   let onlyError;
   let nickname;
@@ -47,12 +51,12 @@ if (flagConfig == 1) {
     if (name == sheetNameSubConfig) {
       if (onlyError == "是") {
         messageOnlyError = 1;
-        console.log("只推送错误消息");
+        console.log("🍳 只推送错误消息");
       }
 
       if (nickname == "是") {
         messageNickname = 1;
-        console.log("单元格用昵称替代");
+        console.log("🍳 单元格用昵称替代");
       }
 
       break; // 提前退出，提高效率
@@ -63,7 +67,7 @@ if (flagConfig == 1) {
 flagPush = ActivateSheet(sheetNamePush); // 激活推送表
 // 推送工作表存在
 if (flagPush == 1) {
-  console.log("开始读取推送工作表");
+  console.log("🍳 开始读取推送工作表");
   let pushName; // 推送类型
   let pushKey;
   let pushFlag; // 是否推送标志
@@ -86,7 +90,7 @@ emailConfig();
 
 flagSubConfig = ActivateSheet(sheetNameSubConfig); // 激活分配置表
 if (flagSubConfig == 1) {
-  console.log("开始读取分配置表");
+  console.log("🍳 开始读取分配置表");
   for (let i = 2; i <= line; i++) {
     var cookie = Application.Range("A" + i).Text;
     var exec = Application.Range("B" + i).Text;
@@ -99,13 +103,29 @@ if (flagSubConfig == 1) {
     }
   }
 
+  message = messageMerge()// 将消息数组融合为一条总消息
   push(message); // 推送消息
+}
+
+// 将消息数组融合为一条总消息
+function messageMerge(){
+  for(i=0; i<messageArray.length; i++){
+    if(messageArray[i] != "" && messageArray[i] != null)
+    {
+      message += messageHeader[i] + messageArray[i] + " "; // 加上推送头
+    }
+  }
+  if(message != "")
+  {
+    console.log(message)  // 打印总消息
+  }
+  return message
 }
 
 // 总推送
 function push(message) {
   if (message != "") {
-    message = pushHeader + message; // 加上推送头
+    message = messagePushHeader + message // 消息头最前方默认存放：【xxxx】
     let length = jsonPush.length;
     let name;
     let key;
@@ -129,7 +149,7 @@ function push(message) {
       }
     }
   } else {
-    console.log("消息为空不推送");
+    console.log("🍳 消息为空不推送");
   }
 }
 
@@ -198,14 +218,14 @@ function email(message) {
     subject: pushHeader + " - " + data_time,
     text: message,
   });
-  // console.log("已发送邮件至：" + sender);
-  console.log("已发送邮件");
+  // console.log("🍳 已发送邮件至：" + sender);
+  console.log("🍳 已发送邮件");
   sleep(5000);
 }
 
 // 邮箱配置
 function emailConfig() {
-  console.log("开始读取邮箱配置");
+  console.log("🍳 开始读取邮箱配置");
   let length = jsonPush.length; // 因为此json数据可无序，因此需要遍历
   let name;
   for (let i = 0; i < length; i++) {
@@ -218,7 +238,7 @@ function emailConfig() {
         //   'email':'', 'port':'', 'sender':'', 'authorizationCode':''
         // } // 有效配置
         if (flag == 1) {
-          console.log("开始读取邮箱表");
+          console.log("🍳 开始读取邮箱表");
           for (let i = 2; i <= 2; i++) {
             // 从工作表中读取推送数据
             jsonEmail.server = Application.Range("A" + i).Text;
@@ -263,11 +283,11 @@ function ActivateSheet(sheetName) {
     // 激活工作表
     let sheet = Application.Sheets.Item(sheetName);
     sheet.Activate();
-    console.log("激活工作表：" + sheet.Name);
+    console.log("🥚 激活工作表：" + sheet.Name);
     flag = 1;
   } catch {
     flag = 0;
-    console.log("无法激活工作表，工作表可能不存在");
+    console.log("🍳 无法激活工作表，工作表可能不存在");
   }
   return flag;
 }
@@ -362,18 +382,18 @@ function login(url, headers, data){
       token = resp["data"]["userinfo"]["token"]
       console.log(token)
       respmsg = resp["msg"]
-      content = respmsg + " "
+      content = "📢 " + respmsg + "\n"
       messageSuccess += content;
       console.log(content)
     }else
     {
       respmsg = resp["msg"]
-      content = respmsg + " "
+      content = "📢 " + respmsg + "\n"
       messageFail += content;
       console.log(content);
     }
   } else {
-    content = "登录失败 "
+    content = "❌ " + "登录失败\n"
     messageFail += content;
     console.log(content);
   }
@@ -407,7 +427,7 @@ function sign(url, headers, data){
     {
       respmsg = resp["msg"]
       score = resp["data"]["score"]
-      content = respmsg + "获得" + score + "积分 "
+      content = "🎉 " + respmsg + "获得" + score + "积分\n"
       messageSuccess += content;
       console.log(content)
       flagstatus = 1  // 签到成功
@@ -416,19 +436,19 @@ function sign(url, headers, data){
       respmsg = resp["msg"]
       if(respmsg == "今天已签到，明天再来吧")
       {
-        content = respmsg + " "
+        content = "📢 " + respmsg + "\n"
         messageSuccess += content;
         console.log(content)
         flagstatus = 1  // 签到成功,已签到
       }else
       {
-        content = respmsg + " "
+        content = "📢 " + respmsg + "\n"
         messageFail += content;
         console.log(content);
       }
     }
   } else {
-    content = "签到失败 "
+    content = "❌ " + "签到失败\n"
     messageFail += content;
     console.log(content);
   }
@@ -444,11 +464,18 @@ function execHandle(cookie, pos) {
   let messageSuccess = "";
   let messageFail = "";
   let messageName = "";
+  // 推送昵称或单元格，还是不推送位置标识
   if (messageNickname == 1) {
+    // 推送昵称或单元格
     messageName = Application.Range("C" + pos).Text;
-  } else {
-    messageName = "单元格A" + pos + "";
+    if(messageName == "")
+    {
+      messageName = "单元格A" + pos + "";
+    }
   }
+
+  posLabel = pos-2 ;  // 存放下标，从0开始
+  messageHeader[posLabel] =  "👨‍🚀 " + messageName
   // try {
     var url1 = "https://cicp.cnlaunch.com/api/user/login"; // 账户密码登录，得token
     var url2 = "https://cicp.cnlaunch.com/api/user/sign"  // 签到，根据token签到
@@ -476,15 +503,16 @@ function execHandle(cookie, pos) {
       if(msg[2] == 1){ // 第三个元素存放签到状态，1为签到成功
         // 签到成功了，不用重新获取新token了
         flagstatus = 1  // 签到成功
-        messageSuccess += msg[0];
+        content = msg[0]
+        messageSuccess += content;
         console.log(content)
       }else
       {
-        console.log("此token签到失败，尝试登录获取新token")
+        console.log("🍳 此token签到失败，尝试登录获取新token")
       }
     }else
     {
-      console.log("token为空，开始进行登录获取token")
+      console.log("🍳 token为空，开始进行登录获取token")
     }
     
     // 未签到时得执行流程
@@ -503,7 +531,7 @@ function execHandle(cookie, pos) {
       if(msg[2] != ""){ // 第三个元素存放token
         // 签到成功了，已获取新token了
         token = msg[2]
-        console.log("登录成功，已获得最新token:" + token)
+        console.log("🍳 登录成功，已获得最新token:" + token)
         Application.Range("A" + pos).Value = token  // 将token写入单元格内，可下次使用
         data = {
           "token":token
@@ -511,18 +539,21 @@ function execHandle(cookie, pos) {
         msg = sign(url2, headers, data)  // 签到
         if(msg[2] == 1){ // 第三个元素存放签到状态，1为签到成功
           // 签到成功
-          messageSuccess += msg[0];
+          content = msg[0]
+          messageSuccess += content;
           console.log(content)
         }else{  
           // 签到失败
-          messageFail += msg[1];
+          content = msg[1]
+          messageFail += content;
           console.log(content)
         }
       }else 
       {
-        console.log("获取最新token为空")
+        console.log("❌ 获取最新token为空")
         // 未获取到token，登录失败
-        messageFail += msg[1];
+        content = msg[1]
+        messageFail += content;
         console.log(content)
       }
 
@@ -535,12 +566,13 @@ function execHandle(cookie, pos) {
 
   sleep(2000);
   if (messageOnlyError == 1) {
-    message += messageFail;
+    messageArray[posLabel] = messageFail;
   } else {
-    message += messageFail + " " + messageSuccess;
+    messageArray[posLabel] = messageFail + " " + messageSuccess;
   }
 
-  message = "帐号：" + messageName + message  // 附加账号信息
-
-  console.log(message);
+  if(messageArray[posLabel] != "")
+  {
+    console.log(messageArray[posLabel]);
+  }
 }

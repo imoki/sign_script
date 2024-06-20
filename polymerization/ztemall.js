@@ -1,5 +1,5 @@
 // 中兴商城自动签到、做任务
-// 20240602
+// 20240620
 
 let sheetNameSubConfig = "ztemall"; // 分配置表名称
 let pushHeader = "【中兴商城】";
@@ -35,7 +35,7 @@ var jsonEmail = {
 flagConfig = ActivateSheet(sheetNameConfig); // 激活推送表
 // 主配置工作表存在
 if (flagConfig == 1) {
-  console.log("开始读取主配置表");
+  console.log("🍳 开始读取主配置表");
   let name; // 名称
   let onlyError;
   let nickname;
@@ -51,12 +51,12 @@ if (flagConfig == 1) {
     if (name == sheetNameSubConfig) {
       if (onlyError == "是") {
         messageOnlyError = 1;
-        console.log("只推送错误消息");
+        console.log("🍳 只推送错误消息");
       }
 
       if (nickname == "是") {
         messageNickname = 1;
-        console.log("单元格用昵称替代");
+        console.log("🍳 单元格用昵称替代");
       }
 
       break; // 提前退出，提高效率
@@ -67,7 +67,7 @@ if (flagConfig == 1) {
 flagPush = ActivateSheet(sheetNamePush); // 激活推送表
 // 推送工作表存在
 if (flagPush == 1) {
-  console.log("开始读取推送工作表");
+  console.log("🍳 开始读取推送工作表");
   let pushName; // 推送类型
   let pushKey;
   let pushFlag; // 是否推送标志
@@ -90,7 +90,7 @@ emailConfig();
 
 flagSubConfig = ActivateSheet(sheetNameSubConfig); // 激活分配置表
 if (flagSubConfig == 1) {
-  console.log("开始读取分配置表");
+  console.log("🍳 开始读取分配置表");
   for (let i = 2; i <= line; i++) {
     var cookie = Application.Range("A" + i).Text;
     var exec = Application.Range("B" + i).Text;
@@ -149,7 +149,7 @@ function push(message) {
       }
     }
   } else {
-    console.log("消息为空不推送");
+    console.log("🍳 消息为空不推送");
   }
 }
 
@@ -218,14 +218,14 @@ function email(message) {
     subject: pushHeader + " - " + data_time,
     text: message,
   });
-  // console.log("已发送邮件至：" + sender);
-  console.log("已发送邮件");
+  // console.log("🍳 已发送邮件至：" + sender);
+  console.log("🍳 已发送邮件");
   sleep(5000);
 }
 
 // 邮箱配置
 function emailConfig() {
-  console.log("开始读取邮箱配置");
+  console.log("🍳 开始读取邮箱配置");
   let length = jsonPush.length; // 因为此json数据可无序，因此需要遍历
   let name;
   for (let i = 0; i < length; i++) {
@@ -238,7 +238,7 @@ function emailConfig() {
         //   'email':'', 'port':'', 'sender':'', 'authorizationCode':''
         // } // 有效配置
         if (flag == 1) {
-          console.log("开始读取邮箱表");
+          console.log("🍳 开始读取邮箱表");
           for (let i = 2; i <= 2; i++) {
             // 从工作表中读取推送数据
             jsonEmail.server = Application.Range("A" + i).Text;
@@ -283,11 +283,11 @@ function ActivateSheet(sheetName) {
     // 激活工作表
     let sheet = Application.Sheets.Item(sheetName);
     sheet.Activate();
-    console.log("激活工作表：" + sheet.Name);
+     console.log("🥚 激活工作表：" + sheet.Name);
     flag = 1;
   } catch {
     flag = 0;
-    console.log("无法激活工作表，工作表可能不存在");
+    console.log("🍳 无法激活工作表，工作表可能不存在");
   }
   return flag;
 }
@@ -374,7 +374,7 @@ function execHandle(cookie, pos) {
   }
 
   posLabel = pos-2 ;  // 存放下标，从0开始
-  messageHeader[posLabel] = messageName
+  messageHeader[posLabel] = "👨‍🚀 " + messageName
   // try {
     // var url1 = "https://api-bbs.ztedevices.com/points/home/pointsRegister"; // 社区签到
     var url2 = "https://www.ztemall.com/index.php/topapi" // 商城签到
@@ -432,13 +432,13 @@ function execHandle(cookie, pos) {
       if(accessToken == undefined)
       {
         accessToken = cookie
-        console.log("cookie中无auth_token_pc，将cookie作为accessToken")
+        console.log("🍳 cookie中无auth_token_pc，将cookie作为accessToken")
       }
     }catch{
       accessToken = cookie
     }
 
-    console.log("已读取到accessToken:" + accessToken)
+    console.log("🍳 已读取到accessToken:" + accessToken)
 
     // 商城签到
     params = "?method=member.checkIn.add&format=json&v=v1&sign=&accessToken=" + accessToken
@@ -467,21 +467,21 @@ function execHandle(cookie, pos) {
         currentCheckInPoint = resp["data"]["currentCheckInPoint"] // 获得积分
         point = resp["data"]["point"] // 总积分
 
-        content = msg + " 连签" + checkin_days + "天,获得" + currentCheckInPoint +"积分 " //，当前共有" + point + "积分 "
+        content = "🎉 " + msg + " 连签" + checkin_days + "天,获得" + currentCheckInPoint +"积分\n" //，当前共有" + point + "积分 "
         messageSuccess += content;
         console.log(content)
       }else if(errorcode == 10000){
-        content =" 可能已经签过了 "
+        content ="📢 " + "可能已经签过了\n"
         messageSuccess += content;
         console.log(content)
       }else
       {
-        content = "签到失败 "
+        content = "❌ " + "签到失败\n"
         messageFail += content;
         console.log(content);
       }
     } else {
-      content = "签到失败 "
+      content = "❌ " +  "签到失败\n"
       messageFail += content;
       console.log(content);
     }
@@ -491,7 +491,7 @@ function execHandle(cookie, pos) {
     var url4 = "https://www.ztemall.com/index.php/topapi" // 商城任务开始、任务完成、任务领取(get)
 
     // 取任务id
-    console.log("获取任务id列表")
+    console.log("🍳 获取任务id列表")
     resp = HTTP.fetch(url3 + params, {
       method: "get",
       headers: headers,
@@ -553,13 +553,13 @@ function execHandle(cookie, pos) {
         {
           data["page_id"] = 0
         }
-        // console.log("page_id:" + data["page_id"])
+        // console.log("🍳 page_id:" + data["page_id"])
       }catch{
         data["page_id"] = 0
       }
 
       data["method"] = "task.start"
-      console.log("开始做任务：" + title) // + " 任务id:" + task_id)
+      console.log("🍳 开始做任务：" + title) // + " 任务id:" + task_id)
       resp = HTTP.post(
         url4,
         // JSON.stringify(data),
@@ -579,7 +579,7 @@ function execHandle(cookie, pos) {
       errorcode = resp["errorcode"]
       if(errorcode != 0)  // 这个任务没做成功，直接进入下一个任务
       {
-        content = title + "无法开始，直接进入下一个任务 "
+        content = "❌ " + title + "无法开始，直接进入下一个任务\n"
         messageFail += content
         console.log(content)
         sleep(2000);
@@ -601,7 +601,7 @@ function execHandle(cookie, pos) {
       // {"from":"lua","msg":"","errorcode":0,"data":{"status":"succ"}}
       if(errorcode != 0)  // 这个任务没做成功，直接进入下一个任务
       {
-        content = title + "无法完成，直接进入下一个任务 "
+        content = "❌ " + title + "无法完成，直接进入下一个任务\n"
         messageFail += content
         console.log(content)
         sleep(2000);
@@ -621,13 +621,13 @@ function execHandle(cookie, pos) {
       // {"errorcode":0,"msg":"","data":{"status":"succ"}}
       if(errorcode != 0)  // 这个任务没做成功，直接进入下一个任务
       {
-        content = title + "无法领取奖励，请手动领取奖励 "
+        content = "❌ " + title + "无法领取奖励，请手动领取奖励\n"
         messageFail += content
         console.log(content)
         sleep(2000);
         continue
       }else{
-        content = title + "已完成 "
+        content = "📢 " + title + "已完成\n"
         messageFail += content
         console.log(content)
       }
@@ -651,12 +651,12 @@ function execHandle(cookie, pos) {
     if(errorcode == 0)
     {
       point_count = resp["data"]["point_total"]["point_count"]  // 积分总量
-      content = "当前积分:" + point_count + " "
+      content =  "🎉 " + "当前积分:" + point_count + "\n"
       messageSuccess += content
       console.log(content)
       sleep(2000);
     }else{
-      content = "无法查询到当前积分 "
+      content = "❌ " + "无法查询到当前积分\n"
       // messageFail += content
       console.log(content)
     }

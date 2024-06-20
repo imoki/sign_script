@@ -1,5 +1,5 @@
 // 葫芦侠3楼自动签到
-// 20240512
+// 20240620
 
 let sheetNameSubConfig = "huluxia"; // 分配置表名称
 let pushHeader = "【葫芦侠】";
@@ -35,7 +35,7 @@ var jsonEmail = {
 flagConfig = ActivateSheet(sheetNameConfig); // 激活推送表
 // 主配置工作表存在
 if (flagConfig == 1) {
-  console.log("开始读取主配置表");
+  console.log("🍳 开始读取主配置表");
   let name; // 名称
   let onlyError;
   let nickname;
@@ -51,12 +51,12 @@ if (flagConfig == 1) {
     if (name == sheetNameSubConfig) {
       if (onlyError == "是") {
         messageOnlyError = 1;
-        console.log("只推送错误消息");
+        console.log("🍳 只推送错误消息");
       }
 
       if (nickname == "是") {
         messageNickname = 1;
-        console.log("单元格用昵称替代");
+        console.log("🍳 单元格用昵称替代");
       }
 
       break; // 提前退出，提高效率
@@ -67,7 +67,7 @@ if (flagConfig == 1) {
 flagPush = ActivateSheet(sheetNamePush); // 激活推送表
 // 推送工作表存在
 if (flagPush == 1) {
-  console.log("开始读取推送工作表");
+  console.log("🍳 开始读取推送工作表");
   let pushName; // 推送类型
   let pushKey;
   let pushFlag; // 是否推送标志
@@ -90,7 +90,7 @@ emailConfig();
 
 flagSubConfig = ActivateSheet(sheetNameSubConfig); // 激活分配置表
 if (flagSubConfig == 1) {
-  console.log("开始读取分配置表");
+  console.log("🍳 开始读取分配置表");
   for (let i = 2; i <= line; i++) {
     var cookie = Application.Range("A" + i).Text;
     var exec = Application.Range("B" + i).Text;
@@ -149,7 +149,7 @@ function push(message) {
       }
     }
   } else {
-    console.log("消息为空不推送");
+    console.log("🍳 消息为空不推送");
   }
 }
 
@@ -218,14 +218,14 @@ function email(message) {
     subject: pushHeader + " - " + data_time,
     text: message,
   });
-  // console.log("已发送邮件至：" + sender);
-  console.log("已发送邮件");
+  // console.log("🍳 已发送邮件至：" + sender);
+  console.log("🍳 已发送邮件");
   sleep(5000);
 }
 
 // 邮箱配置
 function emailConfig() {
-  console.log("开始读取邮箱配置");
+  console.log("🍳 开始读取邮箱配置");
   let length = jsonPush.length; // 因为此json数据可无序，因此需要遍历
   let name;
   for (let i = 0; i < length; i++) {
@@ -238,7 +238,7 @@ function emailConfig() {
         //   'email':'', 'port':'', 'sender':'', 'authorizationCode':''
         // } // 有效配置
         if (flag == 1) {
-          console.log("开始读取邮箱表");
+          console.log("🍳 开始读取邮箱表");
           for (let i = 2; i <= 2; i++) {
             // 从工作表中读取推送数据
             jsonEmail.server = Application.Range("A" + i).Text;
@@ -283,11 +283,11 @@ function ActivateSheet(sheetName) {
     // 激活工作表
     let sheet = Application.Sheets.Item(sheetName);
     sheet.Activate();
-    console.log("激活工作表：" + sheet.Name);
+    console.log("🥚 激活工作表：" + sheet.Name);
     flag = 1;
   } catch {
     flag = 0;
-    console.log("无法激活工作表，工作表可能不存在");
+    console.log("🍳 无法激活工作表，工作表可能不存在");
   }
   return flag;
 }
@@ -353,7 +353,7 @@ function execHandle(cookie, pos) {
   }
 
   posLabel = pos-2 ;  // 存放下标，从0开始
-  messageHeader[posLabel] = messageName
+  messageHeader[posLabel] = "👨‍🚀 " + messageName
   try {
     // catid = [1, 2, 3, 4, 6, 15, 16, 21, 22, 23, 29, 34, 43, 44, 45, 56, 57, 58, 60, 63, 67, 68, 69, 70, 71, 76, 77, 81, 82, 84, 90, 92, 94, 96, 98, 102, 105, 107, 108, 110, 111, 115, 119, 120, 121]
     catid = [1, 2, 3, 4, 6, 15, 16, 21, 22, 29, 43, 44, 45, 57, 58, 60, 63, 67, 68, 69, 70, 71, 76, 77, 81, 82, 84, 90, 92, 94, 96, 98, 102, 107, 108, 110, 111, 115, 119, 120, 121]
@@ -399,21 +399,33 @@ function execHandle(cookie, pos) {
         continueDays = resp['continueDays']  // 连续签到天数
         experienceVal = resp['experienceVal']  // 本次签到经验
         // messageSuccess += '版块' + cat_id + '签到成功，获' + experienceVal + '经验，已签' + continueDays + '天'
-        messageSuccess += ' 版块' + cat_id + '签到成功'
-        console.log("帐号：" + messageName + '版块' + cat_id + '签到成功，获' + experienceVal + '经验，已签' + continueDays + '天')
+        content = "🎉 " + '版块' + cat_id + '签到成功，获' + experienceVal + '经验，已签' + continueDays + '天\n'
+        messageSuccess += content // ' 版块' + cat_id + '签到成功'
+        console.log(content)
       }else
       {
-        // {"msg":"当前板块不存在","code":104,"title":{},"status":0}
-        msg = resp['msg']
-        messageFail += " 板块" + cat_id + "签到失败," + msg + " ";
-        console.log("帐号：" + messageName + "板块" + cat_id + "签到失败," + msg + " ");
+        // {"title":{},"code":103,"msg":"未登录","status":0}
+        respmsg = resp['msg']
+        code = resp['code']
+        if(code == 103){
+          content = "❌ " + respmsg + "\n"
+          messageFail += content // " 板块" + cat_id + "签到失败," + msg + " ";
+          console.log(content);
+          break;  // 不再执行
+        }else{
+          // {"msg":"当前板块不存在","code":104,"title":{},"status":0}
+          msg = resp['msg']
+          content = "📢 " + "板块" + cat_id + "签到失败," + respmsg + "\n"
+          messageFail += content // " 板块" + cat_id + "签到失败," + msg + " ";
+          console.log(content);
+        }
       }
 
       sleep(2000);  // 降低请求频率
     }
   
   } catch {
-    messageFail += messageName + "失败";
+    messageFail += "❌ " + "失败\n";
   }
 
   sleep(2000);

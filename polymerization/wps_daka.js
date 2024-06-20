@@ -1,5 +1,5 @@
 // WPS权益报名和打卡、超级会员打卡(打卡版)
-// 20240527
+// 20240620
 
 let sheetNameSubConfig = "wps"; // 分配置表名称
 let sheetNameSubConfig2 = "wps_daka";
@@ -36,7 +36,7 @@ var jsonEmail = {
 flagConfig = ActivateSheet(sheetNameConfig); // 激活推送表
 // 主配置工作表存在
 if (flagConfig == 1) {
-  console.log("开始读取主配置表");
+   console.log("🍳 开始读取主配置表");
   let name; // 名称
   let onlyError;
   let nickname;
@@ -52,12 +52,12 @@ if (flagConfig == 1) {
     if (name == sheetNameSubConfig) {
       if (onlyError == "是") {
         messageOnlyError = 1;
-        console.log("只推送错误消息");
+         console.log("🍳 只推送错误消息");
       }
 
       if (nickname == "是") {
         messageNickname = 1;
-        console.log("单元格用昵称替代");
+         console.log("🍳 单元格用昵称替代");
       }
 
       break; // 提前退出，提高效率
@@ -68,7 +68,7 @@ if (flagConfig == 1) {
 flagPush = ActivateSheet(sheetNamePush); // 激活推送表
 // 推送工作表存在
 if (flagPush == 1) {
-  console.log("开始读取推送工作表");
+   console.log("🍳 开始读取推送工作表");
   let pushName; // 推送类型
   let pushKey;
   let pushFlag; // 是否推送标志
@@ -91,7 +91,7 @@ emailConfig();
 
 flagSubConfig = ActivateSheet(sheetNameSubConfig); // 激活分配置表
 if (flagSubConfig == 1) {
-  console.log("开始读取分配置表");
+   console.log("🍳 开始读取分配置表");
   for (let i = 2; i <= line; i++) {
     var cookie = Application.Range("A" + i).Text;
     var exec = Application.Range("B" + i).Text;
@@ -150,7 +150,7 @@ function push(message) {
       }
     }
   } else {
-    console.log("消息为空不推送");
+     console.log("🍳 消息为空不推送");
   }
 }
 
@@ -219,14 +219,14 @@ function email(message) {
     subject: pushHeader + " - " + data_time,
     text: message,
   });
-  // console.log("已发送邮件至：" + sender);
-  console.log("已发送邮件");
+  //  console.log("🍳 已发送邮件至：" + sender);
+   console.log("🍳 已发送邮件");
   sleep(5000);
 }
 
 // 邮箱配置
 function emailConfig() {
-  console.log("开始读取邮箱配置");
+   console.log("🍳 开始读取邮箱配置");
   let length = jsonPush.length; // 因为此json数据可无序，因此需要遍历
   let name;
   for (let i = 0; i < length; i++) {
@@ -239,7 +239,7 @@ function emailConfig() {
         //   'email':'', 'port':'', 'sender':'', 'authorizationCode':''
         // } // 有效配置
         if (flag == 1) {
-          console.log("开始读取邮箱表");
+           console.log("🍳 开始读取邮箱表");
           for (let i = 2; i <= 2; i++) {
             // 从工作表中读取推送数据
             jsonEmail.server = Application.Range("A" + i).Text;
@@ -284,11 +284,11 @@ function ActivateSheet(sheetName) {
     // 激活工作表
     let sheet = Application.Sheets.Item(sheetName);
     sheet.Activate();
-    console.log("激活工作表：" + sheet.Name);
+      console.log("🥚 激活工作表：" + sheet.Name);
     flag = 1;
   } catch {
     flag = 0;
-    console.log("无法激活工作表，工作表可能不存在");
+     console.log("🍳 无法激活工作表，工作表可能不存在");
   }
   return flag;
 }
@@ -392,7 +392,7 @@ function execHandle(cookie, pos) {
   }
 
   posLabel = pos-2 ;  // 存放下标，从0开始
-  messageHeader[posLabel] = messageName
+  messageHeader[posLabel] = "👨‍🚀 " + messageName
   // try {
     url1 = "https://docs.wps.cn/2c/kdocsclock/api/v1/clock/handle"; // 打卡
     url2 = "https://docs.wps.cn/2c/kdocsclock/api/v1/clock/attend"; // 报名
@@ -409,7 +409,7 @@ function execHandle(cookie, pos) {
     flagExec1 = Application.Range("E" + pos).Text;
     if(flagExec1 == '是')
     {
-      console.log("进行渠道1打卡，此渠道自动领取奖励")
+       console.log("🍳 进行渠道1打卡，此渠道自动领取奖励")
       // 打卡
       // {"code":0,"msg":"ok","data":{"equity":"1天PDF权益包即将到账","right":"1天PDF权益包","writer":"即将到账!"},"request_id":""}
       // {"code":20002,"msg":"打卡失败","request_id":""}
@@ -425,13 +425,13 @@ function execHandle(cookie, pos) {
       if(code == 0)
       {
         right = resp["data"]["right"]
-        content = "打卡渠道1：" + right + " "
+        content = "🎉 " + "打卡渠道1：" + right + "\n"
         messageSuccess += content;
         console.log(content);
       }else
       {
         respmsg = resp["msg"]
-        content = "打卡渠道1：" + respmsg + " "
+        content = "📢 " + "打卡渠道1：" + respmsg + "\n"
         messageFail += content;
         console.log(content);
       }
@@ -455,21 +455,24 @@ function execHandle(cookie, pos) {
         respmsg = resp["msg"]
         if(respmsg == "ok"){
           respmsg = "报名成功"
+          content = "🎉 " + "渠道1报名情况：" + respmsg + "\n"
+        }else{
+          content = "📢 " + "渠道1报名情况：" + respmsg + "\n"
         }
-        content = "渠道1报名情况：" + respmsg + " "
+        
         messageSuccess += content;
         console.log(content);
       }else
       {
         respmsg = resp["msg"]
-        content = "渠道1报名情况：" + respmsg + " "
+        content = "📢 " + "渠道1报名情况：" + respmsg + "\n"
         messageFail += content;
         console.log(content);
       }
 
     }else
     {
-      console.log("不进行渠道1打卡")
+       console.log("🍳 不进行渠道1打卡")
     }
     
     sleep(2000);
@@ -479,13 +482,13 @@ function execHandle(cookie, pos) {
     if(flagExec2 == '是')
     {
       // 打卡渠道2
-      console.log("进行渠道2打卡，此渠道需手动领取奖励")
+       console.log("🍳 进行渠道2打卡，此渠道需手动领取奖励")
       Signature = Application.Range("G" + pos).Text;
       msg = daka2(cookie, Signature)
       messageSuccess += msg[0]
       messageFail += msg[1]
     }else{
-      console.log("不进行渠道2打卡")
+       console.log("🍳 不进行渠道2打卡")
     }
     
   // } catch {

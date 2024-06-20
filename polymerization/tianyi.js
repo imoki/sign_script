@@ -1,5 +1,5 @@
 // 天翼云盘签到
-// 20240512
+// 20240620
 // 文中引用代码改编自公众号"Jerry不是猫"
 // 获取加密后的手机号和密码请访问：https://as.js.cool/reference/ecloud/
 
@@ -38,7 +38,7 @@ var jsonEmail = {
 flagConfig = ActivateSheet(sheetNameConfig); // 激活推送表
 // 主配置工作表存在
 if (flagConfig == 1) {
-  console.log("开始读取主配置表");
+  console.log("🍳 开始读取主配置表");
   let name; // 名称
   let onlyError;
   let nickname;
@@ -54,12 +54,12 @@ if (flagConfig == 1) {
     if (name == sheetNameSubConfig) {
       if (onlyError == "是") {
         messageOnlyError = 1;
-        console.log("只推送错误消息");
+        console.log("🍳 只推送错误消息");
       }
 
       if (nickname == "是") {
         messageNickname = 1;
-        console.log("单元格用昵称替代");
+        console.log("🍳 单元格用昵称替代");
       }
 
       break; // 提前退出，提高效率
@@ -70,7 +70,7 @@ if (flagConfig == 1) {
 flagPush = ActivateSheet(sheetNamePush); // 激活推送表
 // 推送工作表存在
 if (flagPush == 1) {
-  console.log("开始读取推送工作表");
+  console.log("🍳 开始读取推送工作表");
   let pushName; // 推送类型
   let pushKey;
   let pushFlag; // 是否推送标志
@@ -93,7 +93,7 @@ emailConfig();
 
 flagSubConfig = ActivateSheet(sheetNameSubConfig); // 激活分配置表
 if (flagSubConfig == 1) {
-  console.log("开始读取分配置表");
+  console.log("🍳 开始读取分配置表");
   for (let i = 2; i <= line; i++) {
     var cookie = Application.Range("A" + i).Text;
     var exec = Application.Range("B" + i).Text;
@@ -152,7 +152,7 @@ function push(message) {
       }
     }
   } else {
-    console.log("消息为空不推送");
+    console.log("🍳 消息为空不推送");
   }
 }
 
@@ -221,14 +221,14 @@ function email(message) {
     subject: pushHeader + " - " + data_time,
     text: message,
   });
-  // console.log("已发送邮件至：" + sender);
-  console.log("已发送邮件");
+  // console.log("🍳 已发送邮件至：" + sender);
+  console.log("🍳 已发送邮件");
   sleep(5000);
 }
 
 // 邮箱配置
 function emailConfig() {
-  console.log("开始读取邮箱配置");
+  console.log("🍳 开始读取邮箱配置");
   let length = jsonPush.length; // 因为此json数据可无序，因此需要遍历
   let name;
   for (let i = 0; i < length; i++) {
@@ -241,7 +241,7 @@ function emailConfig() {
         //   'email':'', 'port':'', 'sender':'', 'authorizationCode':''
         // } // 有效配置
         if (flag == 1) {
-          console.log("开始读取邮箱表");
+          console.log("🍳 开始读取邮箱表");
           for (let i = 2; i <= 2; i++) {
             // 从工作表中读取推送数据
             jsonEmail.server = Application.Range("A" + i).Text;
@@ -286,11 +286,11 @@ function ActivateSheet(sheetName) {
     // 激活工作表
     let sheet = Application.Sheets.Item(sheetName);
     sheet.Activate();
-    console.log("激活工作表：" + sheet.Name);
+    console.log("🥚 激活工作表：" + sheet.Name);
     flag = 1;
   } catch {
     flag = 0;
-    console.log("无法激活工作表，工作表可能不存在");
+    console.log("🍳 无法激活工作表，工作表可能不存在");
   }
   return flag;
 }
@@ -912,7 +912,7 @@ function createRequest(options = {}) {
 // ../utils/index.ts
 function getPushConfig() {
     let usedRange2 = Application.Sheets.Item("\u63A8\u9001").UsedRange;
-    if (!usedRange2) return console.log("\u672A\u5F00\u542F\u63A8\u9001"), {};
+    if (!usedRange2) return console.log("🍳 \u672A\u5F00\u542F\u63A8\u9001"), {};
     let cells = usedRange2.Columns.Cells, columnEnd = Math.min(50, usedRange2.ColumnEnd), rowEnd = Math.min(50, usedRange2.RowEnd), pushConfig = {};
     for(let option = usedRange2.Column; option <= columnEnd; option++){
         let t = {}, item = cells.Item(option);
@@ -1049,7 +1049,7 @@ function execHandle(cookie, pos) {
   }
 
   posLabel = pos-2 ;  // 存放下标，从0开始
-  messageHeader[posLabel] = messageName
+  messageHeader[posLabel] = "🎉 " + messageName
   // try {
     
     
@@ -1095,10 +1095,10 @@ function execHandle(cookie, pos) {
         type = pushData[i]["type"]
         if(type == "info")
         {
-          msg += pushData[i]["msg"] + " "
+          msg += pushData[i]["msg"] + " \n"
         }else
         {
-          console.log(pushData[i]["msg"])
+          console.log("📢 " + pushData[i]["msg"])
         }
         
       }catch{
@@ -1106,8 +1106,8 @@ function execHandle(cookie, pos) {
       }
       
     }
-    console.log(msg)
-    messageSuccess += msg
+    console.log("🎉" + msg)
+    messageSuccess += "🎉" + msg
     
     // messageSuccess += msg[0]
     // messageFail += msg[1]
