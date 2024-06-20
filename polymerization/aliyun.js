@@ -1,5 +1,5 @@
 // 阿里云盘(自动更新token版)、已移除自动领奖功能
-// 20240606
+// 20240620
 // 文中引用代码改编自https://www.52pojie.cn/thread-1869673-43-1.html
 
 let sheetNameSubConfig = "aliyun"; // 分配置表名称
@@ -36,7 +36,7 @@ var jsonEmail = {
 flagConfig = ActivateSheet(sheetNameConfig); // 激活推送表
 // 主配置工作表存在
 if (flagConfig == 1) {
-  console.log("开始读取主配置表");
+  console.log("🍳 开始读取主配置表");
   let name; // 名称
   let onlyError;
   let nickname;
@@ -52,12 +52,12 @@ if (flagConfig == 1) {
     if (name == sheetNameSubConfig) {
       if (onlyError == "是") {
         messageOnlyError = 1;
-        console.log("只推送错误消息");
+        console.log("🍳 只推送错误消息");
       }
 
       if (nickname == "是") {
         messageNickname = 1;
-        console.log("单元格用昵称替代");
+        console.log("🍳 单元格用昵称替代");
       }
 
       break; // 提前退出，提高效率
@@ -68,7 +68,7 @@ if (flagConfig == 1) {
 flagPush = ActivateSheet(sheetNamePush); // 激活推送表
 // 推送工作表存在
 if (flagPush == 1) {
-  console.log("开始读取推送工作表");
+  console.log("🍳 开始读取推送工作表");
   let pushName; // 推送类型
   let pushKey;
   let pushFlag; // 是否推送标志
@@ -91,7 +91,7 @@ emailConfig();
 
 flagSubConfig = ActivateSheet(sheetNameSubConfig); // 激活分配置表
 if (flagSubConfig == 1) {
-  console.log("开始读取分配置表");
+  console.log("🍳 开始读取分配置表");
   for (let i = 2; i <= line; i++) {
     var cookie = Application.Range("A" + i).Text;
     var exec = Application.Range("B" + i).Text;
@@ -150,7 +150,7 @@ function push(message) {
       }
     }
   } else {
-    console.log("消息为空不推送");
+    console.log("🍳 消息为空不推送");
   }
 }
 
@@ -219,14 +219,14 @@ function email(message) {
     subject: pushHeader + " - " + data_time,
     text: message,
   });
-  // console.log("已发送邮件至：" + sender);
-  console.log("已发送邮件");
+  // console.log("🍳 已发送邮件至：" + sender);
+  console.log("🍳 已发送邮件");
   sleep(5000);
 }
 
 // 邮箱配置
 function emailConfig() {
-  console.log("开始读取邮箱配置");
+  console.log("🍳 开始读取邮箱配置");
   let length = jsonPush.length; // 因为此json数据可无序，因此需要遍历
   let name;
   for (let i = 0; i < length; i++) {
@@ -239,7 +239,7 @@ function emailConfig() {
         //   'email':'', 'port':'', 'sender':'', 'authorizationCode':''
         // } // 有效配置
         if (flag == 1) {
-          console.log("开始读取邮箱表");
+          console.log("🍳 开始读取邮箱表");
           for (let i = 2; i <= 2; i++) {
             // 从工作表中读取推送数据
             jsonEmail.server = Application.Range("A" + i).Text;
@@ -284,11 +284,11 @@ function ActivateSheet(sheetName) {
     // 激活工作表
     let sheet = Application.Sheets.Item(sheetName);
     sheet.Activate();
-    console.log("激活工作表：" + sheet.Name);
+    console.log("🥚 激活工作表：" + sheet.Name);
     flag = 1;
   } catch {
     flag = 0;
-    console.log("无法激活工作表，工作表可能不存在");
+    console.log("🍳 无法激活工作表，工作表可能不存在");
   }
   return flag;
 }
@@ -425,7 +425,7 @@ function doTask(row){
                     //获取Bearer-token
                     var mtid = parseInt(Math.floor(Math.random() * 60000 * dengdai)) + 6000
                     var loginresult = "登录延迟" + parseFloat((mtid / 120000).toFixed(2)) + "分，即" + + parseFloat((mtid / 2000).toFixed(2)) + "秒"
-                    console.log("登录延迟" + parseFloat((mtid / 120000).toFixed(2)) + "分，即" + + parseFloat((mtid / 2000).toFixed(2)) + "秒")
+                    console.log("🍳 登录延迟" + parseFloat((mtid / 120000).toFixed(2)) + "分，即" + + parseFloat((mtid / 2000).toFixed(2)) + "秒")
                     // Time.sleep(mtid / 2)  // 进行延迟
                     let data = HTTP.post("https://auth.aliyundrive.com/v2/account/token",
                         JSON.stringify({
@@ -437,12 +437,12 @@ function doTask(row){
                     var access_token = data['access_token']
                     var phone = data["user_name"]
                     if (access_token == undefined) { // 如果报错
-                        console.log("单元格【" + tokenColumn + row + "】token执行出错,请检查token或者API接口");
+                        console.log("🍳 单元格【" + tokenColumn + row + "】token执行出错,请检查token或者API接口");
                         // continue; // 跳过当前行的后续操作()
                     }
                     var mtid = parseInt(Math.floor(Math.random() * 60000 * dengdai / 2)) + 6000
                     var signresult = "签到延迟" + parseFloat((mtid / 60000).toFixed(2)) + "分，即" + + parseFloat((mtid / 1000).toFixed(2)) + "秒"
-                    console.log("签到延迟" + parseFloat((mtid / 60000).toFixed(2)) + "分，即" + + parseFloat((mtid / 1000).toFixed(2)) + "秒")
+                    console.log("🍳 签到延迟" + parseFloat((mtid / 60000).toFixed(2)) + "分，即" + + parseFloat((mtid / 1000).toFixed(2)) + "秒")
                     // Time.sleep(mtid)  // // 进行延迟
                     try {
                         // 签到
@@ -460,7 +460,7 @@ function doTask(row){
                         messageSuccess += content
                         console.log(content)
                     } catch (error) {
-                        console.log("单元格【" + tokenColumn + row + "】签到出错,请检查API接口")
+                        console.log("🍳 单元格【" + tokenColumn + row + "】签到出错,请检查API接口")
                         content = "签到出错,请检查API接口 "
                         messageFail += content
                         // console.log(content)
@@ -486,9 +486,9 @@ function doTask(row){
                         messageSuccess += content
                         console.log(content)
                     } catch (error) {
-                        // console.log("单元格【" + tokenColumn + row + "】领奖出错，请手动确认");
+                        // console.log("🍳 单元格【" + tokenColumn + row + "】领奖出错，请手动确认");
                         // continue; // 跳过当前行的后续操作()
-                        console.log("单元格【" + tokenColumn + row + "】领奖出错，请手动确认")
+                        console.log("🍳 单元格【" + tokenColumn + row + "】领奖出错，请手动确认")
                         content = "领奖出错，请手动确认 "
                         messageFail += content
                         // console.log(content)
@@ -521,7 +521,7 @@ function doTask(row){
                         
 
                         // } catch (error) {
-                        //     console.log("单元格【" + tokenColumn + row + "】领取备份出错,请检查API接口");
+                        //     console.log("🍳 单元格【" + tokenColumn + row + "】领取备份出错,请检查API接口");
                         //     continue; // 跳过当前行的后续操作()
                         // }
                     } else {
@@ -585,9 +585,9 @@ function doTask(row){
                                 }));
                             my_token = my_token.json()["refresh_token"]
                             if (my_token) {
-                                console.log("当前账号refresh_token刷新为", my_token);
+                                console.log("🍳 当前账号refresh_token刷新为", my_token);
                                 Application.Range(tokenColumn + row).Value = my_token;
-                                console.log("当前账号登录日期刷新为", formacurrentdate);
+                                console.log("🍳 当前账号登录日期刷新为", formacurrentdate);
                                 Application.Range(logindateColumn + row).Value = formacurrentdate
                             }
                         }
@@ -639,13 +639,15 @@ function execHandle(cookie, pos) {
   }
 
   posLabel = pos-2 ;  // 存放下标，从0开始
-  messageHeader[posLabel] = messageName
+  messageHeader[posLabel] = "👨‍🚀 " + messageName
   // try {
     
     // console.log(msg)
     msg = doTask(pos)
-    messageSuccess += msg[0]
+    messageSuccess += "🎉 " + msg[0]
     messageFail += msg[1]
+
+    
     
     // messageSuccess += msg[0]
     // messageFail += msg[1]
