@@ -1,13 +1,13 @@
 /*
-    name: "夸克网盘"
-    cron: 10 30 10 * * *
+    name: "中国联通"
+    cron: 10 0 16 * * *
     脚本兼容: 金山文档， 青龙
     更新时间：20240620
 */
 
 const logo = "艾默库 : https://github.com/imoki/sign_script"    // 仓库地址
-let sheetNameSubConfig = "quark"; // 分配置表名称
-let pushHeader = "【夸克网盘】";
+let sheetNameSubConfig = "zglt"; // 分配置表名称
+let pushHeader = "【中国联通】";
 let sheetNameConfig = "CONFIG"; // 总配置表
 let sheetNamePush = "PUSH"; // 推送表名称
 let sheetNameEmail = "EMAIL"; // 邮箱表
@@ -358,16 +358,13 @@ function getsign(data) {
 }
 
 // =================共用结束===================
-
-// 青龙适配
 // 结果处理函数
 function resultHandle(resp, pos){
     // 每次进来resultHandle则加一次请求
     posHttp += 1    // 青龙适配，青龙微适配
-    // console.log(posHttp)
-
-    let messageSuccess = "";
-    let messageFail = "";
+    
+    // let messageSuccess = "";
+    // let messageFail = "";
     let messageName = "";
     // 推送昵称或单元格，还是不推送位置标识
     if (messageNickname == 1) {
@@ -379,190 +376,46 @@ function resultHandle(resp, pos){
         }
     }
     posLabel = pos-2 ;  // 存放下标，从0开始
-    messageHeader[posLabel] =  "👨‍🚀 " + messageName
+    messageHeader[posLabel] = "👨‍🚀 " + messageName
+    // console.log(messageName)
 
-    data = {
-      "sign_cyclic":"True",
+
+    // {"data":{"flowerCount":"10","code":"0","sevenDaysResultMap":{"sevenDaysList":[{"signFlag":"1","days":"今天","pic":""},{"signFlag":"0","days":"第2天","pic":""},{"signFlag":"0","days":"第3天","pic":""},{"signFlag":"0","days":"第4天","pic":""},{"signFlag":"0","days":"第5天","pic":""},{"signFlag":"0","days":"第6天","pic":""},{"signFlag":"0","days":"第7天","pic":""},{"signFlag":"0","days":"第14天","pic":""},{"signFlag":"0","days":"第21天","pic":""},{"signFlag":"0","days":"第28天","pic":"https://img.client.10010.com/Sign...
+    // {"data":{"cancelButton":{"btnBackGroundColor":"","btnName":"取消","btnSubscript":"取消","btnUrl":"","id":"","imageName":"取消","imageUrl":"","name":"首页翻倍成功翻倍视频异常"},"statusDesc":"温馨提示"},"msg":"您今天已经签到啦","status":"0002"}
+    if (resp.status == 200) {
+        resp = resp.json();
+        console.log(resp);
+        // flowerCount = resp["data"]["flowerCount"] // 积分
+        // respmsg = resp["data"]["msg"]
+        respmsg = resp["msg"]
+
+        if(respmsg == "undefined" || respmsg == "ok!")
+        {
+            // code = resp["data"]["code"] 
+            // if(code == 0)
+            // {
+            //   respmsg = "签到成功 "
+            // }else
+            // {
+            //   respmsg = "可能已签到 "
+            // }
+            content = "🎉 " + "签到成功\n"
+            messageSuccess += content
+        }else
+        {
+            content = "📢 " + respmsg + "\n"
+            messageSuccess += content
+
+        }
+    }else {
+        content = "❌ " +"签到失败\n"
+        messageFail += content;
+        //   console.log(content);
     }
+    // 青龙适配，青龙微适配
+    flagResultFinish = 1; // 签到结束   
 
-    // console.log(resp.status)
-    // console.log(resp.json())
-    // if (resp.status == 200) {
-        if(posHttp == 1 || qlSwitch != 1){  // 只在第一次用, 或者执行金山文档
-            resp = resp.json();
-            // console.log(resp)
-            try{
-                isSign = resp["data"]["cap_sign"]["sign_daily"]
-            }catch{
-                content = "⛔ " + "账号可能未登录，请重新登录\n"
-                // messageFail += content
-                // messageSuccess += "帐号：" + messageName + "已经签到过了,奖励容量"  + String(number) + "MB";
-                console.log(content)
-                
-                // // 青龙适配，青龙微适配
-                // flagResultFinish = 1; // 签到结束
-
-            }
-
-            // isSign = ~true // 测试
-        }else{
-            // {
-            //     status: 500,
-            //     code: 15000,
-            //     message: 'inner error, requestId ',
-            //     req_id: '',
-            //     timestamp: 1718506995
-            // }
-            isSign = ~true   // 第二次以上进来默认通过
-        }
-      // isSign = true
-      // console.log(isSign)
-      if(isSign == true)
-      {
-        console.log("📢 " + "已经签到过了")
-        reward = resp["data"]["cap_sign"]["sign_daily_reward"] / (1024 * 1024)
-        cur_total_sign_day = resp["data"]["cap_growth"]["cur_total_sign_day"] // 总签到天数
-        sign_progress = resp["data"]["cap_sign"]["sign_progress"] // 当周签到天数
-        
-        // console.log(reward)
-        // content = "帐号：" + messageName + "已经签到过了,奖励"  + String(number) + "MB" + ",总签到" + cur_total_sign_day + "天 " + ",当周已签" + sign_progress + "天 ";
-        content = "📢 " + "总签" + cur_total_sign_day + "天" + ",周签" + sign_progress + "天,获"  + String(reward) + "MB\n";
-        messageSuccess += content
-        // messageSuccess += "帐号：" + messageName + "已经签到过了,奖励容量"  + String(number) + "MB";
-        // console.log(content)
-        
-        // 青龙适配，青龙微适配
-        flagResultFinish = 1; // 签到结束
-      }else
-      {
-        if(posHttp == 1 || qlSwitch != 1){  // 第一次进来时用
-            console.log("🍳 进行签到")
-            // {"status":200,"code":0,"message":"","timestamp":170000000,"data":{"sign_daily_reward":20000000},"metadata":{}}
-            // {"status":400,"code":44210,"message":"cap_growth_sign_repeat","req_id":"xxxzzz-xxxxxxx","timestamp":17000000}
-            let url2 = "https://drive-m.quark.cn/1/clouddrive/capacity/growth/sign?pr=ucpro&fr=pc&uc_param_str="; // 进行签到
-            resp = HTTP.post(
-                url2,
-                JSON.stringify(data),
-                { headers: headers }
-            );
-        }
-
-        // console.log(resp.json())
-
-
-        // {"status":200,"code":0,"message":"","timestamp":170000000,"data":{"member_type":"NORMAL","use_capacity":120000000,"cap_growth":{"lost_total_cap":0,"cur_total_cap":11000000,"cur_total_sign_day":46},"88VIP":false,"member_status":{"Z_VIP":"UNPAID","VIP":"UNPAID","SUPER_VIP":"UNPAID","MINI_VIP":"UNPAID"},"cap_sign":{"sign_daily":true,"sign_target":7,"sign_daily_reward":2000000,"sign_progress":4,"sign_rewards":[{"name":"+20MB","reward_cap":2000000},{"name":"+40MB","highlight":"翻倍","reward_cap":4000000},{"name":"+20MB","reward_cap":2000000},{"name":"+20MB","reward_cap":200000},{"name":"+20MB","reward_cap":2000000},{"name":"+20MB","reward_cap":2000000},{"name":"+100MB","highlight":"翻五倍","reward_cap":10000000}]},"cap_composition":{"other":21000000,"member_own":100000000,"sign_reward":10000000},"total_capacity":1400000000},"metadata":{}}
-        // if (resp.status == 200) {
-
-        if(posHttp == 2 || qlSwitch != 1){  // 第二次进来时用
-            // resp = resp.json();
-            // console.log(resp)
-            // resp = {"status":200,"code":0,"message":"","timestamp":170000000,"data":{"sign_daily_reward":20971520},"metadata":{}}
-            // 41943040 -> 40MB
-            // reward = resp["data"]["sign_daily_reward"] / (1024 * 1024)
-            // console.log(reward)
-
-
-            // 查询签到天数
-            // resp = HTTP.fetch(url1, {
-            //     method: "get",
-            //     headers: headers,
-            //     // data: data
-            // });
-            url =  "https://drive-m.quark.cn/1/clouddrive/capacity/growth/info?pr=ucpro&fr=pc&uc_param_str=";
-            if(qlSwitch != 1){  // 金山文档
-                resp = HTTP.fetch(url, {
-                    method: "get",
-                    headers: headers,
-                    // data: data
-                });
-            }else{  // 青龙
-                data = {}
-                option = "get"
-                resp = HTTP.post(
-                    url,
-                    data,
-                    { headers: headers },
-                    option
-                );
-            }
-
-        } 
-        
-
-        if(posHttp == 3 || qlSwitch != 1){  // 第三次进来时用
-            resp = resp.json();
-            // console.log(resp)
-            // {
-            //     status: 200,
-            //     code: 0,
-            //     message: '',
-            //     timestamp: ,
-            //     data: {
-            //         member_type: 'NORMAL',
-            //         use_capacity: ,
-            //         cap_growth: {
-            //         lost_total_cap: 0,
-            //         cur_total_cap: ,
-            //         cur_total_sign_day: 85
-            //         },
-            //         '88VIP': false,
-            //         member_status: {
-            //         Z_VIP: 'UNPAID',
-            //         VIP: 'UNPAID',
-            //         MINI_VIP: 'UNPAID',
-            //         SUPER_VIP: 'UNPAID'
-            //         },
-            //         cap_sign: {
-            //         sign_daily: true,
-            //         sign_target: 7,
-            //         sign_daily_reward: 20971520,
-            //         sign_progress: 1,
-            //         sign_rewards: [Array]
-            //         },
-            //         cap_composition: {
-            //         other: ,
-            //         member_own: ,
-            //         sign_reward: 2600468480
-            //         },
-            //         total_capacity: 
-            //     },
-            //     metadata: {}
-            // }
-
-            try{
-                // 41943040 -> 40MB
-                reward = resp["data"]["cap_sign"]["sign_daily_reward"] / (1024 * 1024)
-                // console.log(reward)
-                cur_total_sign_day = resp["data"]["cap_growth"]["cur_total_sign_day"] // 总签到天数
-                sign_progress = resp["data"]["cap_sign"]["sign_progress"] // 当周签到天数
-                content = "🎉 " + "总签" + cur_total_sign_day + "天" + ",周签" + sign_progress + "天,获"  + String(reward) + "MB\n";
-                messageSuccess += content
-                // console.log(content)
-            }catch{
-                content = "❌ " + "账号可能未登录，请重新登录\n"
-                messageFail += content
-                // messageSuccess += "帐号：" + messageName + "已经签到过了,奖励容量"  + String(number) + "MB";
-                // console.log(content)
-                
-                // 青龙适配，青龙微适配
-                flagResultFinish = 1; // 签到结束
-
-            }
-
-            // 青龙适配，青龙微适配
-            flagResultFinish = 1; // 签到结束
-        }
-            
-        //   }
-      }
-      
-    // } else {
-    // //   console.log(resp.text());
-    //   messageFail += "帐号：" + messageName + "签到失败 ";
-    //   console.log("帐号：" + messageName + "签到失败 ");
-    // }
-
-
+    sleep(2000);
     if (messageOnlyError == 1) {
         messageArray[posLabel] = messageFail;
     } else {
@@ -589,35 +442,31 @@ function execHandle(cookie, pos) {
     qlpushFlag -= 1 // 一个用户只会执行一次execHandle，因此可用于记录当前用户
     messageSuccess = "";
     messageFail = "";
-    
+
   // try {
-    let url1 = "https://drive-m.quark.cn/1/clouddrive/capacity/growth/info?pr=ucpro&fr=pc&uc_param_str="; // 查询是否签到
-    
+    url = "https://act.10010.com/SigninApp/signin/daySign";
     headers = {
       "Cookie": cookie,
-      "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/46.0.2486.0 Safari/537.36 Edge/13.10586"
+      "User-Agent": "Mozilla/5.0 (Linux; Android 14; 21121210C Build/UKQ1.230917.001; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/118.0.0.0 Mobile Safari/537.36; unicom{version:android@11.0500,desmobile:0};devicetype{deviceBrand:Xiaomi,deviceModel:21121210C}",
+      "Host": "act.10010.com",
     };
 
-    if(qlSwitch != 1){  // 金山文档
-        resp = HTTP.fetch(url1, {
-            method: "get",
-            headers: headers,
-            // data: data
-        });
-    }else{  // 青龙
-        data = {}
-        option = "get"
-        resp = HTTP.post(
-            url1,
-            data,
-            { headers: headers },
-            option
-        );
+    // let resp = HTTP.fetch(url, {
+    //   method: "post",
+    //   headers: headers,
+    // });
+    data = {
     }
+      resp = HTTP.post(
+        url,
+        data,
+        { headers: headers }
+    );
 
-    // 青龙适配，青龙微适配
+   
+
+
     if(qlSwitch != 1){  // 选择金山文档
         resultHandle(resp, pos)
     }
-    
 }
