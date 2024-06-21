@@ -1,5 +1,5 @@
 // golo汽修大师自动签到
-// 20240620
+// 20240621
 
 let sheetNameSubConfig = "golo"; // 分配置表名称
 let pushHeader = "【golo汽修大师】";
@@ -32,100 +32,17 @@ var jsonEmail = {
   authorizationCode: "",
 }; // 有效邮箱配置
 
-flagConfig = ActivateSheet(sheetNameConfig); // 激活推送表
-// 主配置工作表存在
-if (flagConfig == 1) {
-  console.log("🍳 开始读取主配置表");
-  let name; // 名称
-  let onlyError;
-  let nickname;
-  for (let i = 2; i <= 100; i++) {
-    // 从工作表中读取推送数据
-    name = Application.Range("A" + i).Text;
-    onlyError = Application.Range("C" + i).Text;
-    nickname = Application.Range("D" + i).Text;
-    if (name == "") {
-      // 如果为空行，则提前结束读取
-      break; // 提前退出，提高效率
-    }
-    if (name == sheetNameSubConfig) {
-      if (onlyError == "是") {
-        messageOnlyError = 1;
-        console.log("🍳 只推送错误消息");
-      }
+// =================青龙适配开始===================
 
-      if (nickname == "是") {
-        messageNickname = 1;
-        console.log("🍳 单元格用昵称替代");
-      }
+qlSwitch = 0
 
-      break; // 提前退出，提高效率
-    }
-  }
-}
+// =================青龙适配结束===================
 
-flagPush = ActivateSheet(sheetNamePush); // 激活推送表
-// 推送工作表存在
-if (flagPush == 1) {
-  console.log("🍳 开始读取推送工作表");
-  let pushName; // 推送类型
-  let pushKey;
-  let pushFlag; // 是否推送标志
-  for (let i = 2; i <= line; i++) {
-    // 从工作表中读取推送数据
-    pushName = Application.Range("A" + i).Text;
-    pushKey = Application.Range("B" + i).Text;
-    pushFlag = Application.Range("C" + i).Text;
-    if (pushName == "") {
-      // 如果为空行，则提前结束读取
-      break;
-    }
-    jsonPushHandle(pushName, pushFlag, pushKey);
-  }
-  // console.log(jsonPush)
-}
-
-// 邮箱配置函数
-emailConfig();
-
-flagSubConfig = ActivateSheet(sheetNameSubConfig); // 激活分配置表
-if (flagSubConfig == 1) {
-  console.log("🍳 开始读取分配置表");
-  for (let i = 2; i <= line; i++) {
-    var cookie = Application.Range("A" + i).Text;
-    var exec = Application.Range("B" + i).Text;
-    if (cookie == "") {
-      // 如果为空行，则提前结束读取
-      break;
-    }
-    if (exec == "是") {
-      execHandle(cookie, i);
-    }
-  }
-
-  message = messageMerge()// 将消息数组融合为一条总消息
-  push(message); // 推送消息
-}
-
-// 将消息数组融合为一条总消息
-function messageMerge(){
-  for(i=0; i<messageArray.length; i++){
-    if(messageArray[i] != "" && messageArray[i] != null)
-    {
-      message += messageHeader[i] + messageArray[i] + " "; // 加上推送头
-    }
-  }
-  if(message != "")
-  {
-    console.log(message)  // 打印总消息
-  }
-  return message
-}
-
+// =================金山适配开始===================
 // 总推送
 function push(message) {
   if (message != "") {
-    message = messagePushHeader + message // 消息头最前方默认存放：【xxxx】
+    // message = messagePushHeader + message // 消息头最前方默认存放：【xxxx】
     let length = jsonPush.length;
     let name;
     let key;
@@ -155,20 +72,24 @@ function push(message) {
 
 // 推送bark消息
 function bark(message, key) {
-  if (key != "") {
-    let url = "https://api.day.app/" + key + "/" + message;
+    if (key != "") {
+      message = messagePushHeader + message // 消息头最前方默认存放：【xxxx】
+      message = encodeURIComponent(message)
+      BARK_ICON = "https://s21.ax1x.com/2024/06/21/pkDYtK0.png"
+    let url = "https://api.day.app/" + key + "/" + message + "/" + "?icon=" + BARK_ICON;
     // 若需要修改推送的分组，则将上面一行改为如下的形式
     // let url = 'https://api.day.app/' + bark_id + "/" + message + "?group=分组名";
     let resp = HTTP.get(url, {
-      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
     });
     sleep(5000);
-  }
+    }
 }
 
 // 推送pushplus消息
 function pushplus(message, key) {
   if (key != "") {
+      message = encodeURIComponent(message)
     // url = "http://www.pushplus.plus/send?token=" + key + "&content=" + message;
     url = "http://www.pushplus.plus/send?token=" + key + "&content=" + message + "&title=" + pushHeader;  // 增加标题
     let resp = HTTP.fetch(url, {
@@ -185,7 +106,7 @@ function serverchan(message, key) {
       "https://sctapi.ftqq.com/" +
       key +
       ".send" +
-      "?title=消息推送" +
+      "?title=" + messagePushHeader +
       "&desp=" +
       message;
     let resp = HTTP.fetch(url, {
@@ -260,36 +181,130 @@ function emailConfig() {
 
 // 推送钉钉机器人
 function dingtalk(message, key) {
+  message = messagePushHeader + message // 消息头最前方默认存放：【xxxx】
   let url = "https://oapi.dingtalk.com/robot/send?access_token=" + key;
   let resp = HTTP.post(url, { msgtype: "text", text: { content: message } });
   // console.log(resp.text())
   sleep(5000);
 }
+
 // 推送Discord机器人
 function discord(message, key) {
+  message = messagePushHeader + message // 消息头最前方默认存放：【xxxx】
   let url = key;
   let resp = HTTP.post(url, { content: message });
   //console.log(resp.text())
   sleep(5000);
 }
-function sleep(d) {
-  for (var t = Date.now(); Date.now() - t <= d; );
+
+// =================金山适配结束===================
+// =================共用开始===================
+flagConfig = ActivateSheet(sheetNameConfig); // 激活推送表
+// 主配置工作表存在
+if (flagConfig == 1) {
+  console.log("🍳 开始读取主配置表");
+  let name; // 名称
+  let onlyError;
+  let nickname;
+  for (let i = 2; i <= 100; i++) {
+    // 从工作表中读取推送数据
+    name = Application.Range("A" + i).Text;
+    onlyError = Application.Range("C" + i).Text;
+    nickname = Application.Range("D" + i).Text;
+    if (name == "") {
+      // 如果为空行，则提前结束读取
+      break; // 提前退出，提高效率
+    }
+    if (name == sheetNameSubConfig) {
+      if (onlyError == "是") {
+        messageOnlyError = 1;
+        console.log("🍳 只推送错误消息");
+      }
+
+      if (nickname == "是") {
+        messageNickname = 1;
+        console.log("🍳 单元格用昵称替代");
+      }
+
+      break; // 提前退出，提高效率
+    }
+  }
+}
+
+flagPush = ActivateSheet(sheetNamePush); // 激活推送表
+// 推送工作表存在
+if (flagPush == 1) {
+  console.log("🍳 开始读取推送工作表");
+  let pushName; // 推送类型
+  let pushKey;
+  let pushFlag; // 是否推送标志
+  for (let i = 2; i <= line; i++) {
+    // 从工作表中读取推送数据
+    pushName = Application.Range("A" + i).Text;
+    pushKey = Application.Range("B" + i).Text;
+    pushFlag = Application.Range("C" + i).Text;
+    if (pushName == "") {
+      // 如果为空行，则提前结束读取
+      break;
+    }
+    jsonPushHandle(pushName, pushFlag, pushKey);
+  }
+  // console.log(jsonPush)
+}
+
+// 邮箱配置函数
+emailConfig();
+
+flagSubConfig = ActivateSheet(sheetNameSubConfig); // 激活分配置表
+if (flagSubConfig == 1) {
+  console.log("🍳 开始读取分配置表");
+
+    if(qlSwitch != 1){  // 金山文档
+        for (let i = 2; i <= line; i++) {
+            var cookie = Application.Range("A" + i).Text;
+            var exec = Application.Range("B" + i).Text;
+            if (cookie == "") {
+                // 如果为空行，则提前结束读取
+                break;
+            }
+            if (exec == "是") {
+                execHandle(cookie, i);
+            }
+        }   
+        message = messageMerge()// 将消息数组融合为一条总消息
+        push(message); // 推送消息
+    }else{
+        for (let i = 2; i <= line; i++) {
+            var cookie = Application.Range("A" + i).Text;
+            var exec = Application.Range("B" + i).Text;
+            if (cookie == "") {
+                // 如果为空行，则提前结束读取
+                break;
+            }
+            if (exec == "是") {
+                console.log("🧑 开始执行用户：" + "1" )
+                execHandle(cookie, i);
+                break;  // 只取一个
+            }
+        } 
+    }
+
 }
 
 // 激活工作表函数
 function ActivateSheet(sheetName) {
-  let flag = 0;
-  try {
-    // 激活工作表
-    let sheet = Application.Sheets.Item(sheetName);
-    sheet.Activate();
-    console.log("🥚 激活工作表：" + sheet.Name);
-    flag = 1;
-  } catch {
-    flag = 0;
-    console.log("🍳 无法激活工作表，工作表可能不存在");
-  }
-  return flag;
+    let flag = 0;
+    try {
+      // 激活工作表
+      let sheet = Application.Sheets.Item(sheetName);
+      sheet.Activate();
+      console.log("🥚 激活工作表：" + sheet.Name);
+      flag = 1;
+    } catch {
+      flag = 0;
+      console.log("🍳 无法激活工作表，工作表可能不存在");
+    }
+    return flag;
 }
 
 // 对推送数据进行处理
@@ -304,6 +319,41 @@ function jsonPushHandle(pushName, pushFlag, pushKey) {
     }
   }
 }
+
+// 将消息数组融合为一条总消息
+function messageMerge(){
+    // console.log(messageArray)
+    let message = ""
+  for(i=0; i<messageArray.length; i++){
+    if(messageArray[i] != "" && messageArray[i] != null)
+    {
+      message += "\n" + messageHeader[i] + messageArray[i] + ""; // 加上推送头
+    }
+  }
+  if(message != "")
+  {
+    console.log("✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨")
+    console.log(message + "\n")  // 打印总消息
+    console.log("✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨")
+  }
+  return message
+}
+
+function sleep(d) {
+  for (var t = Date.now(); Date.now() - t <= d; );
+}
+
+// 获取sign，返回小写
+function getsign(data) {
+    var sign = Crypto.createHash("md5")
+        .update(data, "utf8")
+        .digest("hex")
+        // .toUpperCase() // 大写
+        .toString();
+    return sign;
+}
+
+// =================共用结束===================
 
 // cookie字符串转json格式
 function cookie_to_json(cookies) {
@@ -345,17 +395,6 @@ function getUUIDDigits(length) {
     return uuid.replace(/-/g, '').substr(16, length);
 }
  
-
-
-// 获取sign，返回小写
-function getsign(data) {
-  var sign = Crypto.createHash("md5")
-    .update(data, "utf8")
-    .digest("hex")
-    // .toUpperCase() // 大写
-    .toString();
-  return sign;
-}
 
 // 登录获取token
 function login(url, headers, data){
@@ -566,13 +605,17 @@ function execHandle(cookie, pos) {
 
   sleep(2000);
   if (messageOnlyError == 1) {
-    messageArray[posLabel] = messageFail;
+      messageArray[posLabel] = messageFail;
   } else {
-    messageArray[posLabel] = messageFail + " " + messageSuccess;
+      if(messageFail != ""){
+          messageArray[posLabel] = messageFail + " " + messageSuccess;
+      }else{
+          messageArray[posLabel] = messageSuccess;
+      }
   }
 
   if(messageArray[posLabel] != "")
   {
-    console.log(messageArray[posLabel]);
+      console.log(messageArray[posLabel]);
   }
 }

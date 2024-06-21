@@ -1,5 +1,5 @@
 // 中国移动云盘签到
-// 20240620
+// 20240621
 // 文中引用代码改编自公众号"Jerry不是猫"
 
 pushData = []
@@ -34,100 +34,17 @@ var jsonEmail = {
   authorizationCode: "",
 }; // 有效邮箱配置
 
-flagConfig = ActivateSheet(sheetNameConfig); // 激活推送表
-// 主配置工作表存在
-if (flagConfig == 1) {
-  console.log("🍳 开始读取主配置表");
-  let name; // 名称
-  let onlyError;
-  let nickname;
-  for (let i = 2; i <= 100; i++) {
-    // 从工作表中读取推送数据
-    name = Application.Range("A" + i).Text;
-    onlyError = Application.Range("C" + i).Text;
-    nickname = Application.Range("D" + i).Text;
-    if (name == "") {
-      // 如果为空行，则提前结束读取
-      break; // 提前退出，提高效率
-    }
-    if (name == sheetNameSubConfig) {
-      if (onlyError == "是") {
-        messageOnlyError = 1;
-        console.log("🍳 只推送错误消息");
-      }
+// =================青龙适配开始===================
 
-      if (nickname == "是") {
-        messageNickname = 1;
-        console.log("🍳 单元格用昵称替代");
-      }
+qlSwitch = 0
 
-      break; // 提前退出，提高效率
-    }
-  }
-}
+// =================青龙适配结束===================
 
-flagPush = ActivateSheet(sheetNamePush); // 激活推送表
-// 推送工作表存在
-if (flagPush == 1) {
-  console.log("🍳 开始读取推送工作表");
-  let pushName; // 推送类型
-  let pushKey;
-  let pushFlag; // 是否推送标志
-  for (let i = 2; i <= line; i++) {
-    // 从工作表中读取推送数据
-    pushName = Application.Range("A" + i).Text;
-    pushKey = Application.Range("B" + i).Text;
-    pushFlag = Application.Range("C" + i).Text;
-    if (pushName == "") {
-      // 如果为空行，则提前结束读取
-      break;
-    }
-    jsonPushHandle(pushName, pushFlag, pushKey);
-  }
-  // console.log(jsonPush)
-}
-
-// 邮箱配置函数
-emailConfig();
-
-flagSubConfig = ActivateSheet(sheetNameSubConfig); // 激活分配置表
-if (flagSubConfig == 1) {
-  console.log("🍳 开始读取分配置表");
-  for (let i = 2; i <= line; i++) {
-    var cookie = Application.Range("A" + i).Text;
-    var exec = Application.Range("B" + i).Text;
-    if (cookie == "") {
-      // 如果为空行，则提前结束读取
-      break;
-    }
-    if (exec == "是") {
-      execHandle(cookie, i);
-    }
-  }
-
-  message = messageMerge()// 将消息数组融合为一条总消息
-  push(message); // 推送消息
-}
-
-// 将消息数组融合为一条总消息
-function messageMerge(){
-  for(i=0; i<messageArray.length; i++){
-    if(messageArray[i] != "" && messageArray[i] != null)
-    {
-      message += messageHeader[i] + messageArray[i] + " "; // 加上推送头
-    }
-  }
-  if(message != "")
-  {
-    console.log(message)  // 打印总消息
-  }
-  return message
-}
-
+// =================金山适配开始===================
 // 总推送
 function push(message) {
   if (message != "") {
-    message = messagePushHeader + message // 消息头最前方默认存放：【xxxx】
+    // message = messagePushHeader + message // 消息头最前方默认存放：【xxxx】
     let length = jsonPush.length;
     let name;
     let key;
@@ -157,20 +74,24 @@ function push(message) {
 
 // 推送bark消息
 function bark(message, key) {
-  if (key != "") {
-    let url = "https://api.day.app/" + key + "/" + message;
+    if (key != "") {
+      message = messagePushHeader + message // 消息头最前方默认存放：【xxxx】
+      message = encodeURIComponent(message)
+      BARK_ICON = "https://s21.ax1x.com/2024/06/21/pkDYtK0.png"
+    let url = "https://api.day.app/" + key + "/" + message + "/" + "?icon=" + BARK_ICON;
     // 若需要修改推送的分组，则将上面一行改为如下的形式
     // let url = 'https://api.day.app/' + bark_id + "/" + message + "?group=分组名";
     let resp = HTTP.get(url, {
-      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
     });
     sleep(5000);
-  }
+    }
 }
 
 // 推送pushplus消息
 function pushplus(message, key) {
   if (key != "") {
+      message = encodeURIComponent(message)
     // url = "http://www.pushplus.plus/send?token=" + key + "&content=" + message;
     url = "http://www.pushplus.plus/send?token=" + key + "&content=" + message + "&title=" + pushHeader;  // 增加标题
     let resp = HTTP.fetch(url, {
@@ -187,7 +108,7 @@ function serverchan(message, key) {
       "https://sctapi.ftqq.com/" +
       key +
       ".send" +
-      "?title=消息推送" +
+      "?title=" + messagePushHeader +
       "&desp=" +
       message;
     let resp = HTTP.fetch(url, {
@@ -262,36 +183,130 @@ function emailConfig() {
 
 // 推送钉钉机器人
 function dingtalk(message, key) {
+  message = messagePushHeader + message // 消息头最前方默认存放：【xxxx】
   let url = "https://oapi.dingtalk.com/robot/send?access_token=" + key;
   let resp = HTTP.post(url, { msgtype: "text", text: { content: message } });
   // console.log(resp.text())
   sleep(5000);
 }
+
 // 推送Discord机器人
 function discord(message, key) {
+  message = messagePushHeader + message // 消息头最前方默认存放：【xxxx】
   let url = key;
   let resp = HTTP.post(url, { content: message });
   //console.log(resp.text())
   sleep(5000);
 }
-function sleep(d) {
-  for (var t = Date.now(); Date.now() - t <= d; );
+
+// =================金山适配结束===================
+// =================共用开始===================
+flagConfig = ActivateSheet(sheetNameConfig); // 激活推送表
+// 主配置工作表存在
+if (flagConfig == 1) {
+  console.log("🍳 开始读取主配置表");
+  let name; // 名称
+  let onlyError;
+  let nickname;
+  for (let i = 2; i <= 100; i++) {
+    // 从工作表中读取推送数据
+    name = Application.Range("A" + i).Text;
+    onlyError = Application.Range("C" + i).Text;
+    nickname = Application.Range("D" + i).Text;
+    if (name == "") {
+      // 如果为空行，则提前结束读取
+      break; // 提前退出，提高效率
+    }
+    if (name == sheetNameSubConfig) {
+      if (onlyError == "是") {
+        messageOnlyError = 1;
+        console.log("🍳 只推送错误消息");
+      }
+
+      if (nickname == "是") {
+        messageNickname = 1;
+        console.log("🍳 单元格用昵称替代");
+      }
+
+      break; // 提前退出，提高效率
+    }
+  }
+}
+
+flagPush = ActivateSheet(sheetNamePush); // 激活推送表
+// 推送工作表存在
+if (flagPush == 1) {
+  console.log("🍳 开始读取推送工作表");
+  let pushName; // 推送类型
+  let pushKey;
+  let pushFlag; // 是否推送标志
+  for (let i = 2; i <= line; i++) {
+    // 从工作表中读取推送数据
+    pushName = Application.Range("A" + i).Text;
+    pushKey = Application.Range("B" + i).Text;
+    pushFlag = Application.Range("C" + i).Text;
+    if (pushName == "") {
+      // 如果为空行，则提前结束读取
+      break;
+    }
+    jsonPushHandle(pushName, pushFlag, pushKey);
+  }
+  // console.log(jsonPush)
+}
+
+// 邮箱配置函数
+emailConfig();
+
+flagSubConfig = ActivateSheet(sheetNameSubConfig); // 激活分配置表
+if (flagSubConfig == 1) {
+  console.log("🍳 开始读取分配置表");
+
+    if(qlSwitch != 1){  // 金山文档
+        for (let i = 2; i <= line; i++) {
+            var cookie = Application.Range("A" + i).Text;
+            var exec = Application.Range("B" + i).Text;
+            if (cookie == "") {
+                // 如果为空行，则提前结束读取
+                break;
+            }
+            if (exec == "是") {
+                execHandle(cookie, i);
+            }
+        }   
+        message = messageMerge()// 将消息数组融合为一条总消息
+        push(message); // 推送消息
+    }else{
+        for (let i = 2; i <= line; i++) {
+            var cookie = Application.Range("A" + i).Text;
+            var exec = Application.Range("B" + i).Text;
+            if (cookie == "") {
+                // 如果为空行，则提前结束读取
+                break;
+            }
+            if (exec == "是") {
+                console.log("🧑 开始执行用户：" + "1" )
+                execHandle(cookie, i);
+                break;  // 只取一个
+            }
+        } 
+    }
+
 }
 
 // 激活工作表函数
 function ActivateSheet(sheetName) {
-  let flag = 0;
-  try {
-    // 激活工作表
-    let sheet = Application.Sheets.Item(sheetName);
-    sheet.Activate();
-    console.log("🥚 激活工作表：" + sheet.Name);
-    flag = 1;
-  } catch {
-    flag = 0;
-    console.log("🍳 无法激活工作表，工作表可能不存在");
-  }
-  return flag;
+    let flag = 0;
+    try {
+      // 激活工作表
+      let sheet = Application.Sheets.Item(sheetName);
+      sheet.Activate();
+      console.log("🥚 激活工作表：" + sheet.Name);
+      flag = 1;
+    } catch {
+      flag = 0;
+      console.log("🍳 无法激活工作表，工作表可能不存在");
+    }
+    return flag;
 }
 
 // 对推送数据进行处理
@@ -307,58 +322,41 @@ function jsonPushHandle(pushName, pushFlag, pushKey) {
   }
 }
 
-// cookie字符串转json格式
-function cookie_to_json(cookies) {
-  var cookie_text = cookies;
-  var arr = [];
-  var text_to_split = cookie_text.split(";");
-  for (var i in text_to_split) {
-    var tmp = text_to_split[i].split("=");
-    arr.push('"' + tmp.shift().trim() + '":"' + tmp.join(":").trim() + '"');
+// 将消息数组融合为一条总消息
+function messageMerge(){
+    // console.log(messageArray)
+    let message = ""
+  for(i=0; i<messageArray.length; i++){
+    if(messageArray[i] != "" && messageArray[i] != null)
+    {
+      message += "\n" + messageHeader[i] + messageArray[i] + ""; // 加上推送头
+    }
   }
-  var res = "{\n" + arr.join(",\n") + "\n}";
-  return JSON.parse(res);
+  if(message != "")
+  {
+    console.log("✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨")
+    console.log(message + "\n")  // 打印总消息
+    console.log("✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨")
+  }
+  return message
 }
 
-// 获取10 位时间戳
-function getts10() {
-  var ts = Math.round(new Date().getTime() / 1000).toString();
-  return ts;
+function sleep(d) {
+  for (var t = Date.now(); Date.now() - t <= d; );
 }
-
-// 获取13位时间戳
-function getts13(){
-  // var ts = Math.round(new Date().getTime()/1000).toString()  // 获取10 位时间戳
-  let ts = new Date().getTime()
-  return ts
-}
-
-// 符合UUID v4规范的随机字符串 b9ab98bb-b8a9-4a8a-a88a-9aab899a88b9
-function generateUUID() {
-  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-    var r = Math.random() * 16 | 0,
-        v = c === 'x' ? r : (r & 0x3 | 0x8);
-    return v.toString(16);
-  });
-}
-
-function getUUIDDigits(length) {
-    var uuid = generateUUID();
-    return uuid.replace(/-/g, '').substr(16, length);
-}
- 
-
 
 // 获取sign，返回小写
 function getsign(data) {
-  var sign = Crypto.createHash("md5")
-    .update(data, "utf8")
-    .digest("hex")
-    // .toUpperCase() // 大写
-    .toString();
-  return sign;
+    var sign = Crypto.createHash("md5")
+        .update(data, "utf8")
+        .digest("hex")
+        // .toUpperCase() // 大写
+        .toString();
+    return sign;
 }
 
+// =================共用结束===================
+ 
 // 引用开始
 function randomHex(length, pad = "-") {
         return Array.isArray(length) ? length.map((l)=>randomHex(l, pad)).join(pad) : Array.from({
@@ -999,8 +997,9 @@ function randomHex(length, pad = "-") {
     function _taskExpansion($, timer = 1) {
         let { curMonthBackup, curMonthTaskRecordCount, acceptDate, nextMonthTaskRecordCount } = request($, $.api.getTaskExpansion, "\u83B7\u53D6\u5907\u4EFD\u989D\u5916\u5956\u52B1");
         if (curMonthBackup === !1) {
-            if (timer > 0) return backFile($), $.logger.debug("\u7B49\u5F85\u4E00\u6BB5\u65F6\u95F4\u540E\u91CD\u8BD5"), $.sleep($.config.backupWaitTime * 1e3), _taskExpansion($, --timer);
-            $.logger.warn("\u672C\u6708\u672A\u5F00\u542F\u5907\u4EFD\uFF0C\u5C06\u65E0\u6CD5\u83B7\u53D6\u7FFB\u500D\u5956\u52B1\uFF01\uFF01\uFF01\u9700\u8981\u624B\u52A8\u5F00\u542F"), $.store.curMonthBackup = !1;
+            // 关闭文件备份
+            // if (timer > 0) return backFile($), $.logger.debug("\u7B49\u5F85\u4E00\u6BB5\u65F6\u95F4\u540E\u91CD\u8BD5"), $.sleep($.config.backupWaitTime * 1e3), _taskExpansion($, --timer);
+            // $.logger.warn("\u672C\u6708\u672A\u5F00\u542F\u5907\u4EFD\uFF0C\u5C06\u65E0\u6CD5\u83B7\u53D6\u7FFB\u500D\u5956\u52B1\uFF01\uFF01\uFF01\u9700\u8981\u624B\u52A8\u5F00\u542F"), $.store.curMonthBackup = !1;
         }
         if (curMonthTaskRecordCount > 0) {
             let { cloudCount } = request($, $.api.receiveTaskExpansion, "\u9886\u53D6\u7FFB\u500D\u5956\u52B1", acceptDate);
@@ -1537,12 +1536,12 @@ function randomHex(length, pad = "-") {
         try {
             let specToken = $.api.querySpecToken(phone);
             if (!specToken.success) {
-                $.logger.error("\u83B7\u53D6 ssoToken \u5931\u8D25", specToken.message);
+                // $.logger.error("\u83B7\u53D6 ssoToken \u5931\u8D25", specToken.message);
                 return;
             }
             return specToken.data.token;
         } catch (error) {
-            $.logger.error("\u83B7\u53D6 ssoToken \u5F02\u5E38", error.message);
+            // $.logger.error("\u83B7\u53D6 ssoToken \u5F02\u5E38", error.message);
         }
     }
     function loginEmail($) {
@@ -2366,7 +2365,7 @@ ${text}`
             // newAuth && (console.log("🍳 \u66F4\u65B0 auth \u6210\u529F"), cell.Text.length === 11 ? BColumn.Rows(i).Value = newAuth : AColumn.Rows(i).Value = newAuth);
             newAuth
         } catch (error) {
-            console.log(error.message);
+            // console.log(error.message);
         }
     }
 // 引用结束
@@ -2403,8 +2402,11 @@ function execHandle(cookie, pos) {
     i = 0
 
     runMain(i, cell)
-    console.log(pushData)
+    // console.log(pushData)
     msg = ""
+    errormsg = ""
+    countInfo = 0 // 计算info次数，如果为一次或0次说明失败
+    countError = 0  // 计算error次数
     for(i = 0; i<pushData.length; i++)
     {
       // console.log(pushData[i]["msg"])
@@ -2412,10 +2414,16 @@ function execHandle(cookie, pos) {
         type = pushData[i]["type"]
         if(type == "info")
         {
-          msg += pushData[i]["msg"] + " "
+          if(countInfo == 0){
+            msg += "" + pushData[i]["msg"] + ""
+          }else{
+            msg += "\n🎉 " + pushData[i]["msg"] + ""
+          }
+          countInfo += 1
         }else
         {
-          console.log(pushData[i]["msg"])
+          errormsg += "\n📢 " + pushData[i]["msg"] + ""
+          // console.log(pushData[i]["msg"])
         }
         
       }catch{
@@ -2423,8 +2431,18 @@ function execHandle(cookie, pos) {
       }
       
     }
-    console.log( "🎉" + msg)
-    messageSuccess += "🎉" + msg + "\n"
+    // console.log(msg)
+    if(countInfo <= 1){
+      messageSuccess += ""
+      if(countInfo == 1){ // 有一个说明是用户的电话
+        messageFail += "❌ " +  msg + "失败"
+      }
+    }else{
+      messageSuccess += "" + msg + ""
+      messageFail += "" + errormsg + ""
+    }
+    
+    
     
     // messageSuccess += msg[0]
     // messageFail += msg[1]
@@ -2446,14 +2464,18 @@ function execHandle(cookie, pos) {
   // console.log(messageSuccess)
   sleep(2000);
   if (messageOnlyError == 1) {
-    messageArray[posLabel] = messageFail;
+      messageArray[posLabel] = messageFail;
   } else {
-    messageArray[posLabel] = messageFail + " " + messageSuccess;
+      if(messageFail != ""){
+          messageArray[posLabel] = messageFail + " " + messageSuccess;
+      }else{
+          messageArray[posLabel] = messageSuccess;
+      }
   }
 
   if(messageArray[posLabel] != "")
   {
-    console.log(messageArray[posLabel]);
+      console.log(messageArray[posLabel]);
   }
 }
 
