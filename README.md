@@ -45,57 +45,57 @@
 
 ## 🧾 签到列表
 
-🟢: 正常 🔴: 不可用 🟡: 待测 🟤: 随缘
+🟢: 正常 🔴: 失效 🟡: 待测 🟤: 随缘
 
-| 状态 | 终端 | 任务名称 | 名称 | 脚本 | 检查日期 |备注 |
+| 状态 | 终端 | 名称 | 脚本 | 检查日期 |备注 |
 | :---: | :---: | :---: | :---: | :---: | :---: |:---: |
-| 🟢️ | WEB | 阿里云盘(多用户版)  | https://www.aliyundrive.com | aliyundrive_multiuser.js | 2024-04-14 | 签到、自动领取首个任务奖励 |
-| 🟢️ | WEB | 百度贴吧 | https://tieba.baidu.com | tieba.js | 2024-06-20 | 签到、只能签6个左右 |
-| 🔴 | WEB | 吾爱论坛 | https://www.52pojie.cn | 52pojie.js | 2023-08-26 | 签到 |
-| 🟢️ | WEB | 有道云笔记 | https://note.youdao.com/ | noteyoudao.js | 2023-08-08 | 签到、领取空间 |
-| 🟤 | APP | WPS(轻量版) | https://vip.wps.cn/ | wps_light.js | 2023-07-31 | 适用于手机端签到，不具备绕验证码功能 |
-| 🔴 | PC  | WPS(客户端版) | https://vip.wps.cn/ | wps_client.js | 2023-07-31 | 适用于PC端签到，需要手动兑换奖励 |
-| 🔴 | wx  | WPS(稻壳版) | https://vip.wps.cn/ | wps_docker.js | 2024-05-16 | 适用于稻壳，自动领取和保存每日PPT |
-| 🔴 | WEB | 网易云游戏 | https://cg.163.com/ | wangyiyungame.js | 2023-08-26 | 签到 |
-| 🟢️ | WEB | 什么值得买 | https://www.smzdm.com/ | smzdm.js | 2024-06-20 | 抽奖的碎银子 |
-| 🟢️ | WEB | 在线工具 | https://tool.lu/ | toolu.js | 2024-06-20 | 签到获取积分 |
-| 🔴 | wx  | 像素蛋糕 | 像素蛋糕AI修图呀 | cake.js | 2023-08-08 | 签到 |
-| 🔴 | wx  | 甜润世界 | 甜润世界 | tianrun.js | 2023-08-08 | 签到 |
-| 🔴 | APP | 叮咚买菜-叮咚果园 | 叮咚买菜 | ddmy_ddgy.js | 2023-11-21 | 领积分、签到、浇水 |
-| 🟢️ | APP | 叮咚买菜-叮咚鱼塘 | 叮咚买菜 | ddmy_ddyt.js | 2024-06-20 | 领积分、签到、喂饲料 |
-| 🔴 | APP | 时光相册 | 时光相册 | everphoto.js | 2023-08-15 | 签到、领空间 |
-| 🔴 | APP | 北京时间 | 北京时间 | btime.js | 2023-08-26 | 签到、领时间币 |
-| 🟢️ | APP | AcFun | AcFun | acfun.js | 2024-06-20 | 签到得香蕉 |
-| 🟢️ | APP | 喜马拉雅 | 喜马拉雅 | xmly.js | 2024-06-20 | 签到 |
-| 🔴 | WEB | ios游戏迷 | https://yuchen.tonghuaios.com/ | tonghua.js | 2023-12-26 | 签到得积分 |
-| 🟢️ | APP | 希沃白板 | 希沃白板 | easinote.js | 2024-06-21 | 签到得空间 |
-| 🟢️ | APP | 小木虫 | 小木虫 | xmc.js | 2024-06-20 | 签到得金币 |
-| 🟢️ | WEB | 夸克网盘 | https://pan.quark.cn/ | quark.js | 2024-06-20 | 签到得空间 |
-| 🟢️ | APP | 葫芦侠3楼 | 葫芦侠3楼 | huluxia.js | 2024-06-20 | 板块签到 |
-| 🔴 | WEB | 爱奇艺 | https://www.iqiyi.com | iqiyi.js | 2024-05-11 | 签到，白金抽奖,做任务得成长值 |
-| 🟢️ | WEB | 中兴社区 | https://bbs.ztedevices.com/ | ztebbs.js | 2024-06-20 | 签到,得经验和流星 |
-| 🟢️ | APP | 小米商城 | 小米商城 | mi.js | 2024-06-20 | 签到,得米金 |
-| 🟢️ | WEB | 看雪论坛 | https://bbs.kanxue.com/ | kanxue.js | 2024-06-20 | 签到,得雪币 |
-| 🟢️ | WEB | 哔哩哔哩 | https://www.bilibili.com/ | bilibili.js | 2024-06-20 | 直播签到,得经验、辣条和银瓜子 |
-| 🟢️ | APP | vivo社区 | https://bbs.vivo.com.cn/newbbs/ | vivo.js | 2024-06-20 | 签到得积分,抽奖 |
-| 🟢️ | WEB | 中国移动云盘 | https://yun.139.com/ | caiyun.js | 2024-05-26 | 签到得彩云,做任务 |
-| 🟢️ | wx  | WPS(打卡版) | https://vip.wps.cn/ | wps_daka.js | 2024-06-20 | 金山文档微信小程序报名和打卡，领取权益 |
-| 🟢️ | APP | 天翼云盘 | 天翼云盘 | tianyi.js | 2024-06-20 | 签到空间，抽奖 |
-| 🟢️ | WEB | 阿里云盘(自动更新token版)  | https://www.aliyundrive.com | aliyun.js | 2024-06-20 | 签到，领取奖励（已无法自动领奖励），领取备份奖励 |
-| 🟢️ | WEB | 宽带技术网  | https://www.chinadsl.net/| chinadsl.js | 2024-06-20 | 签到得积分、做任务、领取猫粮 |
-| 🟢️ | APP | golo汽修大师  | golo汽修大师 | golo.js | 2024-06-20 | 签到得积分,自动更新token |
-| 🔴 | APP | 海信爱家  | 海信爱家 | hxaj.js | 2024-05-11 | 签到得积分,自动更新token |
-| 🟢️ | APP | 中国联通  | 中国联通 | zglt.js | 2024-06-20 | 签到 |
-| 🟢️ | WEB | 中兴商城 | https://www.ztemall.com/cn/ | ztemall.js | 2024-06-21| 签到、做任务,得积分 |
-| 🟢️ | WEB | 万能福利吧 | https://www.wnflb2023.com/ | wnflb.js | 2024-06-12 | 签到,得积分 |
-| 🟢️ | wx  | 百事可乐上海 | 百事可乐上海 | bsklsh.js | 2024-06-14 | 签到,得积分 |
-| 🔴 | APP | 京东 | 京东 | jd.js | 2024-06-02 | 签到 |
-| 🟢️ | WEB | 废文 | 废文 | fwxs.js | 2024-06-21 | 签到 |
-| 🟢️ | wx  | 鸿星尔克 | 鸿星尔克 | hxek.js | 2024-06-21 | 签到,得积分 |
-| 🟢️ | WEB | 菁优网 | 菁优网 | jyw.js | 2024-06-12 | 签到 |
-| 🔴 | APP | 一点万象 | 一点万象 | ydwx.js | 2024-06-12 | 签到 |
-| 🔴 | APP | 飞客茶馆 | 飞客茶馆 | flyert.js | 2024-06-21 | 签到 |
-| 🟢️ | APP | 钉钉AI | 钉钉AI | ql_ddai.js | 2024-06-21 | 签到 |
+| 🔴 | WEB | 阿里云盘(多用户版)  | aliyundrive_multiuser.js | 2024-04-14 | 签到、自动领取首个任务奖励 |
+| 🟢️ | WEB | 百度贴吧 | tieba.js | 2024-06-20 | 签到、只能签6个左右 |
+| 🔴 | WEB | 吾爱论坛 | 52pojie.js | 2023-08-26 | 签到 |
+| 🟢️ | WEB | 有道云笔记 | noteyoudao.js | 2023-08-08 | 签到、领取空间 |
+| 🟤 | APP | WPS(轻量版) | wps_light.js | 2023-07-31 | 适用于手机端签到，不具备绕验证码功能 |
+| 🔴 | PC  | WPS(客户端版) | wps_client.js | 2023-07-31 | 适用于PC端签到，需要手动兑换奖励 |
+| 🔴 | wx  | WPS(稻壳版) | wps_docker.js | 2024-05-16 | 适用于稻壳，自动领取和保存每日PPT |
+| 🔴 | WEB | 网易云游戏 | ql_wangyiyungame.js | 2023-08-26 | 签到 |
+| 🟢️ | WEB | 什么值得买 | ql_smzdm.js | 2024-06-20 | 抽奖的碎银子 |
+| 🟢️ | WEB | 在线工具 | ql_toollu.js | 2024-06-20 | 签到获取积分 |
+| 🔴 | wx  | 像素蛋糕 | cake.js | 2023-08-08 | 签到 |
+| 🔴 | wx  | 甜润世界 | tianrun.js | 2023-08-08 | 签到 |
+| 🔴 | APP | 叮咚买菜-叮咚果园 | ddmy_ddgy.js | 2023-11-21 | 领积分、签到、浇水 |
+| 🟢️ | APP | 叮咚买菜-叮咚鱼塘 | ddmy_ddyt.js | 2024-06-20 | 领积分、签到、喂饲料 |
+| 🔴 | APP | 时光相册 | everphoto.js | 2023-08-15 | 签到、领空间 |
+| 🔴 | APP | 北京时间 | btime.js | 2023-08-26 | 签到、领时间币 |
+| 🟢️ | APP | AcFun | ql_acfun.js | 2024-06-20 | 签到得香蕉 |
+| 🟢️ | APP | 喜马拉雅 | ql_xmly.js | 2024-06-20 | 签到 |
+| 🔴 | WEB | ios游戏迷 | tonghua.js | 2023-12-26 | 签到得积分 |
+| 🟢️ | APP | 希沃白板 | ql_easinote.js | 2024-06-21 | 签到得空间 |
+| 🟢️ | APP | 小木虫 | ql_xmc.js | 2024-06-20 | 签到得金币 |
+| 🟢️ | WEB | 夸克网盘 | ql_quark.js | 2024-06-20 | 签到得空间 |
+| 🟢️ | APP | 葫芦侠3楼 | huluxia.js | 2024-06-20 | 板块签到 |
+| 🔴 | WEB | 爱奇艺 | iqiyi.js | 2024-05-11 | 签到，白金抽奖,做任务得成长值 |
+| 🟢️ | WEB | 中兴社区 | ql_ztebbs.js | 2024-06-20 | 签到,得经验和流星 |
+| 🟢️ | APP | 小米商城 | ql_mi.js | 2024-06-20 | 签到,得米金 |
+| 🟢️ | WEB | 看雪论坛 | ql_kanxue.js | 2024-06-20 | 签到,得雪币 |
+| 🟢️ | WEB | 哔哩哔哩 | ql_bilibili.js | 2024-06-20 | 直播签到,得经验、辣条和银瓜子 |
+| 🟢️ | APP | vivo社区 | vivo.js | 2024-06-20 | 签到得积分,抽奖 |
+| 🟢️ | WEB | 中国移动云盘 | caiyun.js | 2024-05-26 | 签到得彩云,做任务 |
+| 🟢️ | wx  | WPS(打卡版) | ql_wps_daka.js | 2024-06-20 | 金山文档微信小程序报名和打卡，领取权益 |
+| 🟢️ | APP | 天翼云盘 | tianyi.js | 2024-06-20 | 签到空间，抽奖 |
+| 🟢️ | WEB | 阿里云盘(自动更新token版)  | aliyun.js | 2024-06-20 | 签到，领取奖励（已无法自动领奖励），领取备份奖励 |
+| 🟢️ | WEB | 宽带技术网 | chinadsl.js | 2024-06-20 | 签到得积分、做任务、领取猫粮 |
+| 🟢️ | APP | golo汽修大师 | ql_golo.js | 2024-06-20 | 签到得积分,自动更新token |
+| 🔴 | APP | 海信爱家 | hxaj.js | 2024-05-11 | 签到得积分,自动更新token |
+| 🟢️ | APP | 中国联通 | ql_zglt.js | 2024-06-20 | 签到 |
+| 🟢️ | WEB | 中兴商城 | ztemall.js | 2024-06-21| 签到、做任务,得积分 |
+| 🟢️ | WEB | 万能福利吧 | wnflb.js | 2024-06-12 | 签到,得积分 |
+| 🟢️ | wx  | 百事可乐上海 | ql_bsklsh.js | 2024-06-14 | 签到,得积分 |
+| 🔴 | APP | 京东 | jd.js | 2024-06-02 | 签到 |
+| 🟢️ | WEB | 废文 | ql_fwxs.js | 2024-06-21 | 签到 |
+| 🟢️ | wx  | 鸿星尔克 | ql_hxek.js | 2024-06-21 | 签到,得积分 |
+| 🟢️ | WEB | 菁优网 | jyw.js | 2024-06-12 | 签到 |
+| 🔴 | APP | 一点万象 | ydwx.js | 2024-06-12 | 签到 |
+| 🟤 | APP | 飞客茶馆 | ql_flyert.js | 2024-06-21 | 签到 |
+| 🟢️ | APP | 钉钉AI | ql_ddai.js | 2024-06-21 | 签到 |
 
 ## 💬 金山文档支持的通知列表
 - Bark（iOS）
