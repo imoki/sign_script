@@ -68,7 +68,7 @@
 | 🟢️ | APP | AcFun | AcFun | acfun.js | 2024-06-20 | 签到得香蕉 |
 | 🟢️ | APP | 喜马拉雅 | 喜马拉雅 | xmly.js | 2024-06-20 | 签到 |
 | 🔴 | WEB | ios游戏迷 | https://yuchen.tonghuaios.com/ | tonghua.js | 2023-12-26 | 签到得积分 |
-| 🟢️ | APP | 希沃白板 | 希沃白板 | easinote.js | 2024-06-20 | 签到得空间 |
+| 🟢️ | APP | 希沃白板 | 希沃白板 | easinote.js | 2024-06-21 | 签到得空间 |
 | 🟢️ | APP | 小木虫 | 小木虫 | xmc.js | 2024-06-20 | 签到得金币 |
 | 🟢️ | WEB | 夸克网盘 | https://pan.quark.cn/ | quark.js | 2024-06-20 | 签到得空间 |
 | 🟢️ | APP | 葫芦侠3楼 | 葫芦侠3楼 | huluxia.js | 2024-06-20 | 板块签到 |
@@ -86,16 +86,16 @@
 | 🟢️ | APP | golo汽修大师  | golo汽修大师 | golo.js | 2024-06-20 | 签到得积分,自动更新token |
 | 🔴 | APP | 海信爱家  | 海信爱家 | hxaj.js | 2024-05-11 | 签到得积分,自动更新token |
 | 🟢️ | APP | 中国联通  | 中国联通 | zglt.js | 2024-06-20 | 签到 |
-| 🟢️ | WEB | 中兴商城 | https://www.ztemall.com/cn/ | ztemall.js | 2024-06-20| 签到、做任务,得积分 |
+| 🟢️ | WEB | 中兴商城 | https://www.ztemall.com/cn/ | ztemall.js | 2024-06-21| 签到、做任务,得积分 |
 | 🟢️ | WEB | 万能福利吧 | https://www.wnflb2023.com/ | wnflb.js | 2024-06-12 | 签到,得积分 |
 | 🟢️ | wx  | 百事可乐上海 | 百事可乐上海 | bsklsh.js | 2024-06-14 | 签到,得积分 |
 | 🔴 | APP | 京东 | 京东 | jd.js | 2024-06-02 | 签到 |
-| 🟢️ | WEB | 废文 | 废文 | fwxs.js | 2024-06-20 | 签到 |
-| 🟢️ | wx  | 鸿星尔克 | 鸿星尔克 | hxek.js | 2024-06-20 | 签到,得积分 |
+| 🟢️ | WEB | 废文 | 废文 | fwxs.js | 2024-06-21 | 签到 |
+| 🟢️ | wx  | 鸿星尔克 | 鸿星尔克 | hxek.js | 2024-06-21 | 签到,得积分 |
 | 🟢️ | WEB | 菁优网 | 菁优网 | jyw.js | 2024-06-12 | 签到 |
 | 🔴 | APP | 一点万象 | 一点万象 | ydwx.js | 2024-06-12 | 签到 |
-| 🔴 | APP | 飞客茶馆 | 飞客茶馆 | flyert.js | 2024-06-20 | 签到 |
-| 🟢️ | APP | 钉钉AI | 钉钉AI | ql_ddai.js | 2024-06-20 | 签到 |
+| 🔴 | APP | 飞客茶馆 | 飞客茶馆 | flyert.js | 2024-06-21 | 签到 |
+| 🟢️ | APP | 钉钉AI | 钉钉AI | ql_ddai.js | 2024-06-21 | 签到 |
 
 ## 💬 金山文档支持的通知列表
 - Bark（iOS）

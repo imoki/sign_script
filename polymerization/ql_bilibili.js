@@ -2,7 +2,7 @@
     name: "哔哩哔哩"
     cron: 10 30 12 * * *
     脚本兼容: 金山文档， 青龙
-    更新时间：20240620
+    更新时间：20240621
 */
 
 const logo = "艾默库 : https://github.com/imoki/sign_script"    // 仓库地址
@@ -50,7 +50,7 @@ var userContent=[["\u0063\u006f\u006f\u006b\u0069\u0065\u0028\u9ed8\u8ba4\u0032\
 // 总推送
 function push(message) {
   if (message != "") {
-    message = messagePushHeader + message // 消息头最前方默认存放：【xxxx】
+    // message = messagePushHeader + message // 消息头最前方默认存放：【xxxx】
     let length = jsonPush.length;
     let name;
     let key;
@@ -81,20 +81,24 @@ function push(message) {
 
 // 推送bark消息
 function bark(message, key) {
-  if (key != "") {
-    let url = "https://api.day.app/" + key + "/" + message;
+    if (key != "") {
+      message = messagePushHeader + message // 消息头最前方默认存放：【xxxx】
+      message = encodeURIComponent(message)
+      BARK_ICON = "https://s21.ax1x.com/2024/06/21/pkDYtK0.png"
+    let url = "https://api.day.app/" + key + "/" + message + "/" + "?icon=" + BARK_ICON;
     // 若需要修改推送的分组，则将上面一行改为如下的形式
     // let url = 'https://api.day.app/' + bark_id + "/" + message + "?group=分组名";
     let resp = HTTP.get(url, {
-      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
     });
     sleep(5000);
-  }
+    }
 }
 
 // 推送pushplus消息
 function pushplus(message, key) {
   if (key != "") {
+      message = encodeURIComponent(message)
     // url = "http://www.pushplus.plus/send?token=" + key + "&content=" + message;
     url = "http://www.pushplus.plus/send?token=" + key + "&content=" + message + "&title=" + pushHeader;  // 增加标题
     let resp = HTTP.fetch(url, {
@@ -111,7 +115,7 @@ function serverchan(message, key) {
       "https://sctapi.ftqq.com/" +
       key +
       ".send" +
-      "?title=消息推送" +
+      "?title=" + messagePushHeader +
       "&desp=" +
       message;
     let resp = HTTP.fetch(url, {
@@ -186,6 +190,7 @@ function emailConfig() {
 
 // 推送钉钉机器人
 function dingtalk(message, key) {
+  message = messagePushHeader + message // 消息头最前方默认存放：【xxxx】
   let url = "https://oapi.dingtalk.com/robot/send?access_token=" + key;
   let resp = HTTP.post(url, { msgtype: "text", text: { content: message } });
   // console.log(resp.text())
@@ -194,6 +199,7 @@ function dingtalk(message, key) {
 
 // 推送Discord机器人
 function discord(message, key) {
+  message = messagePushHeader + message // 消息头最前方默认存放：【xxxx】
   let url = key;
   let resp = HTTP.post(url, { content: message });
   //console.log(resp.text())
@@ -331,13 +337,13 @@ function messageMerge(){
   for(i=0; i<messageArray.length; i++){
     if(messageArray[i] != "" && messageArray[i] != null)
     {
-      message += messageHeader[i] + messageArray[i] + ""; // 加上推送头
+      message += "\n" + messageHeader[i] + messageArray[i] + ""; // 加上推送头
     }
   }
   if(message != "")
   {
     console.log("✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨")
-    console.log(message)  // 打印总消息
+    console.log(message + "\n")  // 打印总消息
     console.log("✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨✨")
   }
   return message
@@ -402,24 +408,24 @@ function resultHandle(resp, pos){
         if (code != null){
         content = ""
         if (code == 0){
-            content = "🎉 " + resp["data"]["text"] + "\n"
+            content = "🎉 " + resp["data"]["text"] + ""
             // console.log(resp["data"]["text"])
             }else{
-                content = "📢 " + resp["message"] + "\n"
+                content = "📢 " + resp["message"] + ""
                 // console.log(resp["message"])
             }
             messageSuccess += content;
             console.log(content)
         }else
         {
-            content =  "❌ " + "签到失败\n"
+            content =  "❌ " + "签到失败"
             messageFail += content;
             console.log(content);
         }
       
     } else {
         //   console.log(resp.text());
-        content =  "❌ " + "签到失败\n";
+        content =  "❌ " + "签到失败";
         messageFail += content
         console.log(content);
     }
