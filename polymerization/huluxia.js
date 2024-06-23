@@ -1,5 +1,5 @@
 // 葫芦侠3楼自动签到
-// 20240621
+// 20240623
 
 let sheetNameSubConfig = "huluxia"; // 分配置表名称
 let pushHeader = "【葫芦侠】";

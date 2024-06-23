@@ -1,5 +1,5 @@
 // 阿里云盘(自动更新token版)、已移除自动领奖功能
-// 20240621
+// 20240623
 // 文中引用代码改编自https://www.52pojie.cn/thread-1869673-43-1.html
 
 let sheetNameSubConfig = "aliyun"; // 分配置表名称

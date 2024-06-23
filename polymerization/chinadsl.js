@@ -1,5 +1,5 @@
 // 宽带技术网自动签到得积分、做任务、领取猫粮
-// 20240621
+// 20240623
 
 let sheetNameSubConfig = "chinadsl"; // 分配置表名称
 let pushHeader = "【宽带技术网】";

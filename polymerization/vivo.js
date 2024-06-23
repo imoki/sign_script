@@ -1,5 +1,5 @@
 // vivo社区签到和抽奖
-// 20240621
+// 20240623
 
 let sheetNameSubConfig = "vivo"; // 分配置表名称
 let pushHeader = "【vivo社区】";

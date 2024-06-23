@@ -1,5 +1,5 @@
 // 百度贴吧自动签到
-// 20240621
+// 20240623
 
 let sheetNameSubConfig = "tieba"; // 分配置表名称
 let pushHeader = "【百度贴吧】";

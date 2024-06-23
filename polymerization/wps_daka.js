@@ -1,5 +1,5 @@
 // WPS权益报名和打卡、超级会员打卡(打卡版)
-// 20240621
+// 20240623
 
 let sheetNameSubConfig = "wps"; // 分配置表名称
 let sheetNameSubConfig2 = "wps_daka";

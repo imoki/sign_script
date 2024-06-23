@@ -2,7 +2,7 @@
     name: "钉钉AI签到领算粒"
     cron: 10 0 16 * * *
     脚本兼容: 金山文档， 青龙
-    更新时间：20240621
+    更新时间：20240623
 */
 
 const logo = "艾默库 : https://github.com/imoki/sign_script"    // 仓库地址

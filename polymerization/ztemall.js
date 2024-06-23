@@ -1,5 +1,5 @@
 // 中兴商城自动签到、做任务
-// 20240621
+// 20240623
 
 let sheetNameSubConfig = "ztemall"; // 分配置表名称
 let pushHeader = "【中兴商城】";

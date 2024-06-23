@@ -1,5 +1,5 @@
 // 有道云笔记自动签到
-// 20240621
+// 20240623
 
 let sheetNameSubConfig = "noteyoudao"; // 分配置表名称
 let pushHeader = "【有道云笔记】";
