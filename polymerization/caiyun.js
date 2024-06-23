@@ -77,7 +77,7 @@ function bark(message, key) {
     if (key != "") {
       message = messagePushHeader + message // 消息头最前方默认存放：【xxxx】
       message = encodeURIComponent(message)
-      BARK_ICON = "https://s21.ax1x.com/2024/06/21/pkDYtK0.png"
+      BARK_ICON = "https://s21.ax1x.com/2024/06/23/pkrUkfe.png"
     let url = "https://api.day.app/" + key + "/" + message + "/" + "?icon=" + BARK_ICON;
     // 若需要修改推送的分组，则将上面一行改为如下的形式
     // let url = 'https://api.day.app/' + bark_id + "/" + message + "?group=分组名";
