@@ -103,7 +103,7 @@
 - server 酱（微信）
 - pushplus（微信）
 - 邮箱
-- Discord
+- Discord 
 
 ## 🚀 青龙支持的通知列表
 青龙配置中的全部推送
