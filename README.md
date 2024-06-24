@@ -30,9 +30,12 @@
 ## 🎉 简介
 全网首个且唯一(🤡可能吧~)同时兼容金山文档和青龙的签到框架  
 
+## ✈️ TG交流群 
+🔮 <a href="https://t.me/mokuchat">@mokuchat</a>
+
 ## 🍨 教程 
 💬 公众号“**默库**”<br>
-<a href="https://jewel-pullover-9d0.notion.site/dfec17946a164658bb77e9682df954a2?pvs=4">艾默库教程</a>
+📖 <a href="https://jewel-pullover-9d0.notion.site/dfec17946a164658bb77e9682df954a2?pvs=4">艾默库教程</a>
 
 ## ✨ 特性
 
@@ -103,7 +106,7 @@
 - server 酱（微信）
 - pushplus（微信）
 - 邮箱
-- Discord 
+- Discord
 
 ## 🚀 青龙支持的通知列表
 青龙配置中的全部推送
