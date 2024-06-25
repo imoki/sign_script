@@ -2,7 +2,9 @@
     name: "在线工具"
     cron: 45 30 13 * * *
     脚本兼容: 金山文档， 青龙
-    更新时间：20240623
+    更新时间：20240625
+    环境变量名：toollu
+    环境变量值：填写cookie
 */
 
 const logo = "艾默库 : https://github.com/imoki/sign_script"    // 仓库地址
@@ -393,7 +395,7 @@ function resultHandle(resp, pos){
         content =  "🎉 " + result + "签到成功 ";
         messageSuccess += content
     } else {
-        content =  "❌ " + result + "签到失败 ";
+        content =  "❌ " + "签到失败 ";
         messageFail += content
     }
 
