@@ -2,7 +2,7 @@
     name: "钉钉AI签到领算粒"
     cron: 10 0 16 * * *
     脚本兼容: 金山文档， 青龙
-    更新时间：20240623
+    更新时间：20240625
 */
 
 const logo = "艾默库 : https://github.com/imoki/sign_script"    // 仓库地址
@@ -389,6 +389,7 @@ function resultHandle(resp, pos){
     // console.log(messageName)
 
 
+    flagRedeemReward = 0    // 给金山用的，判断是否要领取奖励
     if(posHttp == 1 || qlSwitch != 1){  // 第1次进来时用
         // console.log("第1次进来时用")
         // {
@@ -406,16 +407,8 @@ function resultHandle(resp, pos){
             content = "🎉 " + "签到" + respmsg + " "
             messageSuccess += content
             // console.log(content)
-        }else if(code == 1002){
-            content = "📢 " + respmsg + " "
-            messageSuccess += content
-            // console.log(content)
-        }else{
-            content = "❌ " + respmsg + " "
-            messageFail += content
-            // console.log(content)
-        }
 
+        // 只有签到成功才会尝试进行奖励领取
         // 获取rewards_id和rewards_in
         url = "https://api-wolai.dingtalk.com/v1/checkIn/getRewards"; // 领取奖励（修改这里，这里填抓包获取到的地址）
         // console.log(cookie)
@@ -434,69 +427,98 @@ function resultHandle(resp, pos){
             url,
             { headers: headers }
         );
+
+        }else if(code == 1002){
+            content = "📢 " + respmsg + " "
+            messageSuccess += content
+            // console.log(content)
+
+            // 青龙适配，青龙微适配
+            flagResultFinish = 1; // 签到结束   
+        }else{
+            content = "❌ " + respmsg + " "
+            messageFail += content
+            // console.log(content)
+
+            // 青龙适配，青龙微适配
+            flagResultFinish = 1; // 签到结束   
+        }
+
+
     }
 
     if(posHttp == 2 || qlSwitch != 1){  // 第二次进来时用
-        // console.log("第二次进来时用")
-        resp = resp.json()
-        // console.log(resp)
-        code = resp["code"]
-        respmsg = resp["message"]
-        var rewards_status = 1
-        var rewards_id = 0
-        var rewards_in = 0
-        if(code == 1000){
-            rewards = resp["data"]["rewards"]
-            // console.log(rewards)
-            // 只领取最近的一期奖励
-            for(j = 0; j < rewards.length; j++){
-                rewards_status = rewards[j]["rewards_status"]  // 1为已领取，0为未领取
-                if(rewards_status == 0){
-                    rewards_id = rewards[j]["rewards_id"]
-                    rewards_in = rewards[j]["rewards_in"]
+
+        // if(code == 1000 || qlSwitch == 1){   // 金山才需要的判断、即签到成功或者是青龙
+
+        try{
+            // console.log("第二次进来时用")
+            resp = resp.json()
+            // console.log(resp)
+            code = resp["code"]
+            respmsg = resp["message"]
+            var rewards_status = 1
+            var rewards_id = 0
+            var rewards_in = 0
+            if(code == 1000){
+                rewards = resp["data"]["rewards"]
+                // console.log(rewards)
+                // 只领取最近的一期奖励
+                for(j = 0; j < rewards.length; j++){
+                    rewards_status = rewards[j]["rewards_status"]  // 1为已领取，0为未领取
+                    if(rewards_status == 0){
+                        rewards_id = rewards[j]["rewards_id"]
+                        rewards_in = rewards[j]["rewards_in"]
+                    }
                 }
+
+                // // 测试
+                // j = 0
+                // rewards_status = 0  // 1为已领取，0为未领取
+                // rewards_id = rewards[j]["rewards_id"]
+                // rewards_in = rewards[j]["rewards_in"]
+
+                console.log("🍳 rewards_id:" + rewards_id + " rewards_in:" + rewards_in)
+            }
+            else{
+                content = "⛔ " + respmsg + " "
+                messageFail += content
+                // console.log(content)
             }
 
-            // // 测试
-            // j = 0
-            // rewards_status = 0  // 1为已领取，0为未领取
-            // rewards_id = rewards[j]["rewards_id"]
-            // rewards_in = rewards[j]["rewards_in"]
-
-            console.log("🍳 rewards_id:" + rewards_id + " rewards_in:" + rewards_in)
-        }
-        else{
-            content = "⛔ " + respmsg + " "
-            messageFail += content
-            // console.log(content)
-        }
-
-        
-        if(rewards_status == 0){  // 未领取奖励
-            console.log("🍳 有奖励未领取，开始领取奖励")
-            // 领取奖励
-            url = "https://api-wolai.dingtalk.com/v1/checkIn/redeemReward"; // 领取奖励（修改这里，这里填抓包获取到的地址）
-
-            // headers= {
-            //     "Cookie": cookie,
-            //     "DingTalk-Flag": 1,
-            //     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36 Edg/91.0.864.70",
-            // }
-
-            data = {
-                "rewards_id":rewards_id,
-                "rewards_in":rewards_in
-            }
             
-            resp = HTTP.post(
-                url,
-                data,
-                { headers: headers }
-            );
-        }else{
-            // 青龙适配，青龙微适配
-            flagResultFinish = 1; // 签到结束    
+            if(rewards_status == 0){  // 未领取奖励
+                console.log("🍳 有奖励未领取，开始领取奖励")
+                // 领取奖励
+                url = "https://api-wolai.dingtalk.com/v1/checkIn/redeemReward"; // 领取奖励（修改这里，这里填抓包获取到的地址）
+
+                // headers= {
+                //     "Cookie": cookie,
+                //     "DingTalk-Flag": 1,
+                //     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36 Edg/91.0.864.70",
+                // }
+
+                data = {
+                    "rewards_id":rewards_id,
+                    "rewards_in":rewards_in
+                }
+                
+                resp = HTTP.post(
+                    url,
+                    data,
+                    { headers: headers }
+                );
+            }else{
+                // 青龙适配，青龙微适配
+                flagResultFinish = 1; // 签到结束    
+            }
+
+            flagRedeemReward = 1
+        }catch{
+            flagResultFinish = 1; // 签到结束  
         }
+
+        // }
     }
 
     if(posHttp == 3 || qlSwitch != 1){  // 第3次进来时用
@@ -504,30 +526,37 @@ function resultHandle(resp, pos){
         // {"code":1002,"message":"今日已签到","requestId":""}
         //  {"code":400,"message":"body.rewards_id is required","requestId":""}
         // if(rewards_status == 0){  // 未领取奖励
-          try{
-            resp = resp.json()
-          }catch{
-            resp = resp
-          }
-          // console.log(resp)
-          code = resp["code"]
-          respmsg = resp["message"]
-          if(code == 1000){
-              content = "💎 领取奖励成功 "
-              messageSuccess += content
-            //   console.log(content)
-          }else if(code == 1010){
-              content = "📢 " + respmsg + " "
-              messageSuccess += content
-            //   console.log(content)
-          }else{
-              content = "❌ " + respmsg + " "
-              messageFail += content
-            //   console.log(content)
-          }
+        try{
+            if(flagRedeemReward == 1 || qlSwitch == 1)  // 青龙、或者要领取奖励
+            {   
+                try{
+                    resp = resp.json()
+                }catch{
+                    resp = resp
+                }
+                // console.log(resp)
+                code = resp["code"]
+                respmsg = resp["message"]
+                if(code == 1000){
+                    content = "💎 领取奖励成功 "
+                    messageSuccess += content
+                    //   console.log(content)
+                }else if(code == 1010 || code == 1002){
+                    content = "📢 " + respmsg + " "
+                    messageSuccess += content
+                    //   console.log(content)
+                }else{
+                    content = "❌ " + respmsg + " "
+                    messageFail += content
+                    //   console.log(content)
+                }
+            }
         // }
         // 青龙适配，青龙微适配
         flagResultFinish = 1; // 签到结束   
+        }catch{
+            flagResultFinish = 1; // 签到结束  
+        }
     }
     
 
