@@ -1,5 +1,5 @@
 // UPDATE.js 更新脚本
-// 20240615
+// 20240627
 
 // 当前分配置表：
 // 可用脚本：
@@ -309,6 +309,26 @@ editConfigSheet(subConfigBsklsh)
 
 ActivateSheet(subConfigWorkbook[40]) // 激活鸿星尔克分配置表
 editConfigSheet(subConfigHxek)
+
+// 加入跳转超链接
+hypeLink()
+
+function hypeLink(){
+  let workSheet= Application.Sheets(confiWorkbook) //配置表
+  let workUsedRowEnd = workSheet.UsedRange.RowEnd //用户使用表格的最后一行
+
+  for(let row = 2; row <= workUsedRowEnd; row++){
+    link_name=workSheet.Range("A" + row).Text
+    if (link_name == "") {
+      break; // 如果为空行，则提前结束读取
+    }
+
+    link_name ='=HYPERLINK("#'+link_name+'!$A$1","'+link_name+'")' //设置超链接
+    //console.log(link_name)  // HYPERLINK("#PUSH!$A$1","PUSH")
+    workSheet.Range("A" + row).Value =link_name 
+  }
+
+}
 
 // 判断表格行列数，并记录目前已写入的表格行列数。目的是为了不覆盖原有数据，便于更新
 function determineRowCol() {
