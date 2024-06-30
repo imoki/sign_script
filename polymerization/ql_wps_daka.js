@@ -2,7 +2,7 @@
     name: "wps打卡版"
     cron: 10 0 17 * * *
     脚本兼容: 金山文档， 青龙
-    更新时间：20240626
+    更新时间：20240630
     环境变量名：wps
     环境变量值：wps_sid#转存PPT(是/否)#是否渠道1打卡(是/否)#是否渠道2打卡(是/否)#Signature(渠道2)
     通用例子(目前仅支持渠道1，只需要替换xxx1为自己的wps_sid即可，其他的不用改)：xxx1#否#是#否#xxx2
@@ -10,7 +10,7 @@
 
 const logo = "艾默库 : https://github.com/imoki/sign_script"    // 仓库地址
 let sheetNameSubConfig = "wps"; // 分配置表名称
-let pushHeader = "【钉钉AI】";    //（修改这里，这里给自己看的，随便填）
+let pushHeader = "【wps打卡版】";    //（修改这里，这里给自己看的，随便填）
 let sheetNameConfig = "CONFIG"; // 总配置表
 let sheetNamePush = "PUSH"; // 推送表名称
 let sheetNameEmail = "EMAIL"; // 邮箱表
