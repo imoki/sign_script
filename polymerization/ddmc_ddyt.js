@@ -1,5 +1,5 @@
 // 叮咚买菜-叮咚鱼塘自动签到
-// 20240623
+// 20240706
 
 let sheetNameSubConfig = "ddmc"; // 分配置表名称
 let sheetNameSubConfig2 = "ddmc_ddyt";
@@ -40,35 +40,67 @@ qlSwitch = 0
 // =================青龙适配结束===================
 
 // =================金山适配开始===================
-// 总推送
-function push(message) {
-  if (message != "") {
-    // message = messagePushHeader + message // 消息头最前方默认存放：【xxxx】
-    let length = jsonPush.length;
-    let name;
-    let key;
-    for (let i = 0; i < length; i++) {
-      if (jsonPush[i].flag == 1) {
-        name = jsonPush[i].name;
-        key = jsonPush[i].key;
-        if (name == "bark") {
-          bark(message, key);
-        } else if (name == "pushplus") {
-          pushplus(message, key);
-        } else if (name == "ServerChan") {
-          serverchan(message, key);
-        } else if (name == "email") {
-          email(message);
-        } else if (name == "dingtalk") {
-          dingtalk(message, key);
-        } else if (name == "discord") {
-          discord(message, key);
-        }
+// 推送相关
+// 获取时间
+function getDate(){
+  let currentDate = new Date();
+  currentDate = currentDate.getFullYear() + '/' + (currentDate.getMonth() + 1).toString() + '/' + currentDate.getDate().toString();
+  return currentDate
+}
+
+// 将消息写入CONFIG表中作为消息队列，之后统一发送
+function writeMessageQueue(message){
+  // 当天时间
+  let todayDate = getDate()
+  flagConfig = ActivateSheet(sheetNameConfig); // 激活主配置表
+  // 主配置工作表存在
+  if (flagConfig == 1) {
+    console.log("✨ 开始将结果写入主配置表");
+    for (let i = 2; i <= 100; i++) {
+      // 找到指定的表行
+      if(Application.Range("A" + (i + 2)).Value == sheetNameSubConfig){
+        // 写入更新的时间
+        Application.Range("F" + (i + 2)).Value = todayDate
+        // 写入消息
+        Application.Range("G" + (i + 2)).Value = message
+        console.log("✨ 写入结果完成");
+        break;
       }
     }
-  } else {
-    console.log("🍳 消息为空不推送");
   }
+
+}
+
+// 总推送
+function push(message) {
+  writeMessageQueue(message)  // 将消息写入CONFIG表中
+  // if (message != "") {
+  //   // message = messagePushHeader + message // 消息头最前方默认存放：【xxxx】
+  //   let length = jsonPush.length;
+  //   let name;
+  //   let key;
+  //   for (let i = 0; i < length; i++) {
+  //     if (jsonPush[i].flag == 1) {
+  //       name = jsonPush[i].name;
+  //       key = jsonPush[i].key;
+  //       if (name == "bark") {
+  //         bark(message, key);
+  //       } else if (name == "pushplus") {
+  //         pushplus(message, key);
+  //       } else if (name == "ServerChan") {
+  //         serverchan(message, key);
+  //       } else if (name == "email") {
+  //         email(message);
+  //       } else if (name == "dingtalk") {
+  //         dingtalk(message, key);
+  //       } else if (name == "discord") {
+  //         discord(message, key);
+  //       }
+  //     }
+  //   }
+  // } else {
+  //   console.log("🍳 消息为空不推送");
+  // }
 }
 
 // 推送bark消息

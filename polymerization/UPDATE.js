@@ -1,25 +1,23 @@
 // UPDATE.js 更新脚本
-// 20240627
+// 20240706
 
 // 当前分配置表：
 // 可用脚本：
-// 阿里云盘（多用户版）、有道云笔记、百度贴吧、
-// 什么值得买、在线工具
-// AcFun、喜马拉雅
-// ios游戏迷、希沃白板、小木虫、夸克网盘
-// 葫芦侠3楼、爱奇艺、中兴社区、小米商城
-// 看雪论坛、哔哩哔哩、vivo社区、中国移动云盘
+// 有道云笔记、百度贴吧、什么值得买、在线工具
+// AcFun、喜马拉雅、希沃白板、小木虫、夸克网盘、葫芦侠3楼
+// 中兴社区、小米商城、看雪论坛、哔哩哔哩、vivo社区
 // wps(打卡版)、golo汽修之家、天翼云盘、阿里云盘（自动更新token版）
-// 宽带技术网、中国联通、中兴商城、万能福利吧
-// 百事可乐上海、废文小说、鸿星尔克、飞客茶馆、菁优网
-// 钉钉AI
+// 宽带技术网、中国联通、中兴商城、万能福利吧、中国移动云盘
+// 废文小说、鸿星尔克、飞客茶馆、钉钉AI
 
 // 失效脚本：
 // 吾爱破解、 wps(轻量版、手机版)、wps(客户端版、电脑版)
 // 时光相册、像素蛋糕、甜润世界、囍福社
 // 叮咚买菜-叮咚果园、叮咚买菜-叮咚鱼塘
 // 北京时间、花小猪、wps(稻壳版）、京东
-// 一点万象、海信爱家、网易云游戏、
+// 一点万象、海信爱家、网易云游戏、爱奇艺
+// 百事可乐上海、ios游戏迷、阿里云盘（多用户版）
+// 菁优网
 
 // 定制化分配置表:
 // 阿里云盘（多用户版）、像素蛋糕、叮咚买菜、时光相册、北京时间、WPS
@@ -29,18 +27,7 @@
 var confiWorkbook = 'CONFIG'  // 主配置表名称
 var pushWorkbook = 'PUSH' // 推送表的名称
 var emailWorkbook = 'EMAIL' // 邮箱表的名称
-// 分配置表名称
-var subConfigWorkbook = [
-  'aliyundrive_multiuser', '52pojie', 'noteyoudao', 'wps', 'tieba',
-  'wangyiyungame', 'smzdm', 'toollu', 'cake', 'tianrun',
-  'xifushe', 'ddmc', 'everphoto', 'btime', 'acfun',
-  'xmly', 'tonghua', 'en', 'xmc', 'quark',
-  'huluxia', 'iqiyi', 'huaxiaozhu', 'ztebbs', 'mi',
-  'kanxue', 'bilibili', 'vivo', 'caiyun', 'golo',
-  'tianyi', 'aliyun', 'chinadsl', 'hxaj', 'zglt',
-  'ztemall', 'wnflb', 'bsklsh', 'jd', 'fwxs', 
-  'hxek', 'flyert', 'jyw', 'ydwx', 'ddai',
-];
+
 var workbook = [] // 存储已存在表数组
 
 // 表中激活的区域的行数和列数
@@ -53,56 +40,56 @@ var colNum = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', '
 // CONFIG表内容
 // 推送昵称(推送位置标识)选项：若“是”则推送“账户名称”，若账户名称为空则推送“单元格Ax”，这两种统称为位置标识。若“否”，则不推送位置标识
 var configContent = [
-  ['工作表的名称', '备注', '只推送失败消息（是/否）', '推送昵称（是/否）'],
-  ['aliyundrive_multiuser', '阿里云盘（多用户版）', '否', '是'],
-  ['52pojie', '吾爱破解', '否', '是'],
-  ['noteyoudao', '有道云笔记', '否', '是'],
-  ['tieba', '百度贴吧', '否', '是'],
-  ['wps_light', 'wps(轻量版)', '否', '是'],
-  ['wps_client', 'wps(客户端版)', '否', '是'],
-  ['wps_docer', 'wps(稻壳版）', '否', '是'],
-  ['wangyiyungame', '网易云游戏', '否', '是'],
-  ['smzdm', '什么值得买抽奖', '否', '是'],
-  ['toollu', '在线工具', '否', '是'],
-  ['cake', '像素蛋糕', '否', '是'],
-  ['tianrun', '甜润世界', '否', '是'],
-  ['xifushe', '囍福社', '否', '是'],
-  ['ddmc_ddgy', '叮咚买菜-叮咚果园', '否', '是'],
-  ['ddmc_ddyt', '叮咚买菜-叮咚鱼塘', '否', '是'],
-  ['everphoto', '时光相册', '否', '是'],
-  ['btime', '北京时间', '否', '是'],
-  ['acfun', 'AcFun', '否', '是'],
-  ['xmly', '喜马拉雅', '否', '是'],
-  ['tonghua', 'ios游戏迷', '否', '是'],
-  ['en', '希沃白板', '否', '是'],
-  ['xmc', '小木虫', '否', '是'],
-  ['quark', '夸克网盘', '否', '是'],
-  ['huluxia', '葫芦侠3楼', '否', '是'],
-  ['iqiyi', '爱奇艺', '否', '是'],
-  ['huaxiaozhu', '花小猪', '否', '是'],
-  ['ztebbs', '中兴社区', '否', '是'],
-  ['mi', '小米商城', '否', '是'],
-  ['kanxue', '看雪论坛', '否', '是'],
-  ['bilibili', '哔哩哔哩', '否', '是'],
-  ['vivo', 'vivo社区', '否', '是'],
-  ['caiyun', '中国移动云盘', '否', '是'],
-  ['wps_daka', 'wps(打卡版）', '否', '是'],
-  ['golo', 'golo汽修大师', '否', '是'],
-  ['tianyi', '天翼云盘', '否', '是'],
-  ['aliyun', '阿里云盘(自动更新token版)', '否', '是'],
-  ['chinadsl', '宽带技术网', '否', '是'],
-  ['hxaj', '海信爱家', '否', '是'],
-  ['zglt', '中国联通', '否', '是'],
-  ['ztemall', '中兴商城', '否', '是'],
-  ['wnflb', '万能福利吧', '否', '是'],
-  ['bsklsh', '百事可乐上海', '否', '是'],
-  ['jd', '京东', '否', '是'],
-  ['fwxs', '废文小说', '否', '是'],
-  ['hxek', '鸿星尔克', '否', '是'],
-  ['flyert', '飞客茶馆', '否', '是'],
-  ['jyw', '菁优网', '否', '是'],
-  ['ydwx', '一点万象', '否', '是'],
-  ['ddai', '钉钉AI', '否', '是'],
+  ['工作表的名称', '备注', '只推送失败消息（是/否）', '推送昵称（是/否）', '是否存活', '更新时间', '消息', '推送时间', '推送方式',  '是否通知', '加入消息池'],
+  ['aliyundrive_multiuser', '阿里云盘（多用户版）', '否', '是', '否' , '' , '' , '', '@all' , '是' , '否' ,],
+  ['52pojie', '吾爱破解', '否', '是', '否' , '' , '' , '', '@all' , '是' , '否' ,],
+  ['noteyoudao', '有道云笔记', '否', '是', '是' , '' , '' , '', '@all' , '是' , '否' ,],
+  ['tieba', '百度贴吧', '否', '是', '是' , '' , '' , '', '@all' , '是' , '否' ,],
+  ['wps_light', 'wps(轻量版)', '否', '是', '否' , '' , '' , '', '@all' , '是' , '否' ,],
+  ['wps_client', 'wps(客户端版)', '否', '是', '否' , '' , '' , '', '@all' , '是' , '否' ,],
+  ['wps_docer', 'wps(稻壳版）', '否', '是', '否' , '' , '' , '', '@all' , '是' , '否' ,],
+  ['wangyiyungame', '网易云游戏', '否', '是', '否' , '' , '' , '', '@all' , '是' , '否' ,],
+  ['smzdm', '什么值得买抽奖', '否', '是', '是' , '' , '' , '', '@all' , '是' , '否' ,],
+  ['toollu', '在线工具', '否', '是', '是' , '' , '' , '', '@all' , '是' , '否' ,],
+  ['cake', '像素蛋糕', '否', '是', '否' , '' , '' , '', '@all' , '是' , '否' ,],
+  ['tianrun', '甜润世界', '否', '是', '否' , '' , '' , '', '@all' , '是' , '否' ,],
+  ['xifushe', '囍福社', '否', '是', '否' , '' , '' , '', '@all' , '是' , '否' ,],
+  ['ddmc_ddgy', '叮咚买菜-叮咚果园', '否', '是', '否' , '' , '' , '', '@all' , '是' , '否' ,],
+  ['ddmc_ddyt', '叮咚买菜-叮咚鱼塘', '否', '是', '是' , '' , '' , '', '@all' , '是' , '否' ,],
+  ['everphoto', '时光相册', '否', '是', '否' , '' , '' , '', '@all' , '是' , '否' ,],
+  ['btime', '北京时间', '否', '是', '否' , '' , '' , '', '@all' , '是' , '否' ,],
+  ['acfun', 'AcFun', '否', '是', '是' , '' , '' , '', '@all' , '是' , '否' ,],
+  ['xmly', '喜马拉雅', '否', '是', '是' , '' , '' , '', '@all' , '是' , '否' ,],
+  ['tonghua', 'ios游戏迷', '否', '是', '否' , '' , '' , '', '@all' , '是' , '否' ,],
+  ['en', '希沃白板', '否', '是', '是' , '' , '' , '', '@all' , '是' , '否' ,],
+  ['xmc', '小木虫', '否', '是', '是' , '' , '' , '', '@all' , '是' , '否' ,],
+  ['quark', '夸克网盘', '否', '是', '是' , '' , '' , '', '@all' , '是' , '否' ,],
+  ['huluxia', '葫芦侠3楼', '否', '是', '是' , '' , '' , '', '@all' , '是' , '否' ,],
+  ['iqiyi', '爱奇艺', '否', '是', '否' , '' , '' , '', '@all' , '是' , '否' ,],
+  ['huaxiaozhu', '花小猪', '否', '是', '否' , '' , '' , '', '@all' , '是' , '否' ,],
+  ['ztebbs', '中兴社区', '否', '是', '是' , '' , '' , '', '@all' , '是' , '否' ,],
+  ['mi', '小米商城', '否', '是', '是' , '' , '' , '', '@all' , '是' , '否' ,],
+  ['kanxue', '看雪论坛', '否', '是', '是' , '' , '' , '', '@all' , '是' , '否' ,],
+  ['bilibili', '哔哩哔哩', '否', '是', '是' , '' , '' , '', '@all' , '是' , '否' ,],
+  ['vivo', 'vivo社区', '否', '是', '是' , '' , '' , '', '@all' , '是' , '否' ,],
+  ['caiyun', '中国移动云盘', '否', '是', '是' , '' , '' , '', '@all' , '是' , '否' ,],
+  ['wps_daka', 'wps(打卡版）', '否', '是', '是' , '' , '' , '', '@all' , '是' , '否' ,],
+  ['golo', 'golo汽修大师', '否', '是', '是' , '' , '' , '', '@all' , '是' , '否' ,],
+  ['tianyi', '天翼云盘', '否', '是', '是' , '' , '' , '', '@all' , '是' , '否' ,],
+  ['aliyun', '阿里云盘(自动更新token版)', '否', '是', '是' , '' , '' , '', '@all' , '是' , '否' ,],
+  ['chinadsl', '宽带技术网', '否', '是', '是' , '' , '' , '', '@all' , '是' , '否' ,],
+  ['hxaj', '海信爱家', '否', '是', '否' , '' , '' , '', '@all' , '是' , '否' ,],
+  ['zglt', '中国联通', '否', '是', '是' , '' , '' , '', '@all' , '是' , '否' ,],
+  ['ztemall', '中兴商城', '否', '是', '是' , '' , '' , '', '@all' , '是' , '否' ,],
+  ['wnflb', '万能福利吧', '否', '是', '是' , '' , '' , '', '@all' , '是' , '否' ,],
+  ['bsklsh', '百事可乐上海', '否', '是', '否' , '' , '' , '', '@all' , '是' , '否' ,],
+  ['jd', '京东', '否', '是', '否' , '' , '' , '', '@all' , '是' , '否' ,],
+  ['fwxs', '废文小说', '否', '是', '是' , '' , '' , '', '@all' , '是' , '否' ,],
+  ['hxek', '鸿星尔克', '否', '是', '是' , '' , '' , '', '@all' , '是' , '否' ,],
+  ['flyert', '飞客茶馆', '否', '是', '是' , '' , '' , '', '@all' , '是' , '否' ,],
+  ['jyw', '菁优网', '否', '是', '否' , '' , '' , '', '@all' , '是' , '否' ,],
+  ['ydwx', '一点万象', '否', '是', '否' , '' , '' , '', '@all' , '是' , '否' ,],
+  ['ddai', '钉钉AI', '否', '是', '是' , '' , '' , '', '@all' , '是' , '否' ,],
 ]
 
 // PUSH表内容 		
@@ -234,85 +221,84 @@ var subConfigHxek = [
   ['xxxxxxxx2', '否', '昵称2', 'xxx', 'xxx']
 ]
 
+// 定制化表
+var subConfig = {
+  "aliyundrive_multiuser" : subConfigAliyundrive,
+  "ddmc"  : subConfigDdmc, 
+  "wps"  : subConfigWps,
+  "golo"  : subConfigGolo,
+  "aliyun" : subConfigAliyunToken,
+  "bsklsh" : subConfigBsklsh,
+  "hxek" : subConfigHxek,
+}
 // var mosaic = "xxxxxxxx" // 马赛克
 // var strFail = "否"
 // var strTrue = "是"
 
 // 主函数执行流程
 storeWorkbook()
-console.log("创建主分配表")
+console.log("🥚 创建主分配表")
 // const sheet = Application.ActiveSheet // 激活当前表
 // sheet.Name = confiWorkbook  // 将当前工作表的名称改为 CONFIG
 createSheet(confiWorkbook)
 ActivateSheet(confiWorkbook)
 editConfigSheet(configContent)  // editConfig()
 
-console.log("创建推送表")
+console.log("🥚 创建推送表")
 createSheet(pushWorkbook)
 ActivateSheet(pushWorkbook)
 editConfigSheet(pushContent)  // editPush()
 
-console.log("创建推送表")
+console.log("🥚 创建邮箱表")
 createSheet(emailWorkbook)
 ActivateSheet(emailWorkbook)
 editConfigSheet(emailContent)
 
-createSubConfig()
-let length = subConfigWorkbook.length
-for (let i = 0; i < length; i++) {
-  ActivateSheet(subConfigWorkbook[i])
-  editConfigSheet(subConfigContent)   // editSubConfig()
+// createSubConfig()
+
+function count2DArray(arr) {
+  let count = 0;
+  for (let i = 0; i < arr.length; i++) {
+      for (let j = 0; j < arr[i].length; j++) {
+          count++;
+      }
+  }
+  return count;
 }
 
-// 写入定制化内容
-ActivateSheet(subConfigWorkbook[0]) // 激活阿里云盘分配置表
-editConfigSheet(subConfigAliyundrive)  // editSubConfigCustomized(subConfigAliyundrive)
+let length = configContent.length - 1
+// console.log(length)
+console.log("🍳 正在检索分配表，并进行创建")
+for (let i = 0; i < length; i++) {
+  let workbook = ""
+  let subworkbook = ""
+  // console.log(configContent[i+1][4])
+  if(configContent[i+1][4] == "是"){  // 存活的才生成表
+    // 部分表合并，如ddmc_ddgy，则以_为分割，生成ddmc表
+    workbook = configContent[i+1][0].split("_")[0] // 使用下划线作为分隔符，取第一个部分)
+    ActivateSheet(workbook)  // 根据CONFIG表来生成
+    editConfigSheet(subConfigContent)   // editSubConfig()
 
-ActivateSheet(subConfigWorkbook[8]) // 激活像素蛋糕分配置表
-editConfigSheet(subConfigCake)
-
-ActivateSheet(subConfigWorkbook[11]) // 激活叮咚买菜分配置表
-editConfigSheet(subConfigDdmc)
-
-ActivateSheet(subConfigWorkbook[12]) // 激活时光相册分配置表
-editConfigSheet(subConfigEverphoto)
-
-ActivateSheet(subConfigWorkbook[13]) // 激活北京时间分配置表
-editConfigSheet(subConfigBtime)
-
-ActivateSheet(subConfigWorkbook[3]) // 激活WPS分配置表
-editConfigSheet(subConfigWps)
-
-ActivateSheet(subConfigWorkbook[22]) // 激活花小猪分配置表
-editConfigSheet(subConfigHuaxiaozhu)
-
-// ActivateSheet(subConfigWorkbook[24]) // 激活小米商城分配置表
-// editConfigSheet(subConfigMi)  
-
-ActivateSheet(subConfigWorkbook[29]) // 激活golo汽修大师分配置表
-editConfigSheet(subConfigGolo)
-
-ActivateSheet(subConfigWorkbook[30]) // 激活天翼云盘分配置表
-editConfigSheet(subConfigTianyi)
-
-ActivateSheet(subConfigWorkbook[31]) // 激活阿里云盘(自动更新token)分配置表
-editConfigSheet(subConfigAliyunToken)
-
-// ActivateSheet(subConfigWorkbook[32]) // 激活紫云网络分配置表
-// editConfigSheet(subConfigZywl) 
-
-ActivateSheet(subConfigWorkbook[33]) // 激活海信爱家分配置表
-editConfigSheet(subConfigHxaj)
-
-ActivateSheet(subConfigWorkbook[37]) // 激活百事可乐上海分配置表
-editConfigSheet(subConfigBsklsh)
-
-ActivateSheet(subConfigWorkbook[40]) // 激活鸿星尔克分配置表
-editConfigSheet(subConfigHxek)
+    // 检查是否有定制化内容，有则生成
+    try{
+      subworkbook = subConfig[workbook]
+      // console.log(subworkbook)
+      if(subworkbook != undefined){
+        ActivateSheet(workbook) // 激活阿里云盘分配置表
+        editConfigSheet(subworkbook)  // editSubConfigCustomized(subConfigAliyundrive)
+        // console.log("存在定制化内容")
+      }
+    }catch{
+      // 无定制化内容
+      // console.log("无定制化内容")
+    }
+  }
+}
 
 // 加入跳转超链接
 hypeLink()
 
+// CONFIG表添加超链接
 function hypeLink(){
   let workSheet= Application.Sheets(confiWorkbook) //配置表
   let workUsedRowEnd = workSheet.UsedRange.RowEnd //用户使用表格的最后一行
@@ -327,7 +313,6 @@ function hypeLink(){
     //console.log(link_name)  // HYPERLINK("#PUSH!$A$1","PUSH")
     workSheet.Range("A" + row).Value =link_name 
   }
-
 }
 
 // 判断表格行列数，并记录目前已写入的表格行列数。目的是为了不覆盖原有数据，便于更新
@@ -352,7 +337,7 @@ function determineRowCol() {
   }
   // 超过最大行了，认为col为0，从头开始
 
-  console.log("当前激活表已存在：" + row + "行，" + col + "列")
+  console.log("✨ 当前激活表已存在：" + row + "行，" + col + "列")
 }
 
 // 激活工作表函数
@@ -362,11 +347,13 @@ function ActivateSheet(sheetName) {
     // 激活工作表
     let sheet = Application.Sheets.Item(sheetName)
     sheet.Activate()
-    console.log("激活工作表：" + sheet.Name)
+    console.log("🥚 激活工作表：" + sheet.Name)
     flag = 1;
   } catch {
     flag = 0;
-    console.log("无法激活工作表，工作表可能不存在")
+    console.log("📢 无法激活工作表，工作表可能不存在")
+    console.log("🎉 创建此表：" + sheetName)
+    createSheet(sheetName)
   }
   return flag;
 }
@@ -512,11 +499,11 @@ function editSubConfigCustomized(content) {
 }
 
 
-// 创建分配置表
+// 创建分配置表(已弃用)
 function createSubConfig() {
   let length = subConfigWorkbook.length
   for (let i = 0; i < length; i++) {
-    console.log("创建分配置表：" + subConfigWorkbook[i])
+    console.log("🥚 创建分配置表：" + subConfigWorkbook[i])
     createSheet(subConfigWorkbook[i])
   }
 }
@@ -541,7 +528,7 @@ function workbookComp(name) {
   for (let i = 0; i < length; i++) {
     if (workbook[i] == name) {
       flag = 1;
-      console.log(name + "表已存在")
+      console.log("✨ " + name + "表已存在")
       break
     }
   }
