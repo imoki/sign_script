@@ -101,6 +101,7 @@ var pushContent = [
   ['email', '若要邮箱发送，请配置EMAIL表', '否'],
   ['dingtalk', 'xxxxxxxx', '否'],
   ['discord', '请填入镜像webhook链接,自行处理Query参数', '否'],
+  ['qywx', '填webhook中的key', '否'],
 ]
 
 // email表内容

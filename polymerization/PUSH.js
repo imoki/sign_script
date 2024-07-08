@@ -1,5 +1,5 @@
 // PUSH.js 推送脚本
-// 20240706
+// 20240707
 
 let sheetNameConfig = "CONFIG"; // 总配置表
 let sheetNamePush = "PUSH"; // 推送表名称
@@ -19,6 +19,7 @@ var jsonPush = [
   { name: "email", key: "xxxxxx", flag: "0" },
   { name: "dingtalk", key: "xxxxxx", flag: "0" },
   { name: "discord", key: "xxxxxx", flag: "0" },
+  { name: "qywx", key: "xxxxxx", flag: "0" },
 ]; // 推送数据，flag=1则推送
 var jsonEmail = {
   server: "",
@@ -175,6 +176,10 @@ function sendNotify(){
     // console.log(msgCurrentDict.date)
     // console.log(todayDate)
     // 消息池的先不推送，最后统一推送
+    // 1.消息池判断，使得消息池内的消息最后统一推送
+    // 2.是否推送判断，使得仅勾选是的才进行推送
+    // 3.更新时间和推送时间不一致才推送，此判断也可以使昨天签到成功且今天未签到的情况不推送。即只有今天签到且未推送的情况才进行推送
+    // 4.推送时间判断，使得仅今天未推送才进行推送，如果今天已推送就不再推送了，目的是可以一天不同时间段任意设置多个定时PUSH推送脚本
     if(msgCurrentDict.pool == "否" && msgCurrentDict.flagPush == "是" && msgCurrentDict.update != msgCurrentDict.date && msgCurrentDict.msg != "" && msgCurrentDict.date != todayDate){ // 时间不一致说明未推送。消息为空不进行推送。今天未推送
       console.log("🚀 消息推送：" + msgCurrentDict.note)
       pushMessage(msgCurrentDict.msg, msgCurrentDict.methodPush, "【" + msgCurrentDict.note + "】",)
@@ -206,6 +211,14 @@ function sendNotify(){
   }
 
   console.log("🎉 推送结束")
+}
+
+// 使用正则表达式匹配以'http://'或'https://'开头的字符串
+function isHttpOrHttpsUrl(url) {
+    // '^'表示字符串的开始，'i'表示不区分大小写
+    const regex = /^(http:\/\/|https:\/\/)/i;
+    // match() 方法返回一个包含匹配结果的数组，如果没有匹配项则返回 null
+    return url.match(regex) !== null;
 }
 
 // 消息分割，返回消息推送方式数组
@@ -242,6 +255,8 @@ function pushMessage(message, method, pushHeader){
           dingtalk(message, key);
         } else if (name == "discord") {
           discord(message, key);
+        } else if (name == "qywx"){
+          qywx(message, key);
         }
       }
     }
@@ -275,6 +290,8 @@ function pushMessage(message, method, pushHeader){
               dingtalk(message, key);
             } else if (name == "discord") {
               discord(message, key);
+            }else if (name == "qywx"){
+              qywx(message, key);
             }
           }
           break;  // 找到推送方式就提前退出
@@ -412,8 +429,23 @@ function discord(message, key) {
   sleep(5000);
 }
 
-
-
-
-
-
+// 企业微信群推送机器人
+function qywx(message, key) {
+  message = messagePushHeader + "\n" + message // 消息头最前方默认存放：【xxxx】
+  let url = ""
+  if(isHttpOrHttpsUrl(key)){  // 以http开头
+    url = key
+  }else{
+    url = "https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=" + key;
+  }
+   
+  data = {
+    "msgtype": "text",
+    "text": {
+        "content": message
+    }
+  }
+  let resp = HTTP.post(url, data);
+  // console.log(resp.json())
+  sleep(5000);
+}
