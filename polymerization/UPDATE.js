@@ -1,5 +1,5 @@
 // UPDATE.js 更新脚本
-// 20240706
+// 20240708
 
 // 当前分配置表：
 // 可用脚本：
@@ -230,6 +230,7 @@ var subConfig = {
   "aliyun" : subConfigAliyunToken,
   "bsklsh" : subConfigBsklsh,
   "hxek" : subConfigHxek,
+  "tianyi": subConfigTianyi,
 }
 // var mosaic = "xxxxxxxx" // 马赛克
 // var strFail = "否"
