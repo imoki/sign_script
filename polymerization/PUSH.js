@@ -1,5 +1,9 @@
 // PUSH.js 推送脚本
-// 20240707
+// 20240711
+
+// 支持推送：
+// bark、pushplus、Server酱、邮箱
+// 钉钉、discord、企业微信机器人
 
 let sheetNameConfig = "CONFIG"; // 总配置表
 let sheetNamePush = "PUSH"; // 推送表名称
@@ -207,7 +211,7 @@ function sendNotify(){
   // console.log(msgPoolJuice)
   if(msgPoolJuice != ""){ // 消息池内有消息才推送
     console.log("🚀 艾默库消息池推送")
-    pushMessage(msgPool, "@all", "【" + "艾默库消息池" + "】")
+    pushMessage(msgPool, "@all", "【" + "艾默库消息池" + "】\n")
   }
 
   console.log("🎉 推送结束")
@@ -243,20 +247,9 @@ function pushMessage(message, method, pushHeader){
       if (jsonPush[i].flag == 1) {
         name = jsonPush[i].name;
         key = jsonPush[i].key;
-        if (name == "bark") {
-          bark(message, key);
-        } else if (name == "pushplus") {
-          pushplus(message, key);
-        } else if (name == "ServerChan") {
-          serverchan(message, key);
-        } else if (name == "email") {
-          email(message);
-        } else if (name == "dingtalk") {
-          dingtalk(message, key);
-        } else if (name == "discord") {
-          discord(message, key);
-        } else if (name == "qywx"){
-          qywx(message, key);
+        let keySub = pushSplit(key)
+        for (let i = 0; i < keySub.length; i++) {
+          pushUnit(message, keySub[i], name)
         }
       }
     }
@@ -278,21 +271,12 @@ function pushMessage(message, method, pushHeader){
           // console.log(methodCurrent)
           if (jsonPush[i].flag == 1) {
             key = jsonPush[i].key;
-            if (name == "bark") {
-              bark(message, key);
-            } else if (name == "pushplus") {
-              pushplus(message, key);
-            } else if (name == "ServerChan") {
-              serverchan(message, key);
-            } else if (name == "email") {
-              email(message);
-            } else if (name == "dingtalk") {
-              dingtalk(message, key);
-            } else if (name == "discord") {
-              discord(message, key);
-            }else if (name == "qywx"){
-              qywx(message, key);
+
+            let keySub = pushSplit(key)
+            for (let i = 0; i < keySub.length; i++) {
+              pushUnit(message, keySub[i], name)
             }
+
           }
           break;  // 找到推送方式就提前退出
         }
@@ -301,51 +285,80 @@ function pushMessage(message, method, pushHeader){
   }
 }
 
+// 推送执行
+function pushUnit(message, key, name){
+  try{
+    if (name == "bark") {
+      bark(message, key);
+    } else if (name == "pushplus") {
+      pushplus(message, key);
+    } else if (name == "ServerChan") {
+      serverchan(message, key);
+    } else if (name == "email") {
+      email(message);
+    } else if (name == "dingtalk") {
+      dingtalk(message, key);
+    } else if (name == "discord") {
+      discord(message, key);
+    }else if (name == "qywx"){
+      qywx(message, key);
+    } 
+  }catch{
+    console.log("📢 存在推送失败：" + name)
+  }
+}
+
 // 推送bark消息
 function bark(message, key) {
-    if (key != "") {
-      message = messagePushHeader + message // 消息头最前方默认存放：【xxxx】
-      message = encodeURIComponent(message)
-      // console.log(message)
-      BARK_ICON = "https://s21.ax1x.com/2024/06/23/pkrUkfe.png"
-    let url = "https://api.day.app/" + key + "/" + message + "/" + "?icon=" + BARK_ICON;
-    // 若需要修改推送的分组，则将上面一行改为如下的形式
-    // let url = 'https://api.day.app/' + bark_id + "/" + message + "?group=分组名";
-    let resp = HTTP.get(url, {
-        headers: { "Content-Type": "application/x-www-form-urlencoded" },
-    });
-    sleep(5000);
-    }
+  message = messagePushHeader + message // 消息头最前方默认存放：【xxxx】
+  message = encodeURIComponent(message)
+  BARK_ICON = "https://s21.ax1x.com/2024/06/23/pkrUkfe.png"
+  let url = ""
+  if(isHttpOrHttpsUrl(key)){  // 以http开头
+    url = key + "/" + message + "/" + "?icon=" + BARK_ICON
+  }else{
+    url = "https://api.day.app/" + key + "/" + message + "/" + "?icon=" + BARK_ICON;
+  }
+  
+  // 若需要修改推送的分组，则将上面一行改为如下的形式
+  // let url = 'https://api.day.app/' + bark_id + "/" + message + "?group=分组名";
+  let resp = HTTP.get(url, {
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+  });
+  sleep(5000);
 }
 
 // 推送pushplus消息
 function pushplus(message, key) {
-  if (key != "") {
-      message = encodeURIComponent(message)
-    // url = "http://www.pushplus.plus/send?token=" + key + "&content=" + message;
+  message = encodeURIComponent(message)
+  let url = ""
+  if(isHttpOrHttpsUrl(key)){  // 以http开头
+    url = key + "&content=" + message + "&title=" + messagePushHeader;
+  }else{
     url = "http://www.pushplus.plus/send?token=" + key + "&content=" + message + "&title=" + messagePushHeader;  // 增加标题
-    let resp = HTTP.fetch(url, {
-      method: "get",
-    });
-    sleep(5000);
   }
+
+  // url = "http://www.pushplus.plus/send?token=" + key + "&content=" + message;
+  let resp = HTTP.fetch(url, {
+    method: "get",
+  });
+  sleep(5000);
 }
 
 // 推送serverchan消息
 function serverchan(message, key) {
-  if (key != "") {
-    url =
-      "https://sctapi.ftqq.com/" +
-      key +
-      ".send" +
-      "?title=" + messagePushHeader +
-      "&desp=" +
-      message;
-    let resp = HTTP.fetch(url, {
-      method: "get",
-    });
-    sleep(5000);
+
+  let url = ""
+  if(isHttpOrHttpsUrl(key)){  // 以http开头
+    url = key + "?title=" + messagePushHeader + "&desp=" + message;
+  }else{
+    url = "https://sctapi.ftqq.com/" + key + ".send?title=" + messagePushHeader + "&desp=" + message;
   }
+
+  let resp = HTTP.fetch(url, {
+    method: "get",
+  });
+  sleep(5000);
 }
 
 // email邮箱推送
@@ -414,7 +427,14 @@ function emailConfig() {
 // 推送钉钉机器人
 function dingtalk(message, key) {
   message = messagePushHeader + message // 消息头最前方默认存放：【xxxx】
-  let url = "https://oapi.dingtalk.com/robot/send?access_token=" + key;
+
+  let url = ""
+  if(isHttpOrHttpsUrl(key)){  // 以http开头
+    url = key
+  }else{
+    url = "https://oapi.dingtalk.com/robot/send?access_token=" + key;
+  }
+
   let resp = HTTP.post(url, { msgtype: "text", text: { content: message } });
   // console.log(resp.text())
   sleep(5000);
