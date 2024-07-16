@@ -1,9 +1,10 @@
 // PUSH.js 推送脚本
-// 20240711
+// 20240716
 
 // 支持推送：
 // bark、pushplus、Server酱、邮箱
-// 钉钉、discord、企业微信机器人
+// 钉钉、discord、企业微信
+// 息知、即时达
 
 let sheetNameConfig = "CONFIG"; // 总配置表
 let sheetNamePush = "PUSH"; // 推送表名称
@@ -24,6 +25,8 @@ var jsonPush = [
   { name: "dingtalk", key: "xxxxxx", flag: "0" },
   { name: "discord", key: "xxxxxx", flag: "0" },
   { name: "qywx", key: "xxxxxx", flag: "0" },
+  { name: "xizhi", key: "xxxxxx", flag: "0" },
+  { name: "jishida", key: "xxxxxx", flag: "0" },
 ]; // 推送数据，flag=1则推送
 var jsonEmail = {
   server: "",
@@ -247,6 +250,7 @@ function pushMessage(message, method, pushHeader){
       if (jsonPush[i].flag == 1) {
         name = jsonPush[i].name;
         key = jsonPush[i].key;
+        
         let keySub = pushSplit(key)
         for (let i = 0; i < keySub.length; i++) {
           pushUnit(message, keySub[i], name)
@@ -302,7 +306,11 @@ function pushUnit(message, key, name){
       discord(message, key);
     }else if (name == "qywx"){
       qywx(message, key);
-    } 
+    } else if (name == "xizhi") {
+      xizhi(message, key);
+    }else if (name == "jishida"){
+      jishida(message, key);
+    }
   }catch{
     console.log("📢 存在推送失败：" + name)
   }
@@ -467,5 +475,36 @@ function qywx(message, key) {
   }
   let resp = HTTP.post(url, data);
   // console.log(resp.json())
+  sleep(5000);
+}
+
+// 息知 https://xizhi.qqoq.net/{key}.send?title=标题&content=内容
+function xizhi(message, key) {
+  message = encodeURIComponent(message)
+  let url = ""
+  if(isHttpOrHttpsUrl(key)){  // 以http开头
+    url = key + "?title=" + messagePushHeader + "&content=" + message;
+  }else{
+    url = "https://xizhi.qqoq.net/" + key + ".send?title=" + messagePushHeader + "&content=" + message;  // 增加标题
+  }
+  let resp = HTTP.fetch(url, {
+    method: "get",
+  });
+  // console.log(resp.json())
+  sleep(5000);
+}
+
+// jishida http://push.ijingniu.cn/send?key=&head=&body=
+function jishida(message, key) {
+  message = encodeURIComponent(message)
+  let url = ""
+  if(isHttpOrHttpsUrl(key)){  // 以http开头
+    url = key + "&head=" + messagePushHeader + "&body=" + message;
+  }else{
+    url = "http://push.ijingniu.cn/send?key=" + key + "&head=" + messagePushHeader + "&body=" + message;  // 增加标题
+  }
+  let resp = HTTP.fetch(url, {
+    method: "get",
+  });
   sleep(5000);
 }

@@ -1,5 +1,5 @@
 // UPDATE.js 更新脚本
-// 20240708
+// 20240716
 
 // 当前分配置表：
 // 可用脚本：
@@ -101,7 +101,9 @@ var pushContent = [
   ['email', '若要邮箱发送，请配置EMAIL表', '否'],
   ['dingtalk', 'xxxxxxxx', '否'],
   ['discord', '请填入镜像webhook链接,自行处理Query参数', '否'],
-  ['qywx', '填webhook中的key', '否'],
+  ['qywx', 'xxxxxxxx', '否'],
+  ['xizhi', 'xxxxxxxx', '否'],
+  ['jishida', 'xxxxxxxx', '否'],
 ]
 
 // email表内容
@@ -155,8 +157,8 @@ var subConfigBtime = [
 // 定制化分配置表内容，WPS
 var subConfigWps = [
   ['cookie(默认20个)', '是否执行(是/否)', '账号名称(可不填写)', '转存PPT(是/否)', '是否渠道1打卡(是/否)', '是否渠道2打卡(是/否)', 'Signature(渠道2)'],
-  ['xxxxxxxx1', '是', '昵称1', '否', '是', '否' , 'xxxxxxxx'],
-  ['xxxxxxxx2', '否', '昵称2', '否', '是', '否' , 'xxxxxxxx']
+  ['xxxxxxxx1', '是', '昵称1', '否', '是', '否' , 'xxxxxxxx' ,],
+  ['xxxxxxxx2', '否', '昵称2', '否', '是', '否' , 'xxxxxxxx' ,]
 ]
 
 // 定制化分配置表内容，花小猪
