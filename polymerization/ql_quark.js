@@ -2,7 +2,7 @@
     name: "夸克网盘"
     cron: 10 30 10 * * *
     脚本兼容: 金山文档， 青龙
-    更新时间：20240706
+    更新时间：20240718
 */
 
 const logo = "艾默库 : https://github.com/imoki/sign_script"    // 仓库地址
@@ -395,6 +395,19 @@ function getsign(data) {
     return sign;
 }
 
+// cookie字符串转json格式
+function cookie_to_json(cookies) {
+  var cookie_text = cookies;
+  var arr = [];
+  var text_to_split = cookie_text.split(";");
+  for (var i in text_to_split) {
+    var tmp = text_to_split[i].split("=");
+    arr.push('"' + tmp.shift().trim() + '":"' + tmp.join(":").trim() + '"');
+  }
+  var res = "{\n" + arr.join(",\n") + "\n}";
+  return JSON.parse(res);
+}
+
 // =================共用结束===================
 
 // 青龙适配
@@ -477,7 +490,8 @@ function resultHandle(resp, pos){
             console.log("🍳 进行签到")
             // {"status":200,"code":0,"message":"","timestamp":170000000,"data":{"sign_daily_reward":20000000},"metadata":{}}
             // {"status":400,"code":44210,"message":"cap_growth_sign_repeat","req_id":"xxxzzz-xxxxxxx","timestamp":17000000}
-            let url2 = "https://drive-m.quark.cn/1/clouddrive/capacity/growth/sign?pr=ucpro&fr=pc&uc_param_str="; // 进行签到
+            // let url2 = "https://drive-m.quark.cn/1/clouddrive/capacity/growth/sign?pr=ucpro&fr=pc&uc_param_str="; // 进行签到
+            let url2 = "https://drive-m.quark.cn/1/clouddrive/capacity/growth/sign?" + cookie
             resp = HTTP.post(
                 url2,
                 JSON.stringify(data),
@@ -506,7 +520,8 @@ function resultHandle(resp, pos){
             //     headers: headers,
             //     // data: data
             // });
-            url =  "https://drive-m.quark.cn/1/clouddrive/capacity/growth/info?pr=ucpro&fr=pc&uc_param_str=";
+            // url =  "https://drive-m.quark.cn/1/clouddrive/capacity/growth/info?pr=ucpro&fr=pc&uc_param_str=";
+            url = "https://drive-m.quark.cn/1/clouddrive/capacity/growth/info?" + cookie
             if(qlSwitch != 1){  // 金山文档
                 resp = HTTP.fetch(url, {
                     method: "get",
@@ -627,17 +642,27 @@ function execHandle(cookie, pos) {
     qlpushFlag -= 1 // 一个用户只会执行一次execHandle，因此可用于记录当前用户
     messageSuccess = "";
     messageFail = "";
+
+    // console.log(cookie)
+
+    params = cookie.split("?")
+    cookie = ""
+    for(let i= 1; i<params.length; i++){
+      cookie +=params[i]
+    }
+    // console.log(param)
     
   // try {
-    let url1 = "https://drive-m.quark.cn/1/clouddrive/capacity/growth/info?pr=ucpro&fr=pc&uc_param_str="; // 查询是否签到
+    // let url1 = "https://drive-m.quark.cn/1/clouddrive/capacity/growth/info?pr=ucpro&fr=pc&uc_param_str="; // 查询是否签到
+    let url = "https://drive-m.quark.cn/1/clouddrive/capacity/growth/info?" + cookie
     
     headers = {
-      "Cookie": cookie,
+      // "Cookie": cookie,
       "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/46.0.2486.0 Safari/537.36 Edge/13.10586"
     };
 
     if(qlSwitch != 1){  // 金山文档
-        resp = HTTP.fetch(url1, {
+        resp = HTTP.fetch(url, {
             method: "get",
             headers: headers,
             // data: data
@@ -646,7 +671,7 @@ function execHandle(cookie, pos) {
         data = {}
         option = "get"
         resp = HTTP.post(
-            url1,
+            url,
             data,
             { headers: headers },
             option
