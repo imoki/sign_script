@@ -1,5 +1,5 @@
 // 有道云笔记自动签到
-// 20240706
+// 20240718
 
 let sheetNameSubConfig = "noteyoudao"; // 分配置表名称
 let pushHeader = "【有道云笔记】";
@@ -385,6 +385,20 @@ function getsign(data) {
     return sign;
 }
 
+
+// cookie字符串转json格式
+function cookie_to_json(cookies) {
+  var cookie_text = cookies;
+  var arr = [];
+  var text_to_split = cookie_text.split(";");
+  for (var i in text_to_split) {
+    var tmp = text_to_split[i].split("=");
+    arr.push('"' + tmp.shift().trim() + '":"' + tmp.join(":").trim() + '"');
+  }
+  var res = "{\n" + arr.join(",\n") + "\n}";
+  return JSON.parse(res);
+}
+
 // =================共用结束===================
 
 // 具体的执行函数
@@ -411,7 +425,28 @@ function execHandle(cookie, pos) {
   }
 
   posLabel = pos-2 ;  // 存放下标，从0开始
+
+  try{
+     // console.log(cookie)
+
+    cookieJson = cookie_to_json(cookie)
+    YNOTE_PERS = cookieJson["YNOTE_PERS"]
+    
+    YNOTE_PERS_list = YNOTE_PERS.split("||")
+    username = YNOTE_PERS_list[YNOTE_PERS_list.length - 2]
+    // console.log("用户"username)
+    if(username != "" && username != undefined){
+      messageName = username
+    }
+
+  }catch{
+
+  }
   messageHeader[posLabel] = "👨‍🚀 " + messageName
+
+  console.log("👨‍🚀 用户： ", messageName)
+
+ 
 
   // try {
     var url1 = "https://note.youdao.com/yws/mapi/user?method=checkin";
