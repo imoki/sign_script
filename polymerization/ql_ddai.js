@@ -2,7 +2,7 @@
     name: "钉钉AI签到领算粒"
     cron: 10 0 16 * * *
     脚本兼容: 金山文档， 青龙
-    更新时间：20240719
+    更新时间：20240721
     环境变量名：ddai
     环境变量值：填写cookie
 */
@@ -434,7 +434,7 @@ function resultHandle(resp, pos){
         // {"message":"成功","code":1000,"data":{},"requestId":""}
         // {"code":1002,"message":"今日已签到","requestId":""}
         resp = resp.json()
-        console.log(resp)
+        // console.log(resp)
         code = resp["code"]
         respmsg = resp["message"]
         if(code == 1000){
@@ -481,6 +481,13 @@ function resultHandle(resp, pos){
 
     }
 
+    // // 测试用
+    // url = "https://api-wolai.dingtalk.com/v1/checkIn/getRewards"; // 领取奖励（修改这里，这里填抓包获取到的地址）
+    // resp = HTTP.get(
+    //     url,
+    //     { headers: headers }
+    // );
+
     if(posHttp == 2 || qlSwitch != 1){  // 第二次进来时用
 
         // if(code == 1000 || qlSwitch == 1){   // 金山才需要的判断、即签到成功或者是青龙
@@ -499,10 +506,13 @@ function resultHandle(resp, pos){
                 // console.log(rewards)
                 // 只领取最近的一期奖励
                 for(j = 0; j < rewards.length; j++){
+                    rewards_level = rewards[j]["rewards_level"]  // 是否vip。1为普通用户，2为vip
                     rewards_status = rewards[j]["rewards_status"]  // 1为已领取，0为未领取
-                    if(rewards_status == 0){
+                    // console.log(rewards_level, rewards_status)
+                    if(rewards_status == 0 && rewards_level == 1){  // 只领取非vip的奖励
                         rewards_id = rewards[j]["rewards_id"]
                         rewards_in = rewards[j]["rewards_in"]
+                        break
                     }
                 }
 
@@ -511,6 +521,7 @@ function resultHandle(resp, pos){
                 // rewards_status = 0  // 1为已领取，0为未领取
                 // rewards_id = rewards[j]["rewards_id"]
                 // rewards_in = rewards[j]["rewards_in"]
+                // console.log(rewards_status)
 
                 console.log("🍳 rewards_id:" + rewards_id + " rewards_in:" + rewards_in)
             }
@@ -536,6 +547,8 @@ function resultHandle(resp, pos){
                     "rewards_id":rewards_id,
                     "rewards_in":rewards_in
                 }
+                // console.log(url)
+                // console.log(data)
                 
                 resp = HTTP.post(
                     url,
