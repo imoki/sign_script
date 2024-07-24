@@ -1,15 +1,15 @@
 /*
-    name: "中国联通"
-    cron: 10 0 16 * * *
+    name: "模板"（修改这里）
+    cron: 45 0 9 * * *
     脚本兼容: 金山文档， 青龙
     更新时间：20240719
-    环境变量名：zglt
-    环境变量值：填写cookie
+    环境变量名：mouxue（修改这里）
+    环境变量值：填写cookie（修改这里）
 */
 
 const logo = "艾默库 : https://github.com/imoki/sign_script"    // 仓库地址
-let sheetNameSubConfig = "zglt"; // 分配置表名称
-let pushHeader = "【中国联通】";
+let sheetNameSubConfig = "mouxue"; // 分配置表名称， （修改这里）
+let pushHeader = "【某雪论坛】";    // （修改这里）
 let sheetNameConfig = "CONFIG"; // 总配置表
 let sheetNamePush = "PUSH"; // 推送表名称
 let sheetNameEmail = "EMAIL"; // 邮箱表
@@ -401,11 +401,8 @@ function getsign(data) {
 
 // 结果处理函数
 function resultHandle(resp, pos){
-    // 每次进来resultHandle则加一次请求
-    posHttp += 1    // 青龙适配，青龙微适配
-    
-    // let messageSuccess = "";
-    // let messageFail = "";
+    let messageSuccess = "";
+    let messageFail = "";
     let messageName = "";
     // 推送昵称或单元格，还是不推送位置标识
     if (messageNickname == 1) {
@@ -417,62 +414,69 @@ function resultHandle(resp, pos){
         }
     }
     posLabel = pos-2 ;  // 存放下标，从0开始
-    messageHeader[posLabel] = "👨‍🚀 " + messageName
+    messageHeader[posLabel] = "🧑 " + messageName
     // console.log(messageName)
 
-
-    // {"data":{"flowerCount":"10","code":"0","sevenDaysResultMap":{"sevenDaysList":[{"signFlag":"1","days":"今天","pic":""},{"signFlag":"0","days":"第2天","pic":""},{"signFlag":"0","days":"第3天","pic":""},{"signFlag":"0","days":"第4天","pic":""},{"signFlag":"0","days":"第5天","pic":""},{"signFlag":"0","days":"第6天","pic":""},{"signFlag":"0","days":"第7天","pic":""},{"signFlag":"0","days":"第14天","pic":""},{"signFlag":"0","days":"第21天","pic":""},{"signFlag":"0","days":"第28天","pic":"https://img.client.10010.com/Sign...
-    // {"data":{"cancelButton":{"btnBackGroundColor":"","btnName":"取消","btnSubscript":"取消","btnUrl":"","id":"","imageName":"取消","imageUrl":"","name":"首页翻倍成功翻倍视频异常"},"statusDesc":"温馨提示"},"msg":"您今天已经签到啦","status":"0002"}
     if (resp.status == 200) {
-        resp = resp.json();
-        console.log(resp);
-        // flowerCount = resp["data"]["flowerCount"] // 积分
-        // respmsg = resp["data"]["msg"]
-        respmsg = resp["msg"]
+        resp = resp.json(); // 返回json格式则resp.json()。否则为resp.text()，此时就要用正则处理响应
+        console.log(resp)
+        
 
-        if(respmsg == "undefined" || respmsg == "ok!")
+        // （修改这里，这里就是自己写了，根据抓包的响应自行修改）
+        // 接收到的响应数据是json格式，如下，假设有2种情况
+        // 情况1：{"code": "0","message": "签到成功"}
+        // 情况2：{"code":"-1","message":"请先登录"}    
+        respcode = resp["code"] // 通过resp["键名"]的方式获取值.假设响应数据是情况1，则读取到数字“0”
+
+        if(respcode == 0 )   // 通过code值来判断是不是签到成功，由抓包的情况1知道，0代表签到成功了,所以让code与0比较
         {
-            // code = resp["data"]["code"] 
-            // if(code == 0)
-            // {
-            //   respmsg = "签到成功 "
-            // }else
-            // {
-            //   respmsg = "可能已签到 "
-            // }
-            content = "🎉 " + "签到成功 "
-            messageSuccess += content
-        }else
-        {
-            content = "📢 " + respmsg + " "
-            messageSuccess += content
-
-        }
-    }else {
-        content = "❌ " +"签到失败 "
-        messageFail += content;
-        //   console.log(content);
-    }
-    // 青龙适配，青龙微适配
-    flagResultFinish = 1; // 签到结束   
-
-    sleep(2000);
-    if (messageOnlyError == 1) {
-        messageArray[posLabel] = messageFail;
-    } else {
-        if(messageFail != ""){
-            messageArray[posLabel] = messageFail + " " + messageSuccess;
+            content = "🎉 签到成功" + ""
+            messageSuccess += content;
+            // console.log(content)
         }else{
-            messageArray[posLabel] = messageSuccess;
+            respmsg = resp["message"]   // 通过resp["键名"]的方式获取值，假设响应数据是情况1，这里取到的值就是“签到成功”
+            if(respmsg == "请先登录"){
+                content = "❌ " + respmsg + ""
+                messageFail += content;
+            }else{
+                content = "📢 " + respmsg + ""
+                messageSuccess += content;
+            }
+            
+            // console.log(content)
         }
+
+    } else {
+        content = "❌ 签到失败"
+        messageFail += content;
+        // console.log(content);
     }
 
-    if(messageArray[posLabel] != "")
-    {
-        console.log(messageArray[posLabel]);
-    }
+  // } catch {
+  //   messageFail += messageName + "失败";
+  // }
 
-    return flagResultFinish
+    // 青龙适配，青龙微适配
+    flagResultFinish = 1; // 签到结束
+
+  sleep(2000);
+  if (messageOnlyError == 1) {
+    messageArray[posLabel] =  messageFail;
+  } else {
+      if(messageFail != ""){
+        messageArray[posLabel] = messageFail + " " + messageSuccess;
+      }else{
+        messageArray[posLabel] = messageSuccess;
+      }
+  }
+
+  if(messageArray[posLabel] != "")
+  {
+    console.log(messageArray[posLabel]);
+  }
+//   console.log(messageArray)
+
+  return flagResultFinish
 }
 
 // 具体的执行函数
@@ -484,27 +488,40 @@ function execHandle(cookie, pos) {
     messageSuccess = "";
     messageFail = "";
 
-  // try {
-    url = "https://act.10010.com/SigninApp/signin/daySign";
-    headers = {
-      "Cookie": cookie,
-      "User-Agent": "Mozilla/5.0 (Linux; Android 14; 21121210C Build/UKQ1.230917.001; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/118.0.0.0 Mobile Safari/537.36; unicom{version:android@11.0500,desmobile:0};devicetype{deviceBrand:Xiaomi,deviceModel:21121210C}",
-      "Host": "act.10010.com",
-    };
+    let url = "https://bbs.mouxue.com/user-signin.htm"; // 签到url（修改这里，这里填抓包获取到的地址）
 
-    // let resp = HTTP.fetch(url, {
-    //   method: "post",
-    //   headers: headers,
-    // });
-    data = {
+    // （修改这里，这里填抓包获取header，全部抄进来就可以了，按照如下用引号包裹的格式，其中小写的cookie是从表格中读取到的值。）
+    headers= {
+      "Cookie": cookie,
+      "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36 Edg/91.0.864.70",
     }
-      resp = HTTP.post(
-        url,
-        data,
-        { headers: headers }
+
+    // （修改这里，这里填抓包获取data，全部抄进来就可以了，按照如下用引号包裹的格式。POST请求才需要这个，GET请求就不用它了）
+    data = {
+      "csrf_token":"",
+    }
+    
+    // （修改这里，以下请求方式三选一即可)
+    // 请求方式1：POST请求，抓包的data数据格式是 {"aaa":"xxx","bbb":"xxx"} 。则用这个
+    resp = HTTP.post(
+      url,
+      JSON.stringify(data),
+      { headers: headers }
     );
 
-   
+    // // 请求方式2：POST请求，抓包的data数据格式是 aaa=xxx&bbb=xxx 。则用这个
+    // resp = HTTP.post(
+    //   url,
+    //   data,
+    //   { headers: headers }
+    // );
+
+    // // 请求方式3：GET请求，无data数据。则用这个
+    // resp = HTTP.get(
+    //   url,
+    //   { headers: headers }
+    // );
+
 
 
     if(qlSwitch != 1){  // 选择金山文档
