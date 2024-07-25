@@ -2,7 +2,7 @@
     name: "可灵ai"
     cron: 10 0 9 * * *
     脚本兼容: 金山文档， 青龙
-    更新时间：20240724
+    更新时间：20240725
     环境变量名：klingai
     环境变量值：填写cookie
 */
@@ -401,6 +401,8 @@ function getsign(data) {
 
 // 结果处理函数
 function resultHandle(resp, pos){
+    // 每次进来resultHandle则加一次请求
+    posHttp += 1    // 青龙适配，青龙微适配
     let messageSuccess = "";
     let messageFail = "";
     let messageName = "";
@@ -439,11 +441,27 @@ function resultHandle(resp, pos){
 
               url = "https://klingai.kuaishou.com/api/account/point"; // 账户多少灵感值（修改这里，这里填抓包获取到的地址）
 
-              // 请求方式3：GET请求，无data数据。则用这个
-              resp = HTTP.get(
-                url,
-                { headers: headers }
-              );
+            //   // 请求方式3：GET请求，无data数据。则用这个
+            //   resp = HTTP.get(
+            //     url,
+            //     { headers: headers }
+            //   );
+            if(qlSwitch != 1){  // 金山文档
+                resp = HTTP.fetch(url, {
+                    method: "get",
+                    headers: headers,
+                    // data: data
+                });
+            }else{  // 青龙
+                data = {}
+                option = "get"
+                resp = HTTP.post(
+                    url,
+                    data,
+                    { headers: headers },
+                    option
+                );
+            }
 
           }else{
               respmsg = resp["message"]   // 通过resp["键名"]的方式获取值，假设响应数据是情况1，这里取到的值就是“签到成功”
@@ -558,12 +576,27 @@ function execHandle(cookie, pos) {
     //   { headers: headers }
     // );
 
-    // 请求方式3：GET请求，无data数据。则用这个
-    resp = HTTP.get(
-      url,
-      { headers: headers }
-    );
-
+    // // 请求方式3：GET请求，无data数据。则用这个
+    // resp = HTTP.get(
+    //   url,
+    //   { headers: headers }
+    // );
+    if(qlSwitch != 1){  // 金山文档
+        resp = HTTP.fetch(url, {
+            method: "get",
+            headers: headers,
+            // data: data
+        });
+    }else{  // 青龙
+        data = {}
+        option = "get"
+        resp = HTTP.post(
+            url,
+            data,
+            { headers: headers },
+            option
+        );
+    }
 
 
     if(qlSwitch != 1){  // 选择金山文档
