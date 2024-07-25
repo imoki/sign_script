@@ -401,6 +401,9 @@ function getsign(data) {
 
 // 结果处理函数
 function resultHandle(resp, pos){
+    // 每次进来resultHandle则加一次请求
+    posHttp += 1    // 青龙适配，青龙微适配
+
     let messageSuccess = "";
     let messageFail = "";
     let messageName = "";
@@ -517,10 +520,22 @@ function execHandle(cookie, pos) {
     // );
 
     // // 请求方式3：GET请求，无data数据。则用这个
-    // resp = HTTP.get(
-    //   url,
-    //   { headers: headers }
-    // );
+    // if(qlSwitch != 1){  // 金山文档
+    //   resp = HTTP.fetch(url, {
+    //       method: "get",
+    //       headers: headers,
+    //       // data: data
+    //   });
+    // }else{  // 青龙
+    //     data = {}
+    //     option = "get"
+    //     resp = HTTP.post(
+    //         url,
+    //         data,
+    //         { headers: headers },
+    //         option
+    //     );
+    // }
 
 
 
