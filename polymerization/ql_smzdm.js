@@ -5,6 +5,7 @@
     更新时间：20240719
     环境变量名：smzdm
     环境变量值：填写cookie
+    备注：官网中的Cookie值，只是抽奖，不是签到。
 */
 
 const logo = "艾默库 : https://github.com/imoki/sign_script"    // 仓库地址

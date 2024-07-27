@@ -5,6 +5,7 @@
     更新时间：20240719
     环境变量名：en
     环境变量值：填写cookie
+    备注：需要Cookie。用抓包工具抓取“希沃白板”APP中任意一个cookie。
 */
 
 const logo = "艾默库 : https://github.com/imoki/sign_script"    // 仓库地址

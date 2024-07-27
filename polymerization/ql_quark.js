@@ -4,7 +4,7 @@
     脚本兼容: 金山文档， 青龙
     更新时间：20240719
     环境变量名：quark
-    环境变量值：填写手机app抓包的任意一个含sign的url
+    环境变量值：填写手机app抓包的任意一个含sign的url，建议含growth/info的url。必须是抓夸克网盘APP。
 */
 
 const logo = "艾默库 : https://github.com/imoki/sign_script"    // 仓库地址

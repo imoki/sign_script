@@ -5,6 +5,7 @@
     更新时间：20240719
     环境变量名：kanxue
     环境变量值：填写cookie
+    备注：需要Cookie。第一步，浏览器访问网页版看雪论坛。按键盘的F12，会唤起下方的开发者工具；第二步，点击开发者工具中的"NetWork"(中文名叫"网络")；第三步，点击任意一个含有Cookie的包（点击签到必含有此值的包）；第四步，右侧找到"Cookie"并复制
 */
 
 const logo = "艾默库 : https://github.com/imoki/sign_script"    // 仓库地址

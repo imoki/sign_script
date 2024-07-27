@@ -5,6 +5,7 @@
     更新时间：20240719
     环境变量名：fwxs
     环境变量值：填写cookie
+    备注：需要Cookie。浏览器抓取废文网页所需的值，需要邀请的有门槛，没账号的不需要折腾。
 */
 
 const logo = "艾默库 : https://github.com/imoki/sign_script"    // 仓库地址

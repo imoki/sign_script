@@ -1,5 +1,6 @@
 // 万能福利吧自动签到
 // 20240706
+// 备注：需要cookie。有门槛，没账号的不用折腾。
 
 let sheetNameSubConfig = "wnflb"; // 分配置表名称
 let pushHeader = "【万能福利吧】";

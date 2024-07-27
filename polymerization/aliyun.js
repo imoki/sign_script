@@ -1,6 +1,7 @@
 // 阿里云盘(自动更新token版)、已移除自动领奖功能
 // 20240706
 // 文中引用代码改编自https://www.52pojie.cn/thread-1869673-43-1.html
+// 备注：cookie填写阿里云盘网页版中获取的refresh_token。F12 -> Application -> Local Storage -> token -> refresh_token
 
 let sheetNameSubConfig = "aliyun"; // 分配置表名称
 let pushHeader = "【阿里云盘】";

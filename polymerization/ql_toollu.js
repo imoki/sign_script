@@ -5,6 +5,7 @@
     更新时间：20240719
     环境变量名：toollu
     环境变量值：填写cookie
+    备注：在线工具网页的cookie
 */
 
 const logo = "艾默库 : https://github.com/imoki/sign_script"    // 仓库地址

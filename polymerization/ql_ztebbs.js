@@ -5,6 +5,7 @@
     更新时间：20240719
     环境变量名：ztebbs
     环境变量值：填写cookie
+    备注：需要AccessToken。APP用抓包工具抓取所需的值或者网页端获取所需得值。第一步，浏览器访问网页版中兴社区，按键盘的F12，会唤起下方的开发者工具；第二步，点击开发者工具中的"NetWork"(中文名叫"网络")；第三步，点击任意一个含有AccessToken的包（点击签到必含有此值的包）；第四步，右侧找到"AccessToken"并复制，如图中的xxxxxxxx
 */
 
 const logo = "艾默库 : https://github.com/imoki/sign_script"    // 仓库地址

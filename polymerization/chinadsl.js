@@ -1,5 +1,6 @@
 // 宽带技术网自动签到得积分、做任务、领取猫粮
 // 20240706
+// 备注：宽带技术网任意一个cookie
 
 let sheetNameSubConfig = "chinadsl"; // 分配置表名称
 let pushHeader = "【宽带技术网】";

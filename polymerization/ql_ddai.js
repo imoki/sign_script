@@ -5,6 +5,7 @@
     更新时间：20240721
     环境变量名：ddai
     环境变量值：填写cookie
+    备注：需要Cookie。抓包工具抓取所需的值，钉钉首页左上角有个切换个人空间，里面有AI签到领算粒，在这附近或签到时抓的cookie都行。
 */
 
 const logo = "艾默库 : https://github.com/imoki/sign_script"    // 仓库地址

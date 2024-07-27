@@ -1,5 +1,7 @@
 // vivo社区签到和抽奖
 // 20240706
+// 备注：需要Cookie。第一步，浏览器访问网页版vivo社区，按键盘的F12，会唤起下方的开发者工具；第二步，点击开发者工具中的"NetWork"(中文名叫"网络")；第三步，点击任意一个含有Cookie的包（点击签到必含有此值的包）；第四步，右侧找到"AccessToken"并复制，如图中的xxxxxxxx
+
 
 let sheetNameSubConfig = "vivo"; // 分配置表名称
 let pushHeader = "【vivo社区】";

@@ -5,6 +5,7 @@
     更新时间：20240725
     环境变量名：klingai
     环境变量值：填写cookie
+    备注：可灵ai网页获取cookie
 */
 
 const logo = "艾默库 : https://github.com/imoki/sign_script"    // 仓库地址
