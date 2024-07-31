@@ -2,7 +2,7 @@
     name: "钉钉AI签到领算粒"
     cron: 10 0 16 * * *
     脚本兼容: 金山文档， 青龙
-    更新时间：20240721
+    更新时间：20240731
     环境变量名：ddai
     环境变量值：填写cookie
     备注：需要Cookie。抓包工具抓取所需的值，钉钉首页左上角有个切换个人空间，里面有AI签到领算粒，在这附近或签到时抓的cookie都行。
@@ -534,28 +534,34 @@ function resultHandle(resp, pos){
 
             
             if(rewards_status == 0){  // 未领取奖励
-                console.log("🍳 有奖励未领取，开始领取奖励")
-                // 领取奖励
-                url = "https://api-wolai.dingtalk.com/v1/checkIn/redeemReward"; // 领取奖励（修改这里，这里填抓包获取到的地址）
+              if(rewards_id != 0 && rewards_in != 0)  // 修复未领奖，但id不存在的问题
+                {
+                    console.log("🍳 有奖励未领取，开始领取奖励")
+                    // 领取奖励
+                    url = "https://api-wolai.dingtalk.com/v1/checkIn/redeemReward"; // 领取奖励（修改这里，这里填抓包获取到的地址）
 
-                // headers= {
-                //     "Cookie": cookie,
-                //     "DingTalk-Flag": 1,
-                //     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36 Edg/91.0.864.70",
-                // }
+                    // headers= {
+                    //     "Cookie": cookie,
+                    //     "DingTalk-Flag": 1,
+                    //     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36 Edg/91.0.864.70",
+                    // }
 
-                data = {
-                    "rewards_id":rewards_id,
-                    "rewards_in":rewards_in
+                    data = {
+                        "rewards_id":rewards_id,
+                        "rewards_in":rewards_in
+                    }
+                    // console.log(url)
+                    // console.log(data)
+                    
+                    resp = HTTP.post(
+                        url,
+                        data,
+                        { headers: headers }
+                    );
+                }else{
+                    // 青龙适配，青龙微适配
+                    flagResultFinish = 1; // 签到结束  
                 }
-                // console.log(url)
-                // console.log(data)
-                
-                resp = HTTP.post(
-                    url,
-                    data,
-                    { headers: headers }
-                );
             }else{
                 // 青龙适配，青龙微适配
                 flagResultFinish = 1; // 签到结束    

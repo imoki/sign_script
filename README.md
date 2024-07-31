@@ -50,15 +50,14 @@
 | :---: | :---: | :---: | :---: | :---: |:---: |
 | 🟢️ | WEB | 百度贴吧 | tieba.js | 24-07-18 | 签到、只能签6个左右 |
 | 🟢️ | WEB | 有道云笔记 | noteyoudao.js | 23-08-08 | 签到、领取空间 |
-| 🟤 | APP | WPS(轻量版) | wps_light.js | 23-07-31 | 适用于手机端签到，不具备绕验证码功能 |
 | 🟢️ | WEB | 什么值得买 | ql_smzdm.js | 24-06-20 | 抽奖的碎银子 |
 | 🟢️ | WEB | 在线工具 | ql_toollu.js | 24-06-20 | 签到获取积分 |
 | 🟢️ | APP | 叮咚买菜-叮咚鱼塘 | ddmy_ddyt.js | 24-06-23 | 领积分、签到、喂饲料 |
 | 🟢️ | APP | AcFun | ql_acfun.js | 24-07-18 | 签到得香蕉 |
 | 🟢️ | APP | 喜马拉雅 | ql_xmly.js | 24-06-20 | 签到 |
-| 🟢️ | APP | 希沃白板 | ql_easinote.js | 24-07-24 | 签到得空间 |
+| 🟢️ | APP | 希沃白板 | ql_easinote.js | 24-07-31 | 签到得空间 |
 | 🟢️ | APP | 小木虫 | ql_xmc.js | 24-06-20 | 签到得金币 |
-| 🟢️ | WEB | 夸克网盘 | ql_quark.js | 24-07-24 | 签到得空间 |
+| 🟢️ | WEB | 夸克网盘 | ql_quark.js | 24-07-31 | 签到得空间 |
 | 🟢️ | APP | 葫芦侠3楼 | huluxia.js | 24-06-20 | 板块签到 |
 | 🟢️ | WEB | 中兴社区 | ql_ztebbs.js | 24-07-18 | 签到,得经验和流星 |
 | 🟢️ | APP | 小米商城 | ql_mi.js | 24-07-18 | 签到,得米金 |
@@ -69,14 +68,12 @@
 | 🟢️ | WEB | 阿里云盘(自动更新token版)  | aliyun.js | 24-06-20 | 签到，领取奖励（已无法自动领奖励），领取备份奖励 |
 | 🟢️ | WEB | 宽带技术网 | chinadsl.js | 24-06-20 | 签到得积分、做任务、领取猫粮 |
 | 🟢️ | APP | golo汽修大师 | ql_golo.js | 24-06-20 | 签到得积分,自动更新token |
-| 🟢️ | WEB | 中兴商城 | ztemall.js | 24-07-24| 签到、做任务,得积分 |
+| 🟢️ | WEB | 中兴商城 | ztemall.js | 24-07-31| 签到、做任务,得积分 |
 | 🟢️ | WEB | 万能福利吧 | wnflb.js | 24-06-12 | 签到,得积分 |
 | 🟢️ | wx  | 百事可乐上海 | ql_bsklsh.js | 24-06-14 | 签到,得积分 |
-| 🟢️ | WEB | 废文 | ql_fwxs.js | 24-07-24 | 签到 |
-| 🟢️ | wx  | 鸿星尔克 | ql_hxek.js | 24-07-24 | 签到,得积分 |
-| 🟤 | APP | 飞客茶馆 | ql_flyert.js | 24-06-21 | 签到 |
-| 🟢️ | APP | 钉钉AI | ql_ddai.js | 24-07-24 | 签到 |
-| 🟢️ | WEB | 可灵ai | ql_klingai.js | 24-07-24 | 签到,得灵感值 |
+| 🟢️ | WEB | 废文 | ql_fwxs.js | 24-07-31 | 签到 |
+| 🟢️ | wx  | 鸿星尔克 | ql_hxek.js | 24-07-31 | 签到,得积分 |
+| 🟢️ | APP | 钉钉AI | ql_ddai.js | 24-07-31 | 签到 |
 
 ## 🛰️ 金山文档支持的通知列表
 - Bark（iOS）
@@ -99,10 +96,10 @@
 [![][pr-welcome-shield]][pr-welcome-link]
 
 ### 💗 感谢我们的贡献者
-<a href="https://github.com/jarryyen">@jarryyen</a>、
-<a href="https://github.com/darkbfly">@darkbfly</a>、
-<a href="https://github.com/SunWuyuan">@孙悟元</a>、
-<a href="https://github.com/wawmb">@wawmb</a>
+<a href="">@jarryyen</a>、
+<a href="">@darkbfly</a>、
+<a href="">@孙悟元</a>、
+<a href="">@wawmb</a>
 <br>
 <br>
 [![][github-contrib-shield]][github-contrib-link]
