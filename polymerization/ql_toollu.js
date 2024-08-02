@@ -5,7 +5,8 @@
     更新时间：20240719
     环境变量名：toollu
     环境变量值：填写cookie
-    备注：在线工具网页的cookie
+    备注：需要Cookie。浏览器访问在线工具箱，F12 -> NetWork(中文名叫"网络") -> 按一下Ctrl+R -> tool.lu -> cookie
+    在线工具网址：https://tool.lu
 */
 
 const logo = "艾默库 : https://github.com/imoki/sign_script"    // 仓库地址
