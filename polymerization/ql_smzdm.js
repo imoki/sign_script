@@ -5,7 +5,8 @@
     更新时间：20240719
     环境变量名：smzdm
     环境变量值：填写cookie
-    备注：官网中的Cookie值，只是抽奖，不是签到。
+    备注：需要Cookie。浏览器访问网页版什么值得买，F12 -> NetWork(中文名叫"网络") -> 按一下Ctrl+R -> www.smzdm.com -> cookie
+    什么值得买网址：https://www.smzdm.com
 */
 
 const logo = "艾默库 : https://github.com/imoki/sign_script"    // 仓库地址
