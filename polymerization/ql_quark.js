@@ -83,33 +83,33 @@ function writeMessageQueue(message){
 // 总推送
 function push(message) {
   writeMessageQueue(message)  // 将消息写入CONFIG表中
-  // if (message != "") {
-  //   // message = messagePushHeader + message // 消息头最前方默认存放：【xxxx】
-  //   let length = jsonPush.length;
-  //   let name;
-  //   let key;
-  //   for (let i = 0; i < length; i++) {
-  //     if (jsonPush[i].flag == 1) {
-  //       name = jsonPush[i].name;
-  //       key = jsonPush[i].key;
-  //       if (name == "bark") {
-  //         bark(message, key);
-  //       } else if (name == "pushplus") {
-  //         pushplus(message, key);
-  //       } else if (name == "ServerChan") {
-  //         serverchan(message, key);
-  //       } else if (name == "email") {
-  //         email(message);
-  //       } else if (name == "dingtalk") {
-  //         dingtalk(message, key);
-  //       } else if (name == "discord") {
-  //         discord(message, key);
-  //       }
-  //     }
-  //   }
-  // } else {
-  //   console.log("🍳 消息为空不推送");
-  // }
+  if (message != "") {
+    // message = messagePushHeader + message // 消息头最前方默认存放：【xxxx】
+    let length = jsonPush.length;
+    let name;
+    let key;
+    for (let i = 0; i < length; i++) {
+      if (jsonPush[i].flag == 1) {
+        name = jsonPush[i].name;
+        key = jsonPush[i].key;
+        if (name == "bark") {
+          bark(message, key);
+        } else if (name == "pushplus") {
+          pushplus(message, key);
+        } else if (name == "ServerChan") {
+          serverchan(message, key);
+        } else if (name == "email") {
+          email(message);
+        } else if (name == "dingtalk") {
+          dingtalk(message, key);
+        } else if (name == "discord") {
+          discord(message, key);
+        }
+      }
+    }
+  } else {
+    console.log("🍳 消息为空不推送");
+  }
 }
 
 
