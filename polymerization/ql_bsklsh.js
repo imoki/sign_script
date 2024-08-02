@@ -5,7 +5,7 @@
     更新时间：20240719
     环境变量名：bsklsh
     环境变量值：填写Authorization#HH-APP#HH-FROM
-    备注：需要Authorization、HH-APP、HH-FROM。“百事可乐上海”抓取所需的值，如:bearer aaaa-aaaa-aaaa、wxxxxxxxx、22222222。此值表格中需要用到。
+    备注：需要Authorization、HH-APP、HH-FROM。“百事可乐上海”抓取所需的值，如:bearer aaaa-aaaa-aaaa、wxxxxxxxx、22222222。
 */
 
 const logo = "艾默库 : https://github.com/imoki/sign_script"    // 仓库地址

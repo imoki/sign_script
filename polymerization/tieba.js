@@ -1,12 +1,9 @@
 // 百度贴吧自动签到
 // 20240706
-// 备注：需要百度贴吧的BDUSS值。
-// 文字步骤如下：
-// 1.第一步，浏览器访问网页版百度贴吧，网址为
-// 按键盘的F12，会唤起下方的开发者工具
-// 2.第二步，点击开发者工具中的"Application"(中文名叫"应用")
-// 3.第三步，点击"Cookies"下的百度贴吧网址
-// 4.第四步，右侧找到"BDUSS"并复制它后面的内容，如：xxxxxxx
+/*
+备注：需要BDUSS。cookie填写百度贴吧网页版中获取的BDUSS。F12 -> Application(中文名叫"应用程序") -> Cookie -> BDUSS
+百度贴吧网址：https://tieba.baidu.com/
+*/
 
 let sheetNameSubConfig = "tieba"; // 分配置表名称
 let pushHeader = "【百度贴吧】";

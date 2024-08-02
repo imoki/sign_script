@@ -1,6 +1,8 @@
 // 叮咚买菜-叮咚鱼塘自动签到
 // 20240706
-// 备注：需要Cookie、seedId、propsId。"叮咚买菜"APP，然后用Stream软件进行抓包，分别在叮咚鱼塘中点击喂饲料，在果园中点击浇水，就能抓到含有Cookie、seedId和propsId的包。（叮咚鱼塘与叮咚果园的seedId、propsId不同，因此需要分别抓包，Cookie相同）
+/*
+备注：需要Cookie、seedId、propsId。"叮咚买菜"APP，然后用抓包软件进行抓包，分别在叮咚鱼塘中点击喂饲料，在果园中点击浇水，就能抓到含有Cookie、seedId和propsId的包。（叮咚鱼塘与叮咚果园的seedId、propsId不同，因此需要分别抓包，Cookie相同）
+*/
 
 let sheetNameSubConfig = "ddmc"; // 分配置表名称
 let sheetNameSubConfig2 = "ddmc_ddyt";
