@@ -5,7 +5,8 @@
     更新时间：20240719
     环境变量名：bilibili
     环境变量值：填写cookie
-    备注：需要Cookie。浏览器访问网页版哔哩哔哩，第一步，按键盘的F12，会唤起下方的开发者工具；第二步点击开发者工具中的"NetWork"(中文名叫"网络")；第三步，点击任意一个含有Cookie的包；第四步，右侧找到"Cookie"并复制
+    备注：需要Cookie。浏览器访问网页版哔哩哔哩，F12 -> NetWork(中文名叫"网络") -> 按一下Ctrl+R -> www.bilibili.com -> cookie
+    哔哩哔哩网址：https://www.bilibili.com
 */
 
 const logo = "艾默库 : https://github.com/imoki/sign_script"    // 仓库地址
