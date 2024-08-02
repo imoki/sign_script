@@ -1,6 +1,9 @@
 // 宽带技术网自动签到得积分、做任务、领取猫粮
 // 20240706
-// 备注：宽带技术网任意一个cookie
+/*
+备注：cookie填写宽带技术网网页版中获取的refresh_token。F12 -> NetWork(中文名叫"网络") ->https://www.chinadsl.net -> cookie
+宽带技术网网址:https://www.chinadsl.net
+*/
 
 let sheetNameSubConfig = "chinadsl"; // 分配置表名称
 let pushHeader = "【宽带技术网】";
