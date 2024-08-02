@@ -1,6 +1,10 @@
 // 万能福利吧自动签到
 // 20240706
-// 备注：需要cookie。有门槛，没账号的不用折腾。
+/*
+备注：需要cookie。F12 -> "NetWork"(中文名叫"网络") -> 按一下Ctrl+R -> www.wnflb2023.com -> cookie
+有门槛，没账号的不用折腾。
+万能福利吧网址：https://www.wnflb2023.com
+*/
 
 let sheetNameSubConfig = "wnflb"; // 分配置表名称
 let pushHeader = "【万能福利吧】";
