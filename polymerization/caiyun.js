@@ -2,7 +2,7 @@
 // 20240706
 // 文中引用代码改编自公众号"Jerry不是猫"
 /*
-备注：和彩云已更名为中国移动云盘。cookie填写中国移动云盘网页版中获取的authorization。F12 -> Application(中文名叫"应用程序") -> Cookie -> authorization
+备注：该脚本表格UPDATE.js文件已不再生成，如需要请自行解决或青龙运行。和彩云已更名为中国移动云盘。cookie填写中国移动云盘网页版中获取的authorization。F12 -> Application(中文名叫"应用程序") -> Cookie -> authorization
 中国移动云盘网址:https://yun.139.com
 */
 
