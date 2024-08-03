@@ -1,8 +1,8 @@
 // 中兴商城自动签到、做任务
 // 20240706
 /*
-备注：需要AccessToken。APP用抓包工具抓取所需的值或者网页端获取所需得值。浏览器访问网页版中兴社区，F12 -> "NetWork"(中文名叫"网络") -> 按一下Ctrl+R -cn/ -> cookie
-中兴社区网址：https://www.ztemall.com/cn/
+备注：需要Cookie。抓包工具抓取所需的值或者网页端获取所需的值。浏览器访问网页版中兴社区，F12 -> "NetWork"(中文名叫"网络") -> 按一下Ctrl+R -> cookie
+中兴商城网址：https://www.ztemall.com/cn/
 */
 
 let sheetNameSubConfig = "ztemall"; // 分配置表名称
