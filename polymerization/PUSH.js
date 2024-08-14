@@ -513,7 +513,7 @@ function jishida(message, key) {
 
 // wxpusher
 function wxpusher(message, key) {
-  message = encodeURIComponent(message)
+  message = encodeURIComponent(messagePushHeader + message)
   let keyarry= key.split("|") // 使用|作为分隔符
   let appToken = keyarry[0]
   let uid = keyarry[1]
