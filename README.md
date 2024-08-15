@@ -76,6 +76,7 @@
 | 🟢️ | WEB | 废文 | ql_fwxs.js | 24-08-05 | 签到 |
 | 🟢️ | wx  | 鸿星尔克 | ql_hxek.js | 24-08-05 | 签到,得积分 |
 | 🟢️ | APP | 钉钉AI | ql_ddai.js | 24-08-05 | 签到 |
+| 🟢️ | APP | 贝锐阳光小店 | ql_oray.js | 24-08-05 | 签到得阳光 |
 
 ## 🛰️ 金山文档支持的通知列表
 - Bark（iOS）
@@ -103,7 +104,8 @@
 <a href="">@darkbfly</a>、
 <a href="">@孙悟元</a>、
 <a href="">@wawmb</a>、
-<a href="">@codebhc</a>
+<a href="">@codebhc</a>、
+<a href="">@fdsufc</a>
 <br>
 <br>
 [![][github-contrib-shield]][github-contrib-link]
