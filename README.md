@@ -53,14 +53,14 @@
 | :---: | :---: | :---: | :---: | :---: |:---: |
 | 🟢️ | WEB | 百度贴吧 | tieba.js | 24-07-18 | 签到、只能签6个左右 |
 | 🟢️ | WEB | 有道云笔记 | noteyoudao.js | 23-08-08 | 签到、领取空间 |
-| 🟢️ | WEB | 什么值得买 | ql_smzdm.js | 24-06-20 | 抽奖的碎银子 |
+| 🟢️ | WEB | 什么值得买 | ql_smzdm.js | 24-06-20 | 抽奖的碎银子，仅抽奖 |
 | 🟢️ | WEB | 在线工具 | ql_toollu.js | 24-06-20 | 签到获取积分 |
 | 🟢️ | APP | 叮咚买菜-叮咚鱼塘 | ddmy_ddyt.js | 24-06-23 | 领积分、签到、喂饲料 |
 | 🟢️ | APP | AcFun | ql_acfun.js | 24-07-18 | 签到得香蕉 |
 | 🟢️ | APP | 喜马拉雅 | ql_xmly.js | 24-06-20 | 签到 |
-| 🟢️ | APP | 希沃白板 | ql_easinote.js | 24-08-05 | 签到得空间 |
+| 🟢️ | APP | 希沃白板 | ql_easinote.js | 24-08-15 | 签到得空间 |
 | 🟢️ | APP | 小木虫 | ql_xmc.js | 24-08-04 | 签到得金币 |
-| 🟢️ | WEB | 夸克网盘 | ql_quark.js | 24-08-05 | 签到得空间 |
+| 🟢️ | WEB | 夸克网盘 | ql_quark.js | 24-08-15 | 签到得空间 |
 | 🟢️ | APP | 葫芦侠3楼 | huluxia.js | 24-06-20 | 板块签到 |
 | 🟢️ | WEB | 中兴社区 | ql_ztebbs.js | 24-07-18 | 签到,得经验和流星 |
 | 🟢️ | APP | 小米商城 | ql_mi.js | 24-07-18 | 签到,得米金 |
@@ -71,12 +71,11 @@
 | 🟢️ | WEB | 阿里云盘(自动更新token版)  | aliyun.js | 24-06-20 | 签到，领取奖励（已无法自动领奖励），领取备份奖励 |
 | 🟢️ | WEB | 宽带技术网 | chinadsl.js | 24-08-05 | 签到得积分、做任务、领取猫粮 |
 | 🟢️ | APP | golo汽修大师 | ql_golo.js | 24-06-20 | 签到得积分,自动更新token |
-| 🟢️ | WEB | 中兴商城 | ztemall.js | 24-08-05| 签到、做任务,得积分 |
+| 🟢️ | WEB | 中兴商城 | ztemall.js | 24-08-15| 签到、做任务,得积分 |
 | 🟢️ | WEB | 万能福利吧 | wnflb.js | 24-06-12 | 签到,得积分 |
-| 🟢️ | WEB | 废文 | ql_fwxs.js | 24-08-05 | 签到 |
-| 🟢️ | wx  | 鸿星尔克 | ql_hxek.js | 24-08-05 | 签到,得积分 |
-| 🟢️ | APP | 钉钉AI | ql_ddai.js | 24-08-05 | 签到 |
-| 🟢️ | APP | 贝锐阳光小店 | ql_oray.js | 24-08-05 | 签到得阳光 |
+| 🟢️ | WEB | 废文 | ql_fwxs.js | 24-08-15 | 签到 |
+| 🟢️ | wx  | 鸿星尔克 | ql_hxek.js | 24-08-15 | 签到,得积分 |
+| 🟢️ | APP | 钉钉AI | ql_ddai.js | 24-08-15 | 签到,领算粒 |
 
 ## 🛰️ 金山文档支持的通知列表
 - Bark（iOS）
@@ -127,8 +126,6 @@
 <a href="">@Jerry不是猫</a>、
 <a href="https://www.52pojie.cn/thread-1869673-43-1.html">@凌帝。</a>、
 <a href="https://github.com/CHERWING/CHERWIN_SCRIPTS">CHERWING</a>
-
-</br>
 
 ## 🎁 README模板来源于
 <a href="https://github.com/Sitoi/dailycheckin">dailycheckin仓库</a>
