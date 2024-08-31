@@ -1,5 +1,5 @@
 // 爱奇艺自动签到、白金抽奖、做任务获取成长值
-// 20240830
+// 20240831
 
 let sheetNameSubConfig = "iqiyi"; // 分配置表名称
 let pushHeader = "【爱奇艺】";
@@ -35,7 +35,7 @@ var jsonEmail = {
 flagConfig = ActivateSheet(sheetNameConfig); // 激活推送表
 // 主配置工作表存在
 if (flagConfig == 1) {
-  console.log("开始读取主配置表");
+  console.log("🍳 开始读取主配置表");
   let name; // 名称
   let onlyError;
   let nickname;
@@ -56,7 +56,7 @@ if (flagConfig == 1) {
 
       if (nickname == "是") {
         messageNickname = 1;
-        console.log("单元格用昵称替代");
+        console.log("🍳 单元格用昵称替代");
       }
 
       break; // 提前退出，提高效率
@@ -90,7 +90,7 @@ emailConfig();
 
 flagSubConfig = ActivateSheet(sheetNameSubConfig); // 激活分配置表
 if (flagSubConfig == 1) {
-  console.log("开始读取分配置表");
+  console.log("🍳 开始读取分配置表");
   for (let i = 2; i <= line; i++) {
     var cookie = Application.Range("A" + i).Text;
     var exec = Application.Range("B" + i).Text;
@@ -261,7 +261,7 @@ function email(message) {
 
 // 邮箱配置
 function emailConfig() {
-  console.log("开始读取邮箱配置");
+  console.log("🍳 开始读取邮箱配置");
   let length = jsonPush.length; // 因为此json数据可无序，因此需要遍历
   let name;
   for (let i = 0; i < length; i++) {
@@ -319,7 +319,7 @@ function ActivateSheet(sheetName) {
     // 激活工作表
     let sheet = Application.Sheets.Item(sheetName);
     sheet.Activate();
-    console.log("激活工作表：" + sheet.Name);
+    console.log("🥚 激活工作表：" + sheet.Name);
     flag = 1;
   } catch {
     flag = 0;
@@ -581,6 +581,7 @@ function query_user_task(P00001){
 
 // 完成任务
 function join_task(P00001, task_list){
+    console.log("🧸 查询任务")
     // 遍历完成任务
     url = "https://tc.vip.iqiyi.com/taskCenter/task/joinTask"
     // params = {
@@ -589,7 +590,10 @@ function join_task(P00001, task_list){
     //     "platform": "bb136ff4276771f3",
     //     "lang": "zh_CN",
     // }
-    params = "?P00001=" + P00001 + "&platform=bb136ff4276771f3&lang=zh_CN" 
+    // params = "?P00001=" + P00001 + "&platform=bb136ff4276771f3&lang=zh_CN" 
+    // let platform = getUUIDDigits(16)
+    // params = "?P00001=" + P00001 + "&platform=" + platform + "&lang=zh_CN&app_lm=cn" 
+    // console.log("完成任务")
     // console.log(task_list)
     for(i in task_list)
     {
@@ -597,19 +601,23 @@ function join_task(P00001, task_list){
       // console.log(item)
       // if(item["status"] == 2){
         // console.log(item["taskCode"])
-        params= params + "&taskCode=" + item["taskCode"]
+        params = "?" + "taskCode=" + item["taskCode"] + "&P00001=" + P00001 + "&platform=0000000000000000&lang=zh_CN" 
+        // params= params + "&taskCode=" + item["taskCode"]
         // console.log(params)
         res = HTTP.fetch(url + params , {
           method: "get",
         });
         // {"code":"A00000","msg":"成功"}
         // {"code":"Q00401","msg":"任务无效"}
+        // {"code":"Q00504","msg":"用户参与过该任务"}
         console.log(res.json())
       // }
     } 
+    sleep(2000)
 }
 
 function get_task_rewards(P00001, task_list){
+  console.log("🧩 正在执行任务...")
   // 获取任务奖励
   messageSuccess = ""
   messageFail = ""
@@ -621,27 +629,95 @@ function get_task_rewards(P00001, task_list){
   //     "platform": "bb136ff4276771f3",
   //     "lang": "zh_CN",
   // }
-  params = "?P00001=" + P00001 + "&platform=bb136ff4276771f3&lang=zh_CN" 
+  // params = "?P00001=" + P00001 + "&platform=bb136ff4276771f3&lang=zh_CN" 
+  // let platform = getUUIDDigits(16)
+  // let time_stamp = getts13()
+  // params = "?P00001=" + P00001 + "&platform=" + platform + "&lang=zh_CN&bizSource=component_browse_timing_tasks&_=" + time_stamp
   growth_task = 0
+  // console.log("获取任务奖励")
   for(i in task_list){
+    // 首次未完成（可以没有）
+    // {"taskTitle":"浏览会员兑换活动","taskCode":"freeGetVip","status":2,"taskReward":1}
+    // {"taskTitle":"观看视频30分钟","taskCode":"WatchVideo60mins","status":2,"taskReward":10}
+    // {"taskTitle":"浏览积分福利专区","taskCode":"b6e688905d4e7184","status":2,"taskReward":1} 
+    // {"taskTitle":"看看热播排行榜","taskCode":"a7f02e895ccbf416","status":2,"taskReward":1}
+    // {"taskTitle":"逛会员优选","taskCode":"GetReward","status":2,"taskReward":1}
+    /// 第二次未完成（可以没有）
+    // {"taskTitle":"浏览会员兑换活动","taskCode":"freeGetVip","status":4,"taskReward":1}
+    // 第三次完成
+    // {"taskTitle":"浏览会员兑换活动","taskCode":"freeGetVip","status":0,"taskReward":1}
+
     item = task_list[i]
+    // console.log(item)
+    params = "?taskCode=" + item["taskCode"] + "&lang=zh_CN&platform=0000000000000000&P00001=" + P00001
+    // console.log(params)
+    // 0：待领取 1：已完成 2：未开始 4：进行中
     if(item["status"] == 0){
+        taskTitle = item["taskTitle"]
+        console.log("🏆️ " + taskTitle + " 领取奖励")
         // params["taskCode"] = item.get("taskCode")
-        params= params + "&taskCode=" + item["taskCode"]
-        res = HTTP.fetch(url + params , {
+        // params= params + "&taskCode=" + item["taskCode"]
+        
+        resp = HTTP.fetch(url + params , {
           method: "get",
         });
-    }else if(item["status"] == 4){
-        params["taskCode"] = item.get("taskCode")
+        
+        // {"code":"Q00351","msg":"账号异常，不能参与活动！"}
+        resp = resp.json()
+        // console.log(resp.json())
+        respcode = resp["code"]
+        respmsg = resp["msg"]
+        if(respcode == "Q00351"){
+          content = "📢" + taskTitle + " " + respmsg + "\n"
+          messageFail += content
+        }else{
+          growth_task = item["taskReward"]
+          content = "🎉" + taskTitle + "完成奖励" + growth_task + "成长值\n"
+          messageSuccess += content
+        }
+        
+        sleep(1000)
+    }else if(item["status"] == 4 || item["status"] == 2){ // 未完成，去完成
+        taskTitle = item["taskTitle"]
+        console.log("🧶 正在执行 " + taskTitle)
+        // 去完成任务
+        // params["taskCode"] = item["taskCode"]
+        // params= params + "&taskCode=" + item["taskCode"]
+        // console.log(params)
         // requests.get(
         //     url="https://tc.vip.iqiyi.com/taskCenter/task/notify", params=params
-        // )
-        res = HTTP.fetch("https://tc.vip.iqiyi.com/taskCenter/task/notify" + params , {
+        // )    
+        resp = HTTP.fetch("https://tc.vip.iqiyi.com/taskCenter/task/notify" + params , {
           method: "get",
         });
-    }else if(item["status"] == 1){
+        // {"code":"Q00301","msg":"参数错误"}
+        // {"code":"Q00401","msg":"任务无效"}
+        // {"code":"A00000","msg":"成功"}
+        // console.log()
+        resp = resp.json()
+        // console.log(resp)
+        respcode = resp["code"]
+        respmsg = resp["msg"]
+
+        // taskTitle = item["taskTitle"]
+        growth_task = item["taskReward"]
+        if(respcode == "A00000"){
+          content = "🎉" + taskTitle + "完成奖励" + growth_task + "成长值\n"
+          messageSuccess += content
+        }
+        else{
+          console.log(item)
+          console.log(resp)
+          // content = "📢" + taskTitle + " " + respmsg + "\n"
+          // messageFail += content
+        }
+        
+        sleep(10000)
+    }else if(item["status"] == 1){  // 已完成
+        // {"taskTitle":"看看热播排行榜","taskCode":"a7f02e895ccbf416","status":1,"taskReward":1}
         taskTitle = item["taskTitle"]
-        growth_task += item["taskReward"]
+        console.log("🎉 " + taskTitle + " 已完成")
+        growth_task = item["taskReward"]
         content = "🎉" + taskTitle + "完成奖励" + growth_task + "成长值\n"
         messageSuccess += content
     }
@@ -911,16 +987,10 @@ function execHandle(cookie, pos) {
       "Content-Type": "application/json"
     }
 
-
+    // 签到
     msg = signin(url2 + params, headers, data)
     messageSuccess += msg[0]
     messageFail += msg[1]
-
-    // resp = HTTP.fetch(url2 + params , {
-    //   method: "post",
-    //   headers: headers,
-    //   data: data
-    // });
 
     // 抽奖
     msg = lotto_lottery(P00001)

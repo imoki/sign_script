@@ -28,7 +28,7 @@
 </div>
 
 ## ✈️ 防失联TG交流群和频道 
-🔮 <a href="https://t.me/mokuchat">@mokuchat</a>
+🔮 <a href="https://t.me/mokuchat">@mokuchat</a><br>
 📻️ <a href="https://t.me/mokuchannel">@mokuchannel</a>
 
 
@@ -78,7 +78,6 @@
 | 🟢️ | WEB | 废文 | ql_fwxs.js | 24-08-15 | 签到 |
 | 🟢️ | wx  | 鸿星尔克 | ql_hxek.js | 24-08-30 | 签到,得积分 |
 | 🟢️ | APP | 钉钉AI | ql_ddai.js | 24-08-30 | 签到,领算粒 |
-| 🟢️ | WEB | 爱奇艺 | iqiyi.js | 24-08-30 | 签到、抽奖、做任务 |
 
 ## 🛰️ 金山文档支持的通知列表
 - Bark（iOS）
