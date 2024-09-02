@@ -1,5 +1,5 @@
 // PUSH.js 推送脚本
-// 20240731
+// 20240902
 
 // 支持推送：
 // bark、pushplus、Server酱、邮箱
@@ -511,22 +511,51 @@ function jishida(message, key) {
   sleep(5000);
 }
 
-// wxpusher
+// wxpusher 适配两种模式：极简推送、标准推送
 function wxpusher(message, key) {
-  message = encodeURIComponent(messagePushHeader + message)
+  message = encodeURIComponent(message)
   let keyarry= key.split("|") // 使用|作为分隔符
-  let appToken = keyarry[0]
-  let uid = keyarry[1]
-  let url = ""
-  if(isHttpOrHttpsUrl(key)){  // 以http开头
-    url = key + "&verifyPayType=0&content=" + message 
+  if(keyarry.length == 1){ 
+    // console.log("采用SPT极简推送")
+    // https://wxpusher.zjiecode.com/api/send/message/你获取到的SPT/你要发送的内容
+    // https://wxpusher.zjiecode.com/api/send/message/xxxx/ThisIsSendContent
+    let url = ""
+    if(isHttpOrHttpsUrl(key)){  // 以http开头
+      // end = key.slice(-1)
+      if(key.endsWith("/")){
+        // 形如：https://wxpusher.zjiecode.com/api/send/message/你获取到的SPT/
+        url = key + message 
+      }else if(key.endsWith("ThisIsSendContent")){
+        // 形如：https://wxpusher.zjiecode.com/api/send/message/xxxx/ThisIsSendContent
+        key = key.slice(0, -"ThisIsSendContent".length);  // 去掉末尾的"ThisIsSendContent"
+        url = key + message 
+      }else{
+        // 形如：https://wxpusher.zjiecode.com/api/send/message/你获取到的SPT
+        url = key + "/" + message  
+      }
+    }else{
+      // 形如：你获取到的SPT
+      url = "https://wxpusher.zjiecode.com/api/send/message/" + key + "/" + message
+    }
+    // console.log(url)
+    let resp = HTTP.fetch(url, {
+      method: "get",
+    });
   }else{
-    
-    url = "https://wxpusher.zjiecode.com/api/send/message/?appToken=" + appToken + "&uid=" + uid + "&verifyPayType=0&content=" + message 
+    // console.log("采用标准推送")
+    let appToken = keyarry[0]
+    let uid = keyarry[1]
+    let url = ""
+    if(isHttpOrHttpsUrl(key)){  // 以http开头
+      url = key + "&verifyPayType=0&content=" + message 
+    }else{
+      url = "https://wxpusher.zjiecode.com/api/send/message/?appToken=" + appToken + "&uid=" + uid + "&verifyPayType=0&content=" + message 
+    }
+    // console.log(url)
+    let resp = HTTP.fetch(url, {
+      method: "get",
+    });
+    // console.log(resp.json())
   }
-  let resp = HTTP.fetch(url, {
-    method: "get",
-  });
-  // console.log(resp.json())
-  // sleep(5000);
+  sleep(5000);
 }
