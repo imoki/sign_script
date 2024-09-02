@@ -34,7 +34,7 @@
 
 ## 🍨 教程 
 💬 公众号“**默库**”<br>
-📖 <a href="https://jewel-pullover-9d0.notion.site/dfec17946a164658bb77e9682df954a2?pvs=4">艾默库教程</a>
+📖 <a href="https://moku.us.kg">艾默库教程</a>
 
 ## 🕙 金山文档定时智能动态修改（推荐）
 ☕ <a href="https://github.com/imoki/wpscron">基于「金山文档」的智能调时程序</a>
