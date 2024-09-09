@@ -143,6 +143,13 @@ var subConfigHxek = [
   ['xxxxxxxx2', '否', '昵称2', 'xxx', 'xxx']
 ]
 
+// 定制化分配置表内容，parsdata
+var subConfigParsdata = [
+  ['cookie(默认20个)', '是否执行(是/否)', '账号名称(可不填写)', '优惠码'],
+  ['xxxxxxxx1', '是', '昵称1', ''],
+  ['xxxxxxxx2', '否', '昵称2', '']
+]
+
 // 定制化表
 var subConfig = {
   "ddmc"  : subConfigDdmc, 
@@ -150,6 +157,7 @@ var subConfig = {
   "golo"  : subConfigGolo,
   "aliyun" : subConfigAliyunToken,
   "hxek" : subConfigHxek,
+  "parsdata":subConfigParsdata,
 }
 // var mosaic = "xxxxxxxx" // 马赛克
 // var strFail = "否"
