@@ -1,15 +1,15 @@
 /*
-    name: "模板"（修改这里）
+    name: "70games"
     cron: 45 0 9 * * *
     脚本兼容: 金山文档， 青龙
-    更新时间：20240907
-    环境变量名：mouxue（修改这里）
-    环境变量值：填写cookie（修改这里）
+    更新时间：20240925
+    环境变量名：games70
+    环境变量值：填写cookie
 */
 
 const logo = "艾默库 : https://github.com/imoki/sign_script"    // 仓库地址
-let sheetNameSubConfig = "mouxue"; // 分配置表名称， （修改这里）
-let pushHeader = "【某雪论坛】";    // （修改这里）
+let sheetNameSubConfig = "games70"; // 分配置表名称， （修改这里）
+let pushHeader = "【70games】";    // （修改这里）
 let sheetNameConfig = "CONFIG"; // 总配置表
 let sheetNamePush = "PUSH"; // 推送表名称
 let sheetNameEmail = "EMAIL"; // 邮箱表
@@ -433,25 +433,34 @@ function resultHandle(resp, pos){
         // 接收到的响应数据是json格式，如下，假设有2种情况
         // 情况1：{"code": "0","message": "签到成功"}
         // 情况2：{"code":"-1","message":"请先登录"}    
-        respcode = resp["code"] // 通过resp["键名"]的方式获取值.假设响应数据是情况1，则读取到数字“0”
-
-        if(respcode == 0 )   // 通过code值来判断是不是签到成功，由抓包的情况1知道，0代表签到成功了,所以让code与0比较
-        {
-            content = "🎉 签到成功" + ""
-            messageSuccess += content;
-            // console.log(content)
-        }else{
-            respmsg = resp["message"]   // 通过resp["键名"]的方式获取值，假设响应数据是情况1，这里取到的值就是“签到成功”
-            if(respmsg == "请先登录"){
-                content = "❌ " + respmsg + ""
-                messageFail += content;
-            }else{
-                content = "📢 " + respmsg + ""
-                messageSuccess += content;
-            }
-            
-            // console.log(content)
+        // respcode = resp["code"] // 通过resp["键名"]的方式获取值.假设响应数据是情况1，则读取到数字“0”
+        // {"code":"0","message":"请登录后再签到!"}
+        try{
+          let respmessage = resp["message"]
+          content = "🎉 " +  respmessage + " ";
+          messageSuccess += content;
+        }catch{
+          content = "🎉 签到成功 ";
+          messageSuccess += content;
         }
+
+        // if(respcode == 0 )   // 通过code值来判断是不是签到成功，由抓包的情况1知道，0代表签到成功了,所以让code与0比较
+        // {
+        //     content = "🎉 签到成功" + ""
+        //     messageSuccess += content;
+        //     // console.log(content)
+        // }else{
+        //     respmsg = resp["message"]   // 通过resp["键名"]的方式获取值，假设响应数据是情况1，这里取到的值就是“签到成功”
+        //     if(respmsg == "请先登录"){
+        //         content = "❌ " + respmsg + ""
+        //         messageFail += content;
+        //     }else{
+        //         content = "📢 " + respmsg + ""
+        //         messageSuccess += content;
+        //     }
+            
+        //     // console.log(content)
+        // }
 
     } else {
         content = "❌ 签到失败"
@@ -495,18 +504,38 @@ function execHandle(cookie, pos) {
     messageSuccess = "";
     messageFail = "";
 
-    let url = "https://bbs.mouxue.com/user-signin.htm"; // 签到url（修改这里，这里填抓包获取到的地址）
+    let url = "https://70games.net/sg_sign.htm"; // 签到url（修改这里，这里填抓包获取到的地址）
 
     // （修改这里，这里填抓包获取header，全部抄进来就可以了，按照如下用引号包裹的格式，其中小写的cookie是从表格中读取到的值。）
-    headers= {
+    // headers= {
+    //   "Cookie": cookie,
+    //   "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36 Edg/91.0.864.70",
+    // }
+    headers = {
+      "X-Requested-With": "XMLHttpRequest",
       "Cookie": cookie,
-      "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36 Edg/91.0.864.70",
+      
     }
 
     // （修改这里，这里填抓包获取data，全部抄进来就可以了，按照如下用引号包裹的格式。POST请求才需要这个，GET请求就不用它了）
     data = {
-      "csrf_token":"",
+      // "csrf_token":"",
     }
+
+    // if(qlSwitch != 1){  // 金山文档
+    //   resp = HTTP.fetch(url, {
+    //     method: "POST",
+    //     headers: headers
+    //   })
+    // }else{  // 青龙
+    //     resp = HTTP.post(
+    //       url,
+    //       JSON.stringify(data),
+    //       { headers: headers }
+    //     );
+    // }
+
+
     
     // （修改这里，以下请求方式三选一即可)
     // 请求方式1：POST请求，抓包的data数据格式是 {"aaa":"xxx","bbb":"xxx"} 。则用这个
