@@ -1,5 +1,5 @@
 // UPDATE.js 更新脚本
-// 20240925
+// 20240926
 
 var confiWorkbook = 'CONFIG'  // 主配置表名称
 var pushWorkbook = 'PUSH' // 推送表的名称
@@ -73,6 +73,9 @@ var configContent = [
   ['parsdata', '伊朗域名注册优惠码', '否', '是', '是' , '' , '' , '', '@all' , '是' , '否' ,],
   ['quarksave', '夸克订阅更新自动转存', '否', '是', '是' , '' , '' , '', '@all' , '是' , '否' ,],
   ['games70', '70games', '否', '是', '是' , '' , '' , '', '@all' , '是' , '否' ,],
+  ['xxx', '', '否', '是', '否' , '' , '' , '', '@all' , '是' , '否' ,],
+  ['rainyun', '', '否', '是', '是' , '' , '' , '', '@all' , '是' , '否' ,],
+  
 ]
 
 // PUSH表内容 		
@@ -152,6 +155,13 @@ var subConfigParsdata = [
   ['xxxxxxxx2', '否', '昵称2', '']
 ]
 
+// 定制化分配置表内容，雨云
+var subConfigRainyun = [
+  ['cookie(默认20个)', '是否执行(是/否)', '账号名称(可不填写)', '账号', '密码'],
+  ['xxxxxxxx1', '是', '昵称1', '', ''],
+  ['xxxxxxxx2', '否', '昵称2', '', '']
+]
+
 // 定制化表
 var subConfig = {
   "ddmc"  : subConfigDdmc, 
@@ -160,6 +170,7 @@ var subConfig = {
   "aliyun" : subConfigAliyunToken,
   "hxek" : subConfigHxek,
   "parsdata":subConfigParsdata,
+  "rainyun":subConfigRainyun,
 }
 // var mosaic = "xxxxxxxx" // 马赛克
 // var strFail = "否"
