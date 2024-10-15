@@ -1,8 +1,9 @@
 /*
     name: "永辉生活"
     cron: 45 0 9 * * *
-    脚本兼容: 金山文档
+    脚本兼容: 金山文档、青龙
     更新时间：20241015
+    环境变量名：yhsh
     环境变量值：抓取app的包，填写任意含有deviceid和access_token的url
     备注：仅签到
 */
@@ -423,16 +424,31 @@ function resultHandle(resp, pos){
     posLabel = pos-2 ;  // 存放下标，从0开始
     messageHeader[posLabel] = "👨‍🚀 " + messageName
     // console.log(messageName)
+    // console.log(posHttp, qlSwitch )
 
-    if (resp.status == 200) {
+    if(posHttp == 1 || qlSwitch != 1){  // 只在第一次用, 或者执行金山文档
+        // console.log(resp.text())
+        if (resp.status == 200) {
+            // console.log(url,data,headers)
+            // 再签一次确保成功
+            resp = HTTP.post(
+                url,
+                JSON.stringify(data),
+                { headers: headers }
+            );
 
-      // 再签一次确保成功
-       resp = HTTP.post(
-        url,
-        JSON.stringify(data),
-        { headers: headers }
-      );
+        } else {
+            content = "❌ 签到失败"
+            messageFail += content;
+            // console.log(content);
 
+            // 青龙适配，青龙微适配
+            flagResultFinish = 1; // 签到结束
+        }
+
+    }
+
+    if(posHttp == 2 || qlSwitch != 1){  // 第二次进来时用
         // {"code":40002,"message":"今日已完成签到","now":1728900000000}
         // console.log(resp.text())  // 测试
         resp = resp.json(); // 返回json格式则resp.json()。否则为resp.text()，此时就要用正则处理响应
@@ -452,8 +468,8 @@ function resultHandle(resp, pos){
             messageSuccess += content;
             // console.log(content)
         }else if(respcode == 40002){
-          content = "🎉 今日已完成签到" + ""
-          messageSuccess += content;
+            content = "🎉 今日已完成签到" + ""
+            messageSuccess += content;
         }
         else{
             respmsg = resp["message"]   // 通过resp["键名"]的方式获取值，假设响应数据是情况1，这里取到的值就是“签到成功”
@@ -463,18 +479,16 @@ function resultHandle(resp, pos){
             // console.log(content)
         }
 
-    } else {
-        content = "❌ 签到失败"
-        messageFail += content;
-        // console.log(content);
+        // 青龙适配，青龙微适配
+        flagResultFinish = 1; // 签到结束
+    
     }
+
 
   // } catch {
   //   messageFail += messageName + "失败";
   // }
 
-    // 青龙适配，青龙微适配
-    flagResultFinish = 1; // 签到结束
 
   sleep(2000);
   if (messageOnlyError == 1) {
@@ -525,8 +539,8 @@ function execHandle(cookie, pos) {
 
     headers = {
         "Host": "api.yonghuivip.com",
-        "Connection": "keep-alive",
-        "Content-Length": "64",
+        // "Connection": "keep-alive",
+        // "Content-Length": "64",
         "X-YH-Biz-Params": "ncjkdy=,'+(&nzggzmdy=(&xdotdy=--&gib=--,0(-$,&gvo=+$0_+)*,+&vkkdy=yKWHqna(DlqXsuHhk",
         "Accept": "application/json",
         "X-YH-Context": "origin=h5&morse=1",
@@ -534,12 +548,12 @@ function execHandle(cookie, pos) {
         "Content-Type": "application/json",
         "Origin": "https://m.yonghuivip.com",
         "X-Requested-With": "cn.yonghui.hyd",
-        "Sec-Fetch-Site": "same-site",
-        "Sec-Fetch-Mode": "cors",
-        "Sec-Fetch-Dest": "empty",
+        // "Sec-Fetch-Site": "same-site",
+        // "Sec-Fetch-Mode": "cors",
+        // "Sec-Fetch-Dest": "empty",
         "Referer": "https://m.yonghuivip.com/",
-        "Accept-Encoding": "gzip, deflate",
-        "Accept-Language": "zh-CN,zh;q=0.9,en-US;q=0.8,en;q=0.7"
+        // "Accept-Encoding": "gzip, deflate",
+        // "Accept-Language": "zh-CN,zh;q=0.9,en-US;q=0.8,en;q=0.7"
     }
 
     data = {
