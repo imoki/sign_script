@@ -2,7 +2,7 @@
     <img src="https://socialify.git.ci/imoki/sign_script/image?description=1&font=Rokkitt&forks=1&issues=1&language=1&owner=1&pattern=Circuit%20Board&pulls=1&stargazers=1&theme=Dark">
 <div>
 
-## ✈️ 防失联群和频道 
+## ✈️ 群和频道 
 🔮 <a href="https://t.me/mokuchat">@mokuchat</a><br>
 📻️ <a href="https://t.me/mokuchannel">@mokuchannel</a>
 
