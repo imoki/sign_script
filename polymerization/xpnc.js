@@ -5,7 +5,7 @@
     更新时间：20241017
     环境变量名：xpnc
     环境变量值：小程序的包中的Authorization
-    备注：签到、浇水、施肥
+    备注：签到、做任务、自动领奖、施肥、浇水
 */
 
 const logo = "艾默库 : https://github.com/imoki/sign_script"    // 仓库地址
