@@ -2,7 +2,7 @@
     name: "兴攀农场"
     cron: 45 0 9 * * *
     脚本兼容: 金山文档
-    更新时间：20241016
+    更新时间：20241017
     环境变量名：xpnc
     环境变量值：小程序的包中的Authorization
     备注：签到、浇水、施肥
@@ -457,7 +457,7 @@ function resultHandle(resp, pos){
 
     if(flagSign == 1){
       // 做任务
-      for (let id = 1; id < 13; id++) {
+      for (let id = 1; id <= 13; id++) {
 
         // 跳过部分任务
         if(id == 3 || id == 4 || id == 5 || id == 6 || id == 7 || id == 8 || id == 9 || id == 10 || id == 11)
@@ -576,7 +576,8 @@ function resultHandle(resp, pos){
         // {"code":1000,"message":"操作成功","request_url":"/treemp/tree.Tasks/addWater","success":true,"data":{"type":3,"is_next":0,"progress":0.702,"water_value":0,"fertilizer":3120}}
           
           water_value = resp["data"]["water_value"]
-          countDynamic = parseInt(water_value)/10
+          countDynamic = (parseInt(water_value)/10) + i
+          // console.log(countDynamic)
           fertilizer = resp["data"]["fertilizer"]
           content = "🎉 浇水成功，剩余💧" + water_value + "  🍂肥力" + fertilizer + "" + "\n"
           // messageSuccess += content;
@@ -588,7 +589,7 @@ function resultHandle(resp, pos){
           {
             countDynamic = 0
           }
-          content = "❌ 浇水失败:" + respmsg + "\n"
+          content = "❌ 浇水失败:" + respmessage + "\n"
           // messageFail += content;
           
         }
@@ -623,7 +624,8 @@ function resultHandle(resp, pos){
         growth_level = resp["data"]["growth_level"] // 生长等级
         fertilizer = resp["data"]["fertilizer"]
         water_value = resp["data"]["water_value"]
-        content = "🌱果树" + type_name + ",进度" + growth_level + ",剩余🍂" + fertilizer + "💧" + water_value + "" + "\n"
+        progress = (resp["data"]["progress"] * 100).toFixed(1) // 0.812 * 100  转字符串并取小数点后1位
+        content = "🌱果树" + type_name + "，进度" + progress + "%，剩余🍂" + fertilizer + "💧" + water_value + "" + "\n"
         messageSuccess += content;
 
       }else{
