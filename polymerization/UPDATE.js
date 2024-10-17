@@ -1,5 +1,5 @@
 // UPDATE.js 更新脚本
-// 20241016
+// 20241017
 
 var confiWorkbook = 'CONFIG'  // 主配置表名称
 var pushWorkbook = 'PUSH' // 推送表的名称
@@ -77,6 +77,7 @@ var configContent = [
   ['rainyun', '雨云', '否', '是', '是' , '' , '' , '', '@all' , '是' , '否' ,],
   ['yhsh', '永辉生活', '否', '是', '是' , '' , '' , '', '@all' , '是' , '否' ,],
   ['xpnc', '兴攀农场', '否', '是', '是' , '' , '' , '', '@all' , '是' , '否' ,],
+  ['bwcj', '霸王茶姬', '否', '是', '是' , '' , '' , '', '@all' , '是' , '否' ,],
   
 ]
 
@@ -164,6 +165,13 @@ var subConfigRainyun = [
   ['xxxxxxxx2', '否', '昵称2', '', '']
 ]
 
+// 定制化分配置表内容，霸王茶姬
+var subConfigBwcj = [
+  ['cookie(默认20个)', '是否执行(是/否)', '账号名称(可不填写)', 'userid'],
+  ['xxxxxxxx1', '是', '昵称1', ''],
+  ['xxxxxxxx2', '否', '昵称2', '']
+]
+
 // 定制化表
 var subConfig = {
   "ddmc"  : subConfigDdmc, 
@@ -173,6 +181,7 @@ var subConfig = {
   "hxek" : subConfigHxek,
   "parsdata":subConfigParsdata,
   "rainyun":subConfigRainyun,
+  "bwcj":subConfigBwcj,
 }
 // var mosaic = "xxxxxxxx" // 马赛克
 // var strFail = "否"
