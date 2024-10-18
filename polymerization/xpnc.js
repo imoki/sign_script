@@ -2,7 +2,7 @@
     name: "兴攀农场"
     cron: 45 0 9 * * *
     脚本兼容: 金山文档
-    更新时间：20241017
+    更新时间：20241018
     环境变量名：xpnc
     环境变量值：小程序的包中的Authorization
     备注：签到、做任务、自动领奖、施肥、浇水
@@ -529,33 +529,45 @@ function resultHandle(resp, pos){
         sleep(5000);
       }
 
-      url = "https://p.xpfarm.cn/treemp/tree.Tasks/addFertilizer"
-      data =  {
-        "type": 1
+      try{
+        // 施肥
+        url = "https://p.xpfarm.cn/treemp/tree.Tasks/addFertilizer"
+        data =  {
+          "type": 1
+        }
+        resp = HTTP.post(
+          url,
+          JSON.stringify(data),
+          { headers: headers }
+        );
+        resp = resp.json()
+
+        console.log(resp)
+
+        if (resp.code == "1000") {
+          
+          fertilizer = resp["data"]["fertilizer"]
+          content = "🍂施肥成功,肥力值" + fertilizer + "\n"
+          // messageSuccess += content;
+
+        }else{
+          respmsg = resp["message"]
+          content = "❌ 施肥🍂失败:" + respmsg + "\n"
+          // messageFail += content;
+        }
+        console.log(content)
+
+        sleep(5000);
+
+      }catch{
+        // 响应不是json格式，不施肥
+        content = "📢 跳过🍂施肥\n"
+        console.log(content)
+        sleep(5000);
+
       }
-      resp = HTTP.post(
-        url,
-        JSON.stringify(data),
-        { headers: headers }
-      );
-      resp = resp.json()
 
-      console.log(resp)
-
-      if (resp.code == "1000") {
-        
-        fertilizer = resp["data"]["fertilizer"]
-        content = "🍂施肥成功,肥力值" + fertilizer + "\n"
-        // messageSuccess += content;
-
-      }else{
-        respmsg = resp["message"]
-        content = "❌ 施肥🍂失败:" + respmsg + "\n"
-        // messageFail += content;
-      }
-      console.log(content)
-
-      sleep(5000);
+      
 
       // 最多浇水20次
       countMax = 20  // 最大浇水次数
