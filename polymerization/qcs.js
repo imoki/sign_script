@@ -1,16 +1,16 @@
 /*
-    name: "所有女生"
+    name: "屈臣氏"
     cron: 45 0 9 * * *
     脚本兼容: 金山文档
-    更新时间：20241018
-    环境变量名：syns
-    环境变量值：Authorization
-    备注：签到、做任务。需要Authorization，抓小程序的包。
+    更新时间：20241019
+    环境变量名：qcs
+    环境变量值：authorization#openId#unionId
+    备注：签到、领取回馈金。需要authorization、openId、unionId，抓小程序的包。
 */
 
 const logo = "艾默库 : https://github.com/imoki/sign_script"    // 仓库地址
-let sheetNameSubConfig = "syns"; // 分配置表名称， （修改这里）
-let pushHeader = "所有女生";    // （修改这里）
+let sheetNameSubConfig = "qcs"; // 分配置表名称， （修改这里）
+let pushHeader = "屈臣氏";    // （修改这里）
 let sheetNameConfig = "CONFIG"; // 总配置表
 let sheetNamePush = "PUSH"; // 推送表名称
 let sheetNameEmail = "EMAIL"; // 邮箱表
@@ -26,7 +26,7 @@ var messageHeader = []; // 存放每个消息的头部，如：单元格A3。目
 var messagePushHeader = pushHeader; // 存放在总消息的头部，默认是pushHeader,如：【xxxx】
 
 var openId = ""
-var userId = ""
+var unionId = ""
 
 var jsonPush = [
   { name: "bark", key: "xxxxxx", flag: "0" },
@@ -417,245 +417,7 @@ function getsignUpperCase(data) {
 
 // =================共用结束===================
 
-// 结果处理函数
-function resultHandle(resp, pos){
-    // 每次进来resultHandle则加一次请求
-    posHttp += 1    // 青龙适配，青龙微适配
-
-    let messageSuccess = "";
-    let messageFail = "";
-    let messageName = "";
-    // 推送昵称或单元格，还是不推送位置标识
-    if (messageNickname == 1) {
-        // 推送昵称或单元格
-        messageName = Application.Range("C" + pos).Text;
-        if(messageName == "")
-        {
-            messageName = "单元格A" + pos + "";
-        }
-    }
-    posLabel = pos-2 ;  // 存放下标，从0开始
-    messageHeader[posLabel] = "👨‍🚀 " + messageName
-    // console.log(messageName)
-    // console.log(posHttp, qlSwitch )
-
-
-    if(posHttp == 1 || qlSwitch != 1){  // 只在第一次用, 或者执行金山文档
-      resp = resp.json()
-      console.log(resp)
-
-      respcode = resp["code"]
-
-      // 如果authorization有问题则
-      // { message: '访问令牌不合法', success: false }
-      // 第一次签到
-      // {"code":"000","message":{},"data":{},"success":true}
-      // 再一次签到
-      // {"code":"999","message":"今日已签到","data":{},"success":false}
-      if(respcode == "000"){
-
-        content = "🎉 签到成功" + "\n"
-        messageSuccess += content;
-        console.log(content)
-
-      }else if(respcode == "999"){
-        content = "🎉 今日已签到" + "\n"
-        messageSuccess += content;
-        console.log(content)
-      }else{
-        content = "❌ 签到失败" + "\n"
-        messageFail += content;
-        console.log(content)
-      }
-
-      // 做任务
-      url = "https://7.meionetech.com/api/operate/wx/rewards/task/done?taskId=38"
-      data = {
-        "taskId": 38
-      }
-
-      resp = HTTP.post(
-        url,
-        JSON.stringify(data),
-        { headers: headers }
-      );
-    
-    }
-
-    if(posHttp == 2 || qlSwitch != 1){  // 第二次进来时用
-      resp = resp.json()
-      console.log(resp)
-
-      respcode = resp["code"]
-      if(respcode == "000"){
-
-        content = "🎉 浏览积分商城完成" + "\n"
-        messageSuccess += content;
-        console.log(content)
-
-      }else{
-        respmessage = resp["message"]
-        content = "❌ 做任务失败：" + respmessage + "\n"
-        messageFail += content;
-        console.log(content)
-      }
-
-      // 查询积分
-      url = "https://7.meionetech.com/api/account/wx/member/assets"
-      // 请求方式3：GET请求，无data数据。则用这个
-      if(qlSwitch != 1){  // 金山文档
-        resp = HTTP.fetch(url, {
-            method: "get",
-            headers: headers,
-            // data: data
-        });
-      }else{  // 青龙
-          data = {}
-          option = "get"
-          resp = HTTP.post(
-              url,
-              data,
-              { headers: headers },
-              option
-          );
-      }
-    
-    }
-
-    if(posHttp == 3 || qlSwitch != 1){  // 第3次进来时用
-      resp = resp.json()
-      console.log(resp)
-
-      respcode = resp["code"]
-      if(respcode == "000"){
-        score = resp["data"]["score"]
-        content = "🎉 当前有" + score + "积分\n"
-        messageSuccess += content;
-        console.log(content)
-
-      }else{
-        respmessage = resp["message"]
-        content = "❌ 积分查询失败：" + respmessage + "\n"
-        messageFail += content;
-        console.log(content)
-      }
-
-      // 青龙适配，青龙微适配
-      flagResultFinish = 1; // 签到结束
-
-    }
-    
-    // if(posHttp == 1 || qlSwitch != 1){  // 只在第一次用, 或者执行金山文档
-        
-
-    // }
-
-    // if(posHttp == 2 || qlSwitch != 1){  // 第二次进来时用
-        
-
-    //     // 青龙适配，青龙微适配
-    //     flagResultFinish = 1; // 签到结束
-    
-    // }
-
-
-  // } catch {
-  //   messageFail += messageName + "失败";
-  // }
-
-  
-
-
-  // sleep(2000);
-  if (messageOnlyError == 1) {
-    messageArray[posLabel] =  messageFail;
-  } else {
-      if(messageFail != ""){
-        messageArray[posLabel] = messageFail + " " + messageSuccess;
-      }else{
-        messageArray[posLabel] = messageSuccess;
-      }
-  }
-
-  if(messageArray[posLabel] != "")
-  {
-    console.log(messageArray[posLabel]);
-  }
-//   console.log(messageArray)
-
-  return flagResultFinish
-}
-
-// 具体的执行函数
-function execHandle(cookie, pos) {
-    // 清零操作，保证不同用户的消息的独立
-    // 青龙适配，青龙微适配
-    posHttp = 0 // 置空请求
-    qlpushFlag -= 1 // 一个用户只会执行一次execHandle，因此可用于记录当前用户
-    messageSuccess = "";
-    messageFail = "";
-
-    openId = cookie
-    uid = Application.Range("D" + pos).Text;
-
-    // console.log(token)
-    // console.log(userId)
-
-    // 查询authorization是否以bearer开头，没有则添加
-    authorization = bearerPrefix(cookie)
-
-    url = "https://7.meionetech.com/api/operate/wx/record/signIn"
-    headers = {
-      "content-type": "application/json",
-      "authorization": authorization,
-    }
-
-    data = {
-    }
-
-    // console.log(data)
-
-
-    // （修改这里，以下请求方式三选一即可)
-    // 请求方式1：POST请求，抓包的data数据格式是 {"aaa":"xxx","bbb":"xxx"} 。则用这个
-    resp = HTTP.post(
-      url,
-      JSON.stringify(data),
-      { headers: headers }
-    );
-
-    // // 请求方式2：POST请求，抓包的data数据格式是 aaa=xxx&bbb=xxx 。则用这个
-    // resp = HTTP.post(
-    //   url,
-    //   data,
-    //   { headers: headers }
-    // );
-
-    // // 请求方式3：GET请求，无data数据。则用这个
-    // if(qlSwitch != 1){  // 金山文档
-    //   resp = HTTP.fetch(url, {
-    //       method: "get",
-    //       headers: headers,
-    //       // data: data
-    //   });
-    // }else{  // 青龙
-    //     data = {}
-    //     option = "get"
-    //     resp = HTTP.post(
-    //         url,
-    //         data,
-    //         { headers: headers },
-    //         option
-    //     );
-    // }
-
-
-
-    if(qlSwitch != 1){  // 选择金山文档
-        resultHandle(resp, pos)
-    }
-}
-
+function resultHandle(_0x5291e7,_0x49e51a){posHttp+=0xf2ddb^0xf2dda;let _0x42164e="";let _0x2e9751="".split("").reverse().join("");let _0x2b3667="".split("").reverse().join("");if(messageNickname==(0xb4994^0xb4995)){_0x2b3667=Application["\u0052\u0061\u006e\u0067\u0065"]("\u0043"+_0x49e51a)["\u0054\u0065\u0078\u0074"];if(_0x2b3667==""){_0x2b3667="A\u683C\u5143\u5355".split("").reverse().join("")+_0x49e51a+"".split("").reverse().join("");}}posLabel=_0x49e51a-(0x486b8^0x486ba);messageHeader[posLabel]=" \uDE80\uD83D\u200D\uDC68\uD83D".split("").reverse().join("")+_0x2b3667;_0x5291e7=_0x5291e7["\u006a\u0073\u006f\u006e"]();respcode=_0x5291e7["\u0063\u006f\u0064\u0065"];if(respcode==(0x61ba9^0x61ba9)){signedToday=_0x5291e7['result']["\u0073\u0069\u0067\u006e\u0049\u006e\u0053\u0074\u0061\u0074\u0075\u0073"]['signedToday'];if(signedToday==![]){url='https://mystore-01api.watsonsvip.com.cn/wx/signIn/iter/sign';data={"\u0075\u006e\u0069\u006f\u006e\u0049\u0064":unionId,"\u0069\u0073\u0053\u006f\u0072\u0074\u0074\u0069\u006f\u006e":![],"\u0064\u0065\u0076\u0069\u0063\u0065\u0049\u0064":'BNBGp+qwI8bc7r+2X3swaV1cO5hYgNv7ifhmbMt7EQn/y1vUv4Uk2ghM3siBIEPTkGysGwpVrry/hZdPw4eVtPg==',"\u0062\u006c\u0061\u0063\u006b\u0062\u006f\u0078":"\u0073\u004d\u0050\u0056\u0033\u0031\u0037\u0031\u0036\u0036\u0030\u0032\u0036\u0033\u0033\u0069\u0076\u0037\u0071\u0078\u004e\u007a\u0033\u0039\u0051\u0030"};_0x5291e7=HTTP["\u0070\u006f\u0073\u0074"](url,JSON["\u0073\u0074\u0072\u0069\u006e\u0067\u0069\u0066\u0079"](data),{"\u0068\u0065\u0061\u0064\u0065\u0072\u0073":headers});_0x5291e7=_0x5291e7["\u006a\u0073\u006f\u006e"]();console["\u006c\u006f\u0067"](_0x5291e7);respcode=_0x5291e7['code'];if(respcode==(0xe4d01^0xe4d01)){continueDays=_0x5291e7["\u0072\u0065\u0073\u0075\u006c\u0074"]["\u0063\u006f\u006e\u0074\u0069\u006e\u0075\u0065\u0044\u0061\u0079\u0073"];rewardAmount=parseInt(_0x5291e7["\u0072\u0065\u0073\u0075\u006c\u0074"]['rewardAmount'])/(0x44449^0x4442d);content='🎉\x20签到成功，连续签到'+continueDays+"\uDCB0\uD83D\u5F97\u83B7\uFF0C\u5929".split("").reverse().join("")+rewardAmount+'回馈金\x0a';_0x42164e+=content;console['log'](content);}else{content="\u8D25\u5931\u5230\u7B7E \u274C".split("").reverse().join("")+'\x0a';_0x2e9751+=content;console['log'](content);}}else{content="\u5230\u7B7E\u5DF2\u65E5\u4ECA \uDF89\uD83C".split("").reverse().join("")+'\x0a';_0x42164e+=content;console["\u006c\u006f\u0067"](content);}}else{content='❌\x20签到失败'+'\x0a';_0x2e9751+=content;console['log'](content);}flagResultFinish=0x225dc^0x225dd;if(messageOnlyError==(0x892e1^0x892e0)){messageArray[posLabel]=_0x2e9751;}else{if(_0x2e9751!=''){messageArray[posLabel]=_0x2e9751+'\x20'+_0x42164e;}else{messageArray[posLabel]=_0x42164e;}}if(messageArray[posLabel]!="".split("").reverse().join("")){console["\u006c\u006f\u0067"](messageArray[posLabel]);}return flagResultFinish;}function execHandle(_0x3db471,_0x246071){posHttp=0xcc086^0xcc086;qlpushFlag-=0xa6abf^0xa6abe;messageSuccess="".split("").reverse().join("");messageFail="";openId=Application['Range']("\u0044"+_0x246071)['Text'];unionId=Application['Range']('E'+_0x246071)["\u0054\u0065\u0078\u0074"];authorization=bearerPrefix(_0x3db471);url='https://mystore-01api.watsonsvip.com.cn/wx/signIn/index?unionId='+unionId;headers={'Authorization':authorization,'authorizer-appid':'wx1ffbd6927043dff7',"\u006f\u0070\u0065\u006e\u0049\u0064":openId,"\u0075\u006e\u0069\u006f\u006e\u0049\u0064":unionId,"\u0063\u006f\u006e\u0074\u0065\u006e\u0074\u002d\u0074\u0079\u0070\u0065":'application/json','miniProgramVersion':"\u0031\u002e\u0030\u002e\u0030"};data={};if(qlSwitch!=0x1){resp=HTTP['fetch'](url,{'method':'get','headers':headers});}else{data={};option="\u0067\u0065\u0074";resp=HTTP['post'](url,data,{'headers':headers},option);}if(qlSwitch!=(0x8c23f^0x8c23e)){resultHandle(resp,_0x246071);}}
 
 // cookie字符串转json格式, aaa=111&bbb=222&ccc=333
 function cookie_to_json(cookies) {
@@ -696,7 +458,7 @@ function bearerPrefix(authorization) {
     return authorization;
   }
 
-  authorization = 'bearer ' + authorization;
+  authorization = 'Bearer ' + authorization;
 
   return authorization;
 }
