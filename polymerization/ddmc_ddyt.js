@@ -1,5 +1,5 @@
 // 叮咚买菜-叮咚鱼塘自动签到
-// 20240706
+// 20241025
 /*
 备注：需要Cookie、seedId、propsId。"叮咚买菜"APP，然后用抓包软件进行抓包，分别在叮咚鱼塘中点击喂饲料，在果园中点击浇水，就能抓到含有Cookie、seedId和propsId的包。（叮咚鱼塘与叮咚果园的seedId、propsId不同，因此需要分别抓包，Cookie相同）
 */
@@ -61,7 +61,7 @@ function writeMessageQueue(message){
     console.log("✨ 开始将结果写入主配置表");
     for (let i = 2; i <= 100; i++) {
       // 找到指定的表行
-      if(Application.Range("A" + (i + 2)).Value == sheetNameSubConfig){
+      if(Application.Range("A" + (i + 2)).Value == sheetNameSubConfig2){
         // 写入更新的时间
         Application.Range("F" + (i + 2)).Value = todayDate
         // 写入消息
