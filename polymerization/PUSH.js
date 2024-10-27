@@ -1,5 +1,5 @@
 // PUSH.js 推送脚本
-// 20240902
+// 20241027
 
 // 支持推送：
 // bark、pushplus、Server酱、邮箱
@@ -358,7 +358,9 @@ function pushplus(message, key) {
 
 // 推送serverchan消息
 function serverchan(message, key) {
-
+  message = message.replace(/\n/g, '\n\n'); // 单独适配，将一个换行变成两个，以实现换行
+  message = encodeURIComponent(message)
+  
   let url = ""
   if(isHttpOrHttpsUrl(key)){  // 以http开头
     url = key + "?title=" + messagePushHeader + "&desp=" + message;
