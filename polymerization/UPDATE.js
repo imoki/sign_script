@@ -82,7 +82,7 @@ var configContent = [
   ['qcs', '屈臣氏', '否', '是', '是' , '' , '' , '', '@all' , '是' , '否' ,],
   ['hdl', '海底捞', '否', '是', '是' , '' , '' , '', '@all' , '是' , '否' ,],
   ['hzh', '华住会', '否', '是', '是' , '' , '' , '', '@all' , '是' , '否' ,],
-  
+  ['eswxlt', '恩山无线论坛', '否', '是', '是' , '' , '' , '', '@all' , '是' , '否' ,],
 ]
 
 // PUSH表内容 		
@@ -190,6 +190,13 @@ var subConfigQcs = [
   ['xxxxxxxx2', '否', '昵称2', '', '']
 ]
 
+// 定制化分配置表内容，恩山无线论坛
+var subConfigEswxlt = [
+  ['cookie(默认20个)', '是否执行(是/否)', '账号名称(可不填写)', 'openId', 'unionId'],
+  ['xxxxxxxx1', '是', '昵称1', '', ''],
+  ['xxxxxxxx2', '否', '昵称2', '', '']
+]
+
 // 定制化表
 var subConfig = {
   "ddmc"  : subConfigDdmc, 
@@ -202,6 +209,7 @@ var subConfig = {
   "bwcj":subConfigBwcj,
   "hdl":subConfigHdl,
   "qcs":subConfigQcs,
+  "eswxlt":subConfigEswxlt,
 }
 // var mosaic = "xxxxxxxx" // 马赛克
 // var strFail = "否"
