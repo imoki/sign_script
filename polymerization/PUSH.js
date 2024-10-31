@@ -1,5 +1,5 @@
 // PUSH.js 推送脚本
-// 20241027
+// 20241031
 
 // 支持推送：
 // bark、pushplus、Server酱、邮箱
@@ -166,6 +166,12 @@ function getMessage(){
   }
 }
 
+// 将日期转换为一串可比较的数字 2024/9/17 -> 20240917
+function convertToDateNumber(dateString) {
+    const [year, month, day] = dateString.split('/').map(Number);
+    return year * 10000 + (month * 100) + day;
+}
+
 // 发送消息
 function sendNotify(){
   ActivateSheet(sheetNameConfig); // 激活主配置表
@@ -188,7 +194,10 @@ function sendNotify(){
     // 2.是否推送判断，使得仅勾选是的才进行推送
     // 3.更新时间和推送时间不一致才推送，此判断也可以使昨天签到成功且今天未签到的情况不推送。即只有今天签到且未推送的情况才进行推送
     // 4.推送时间判断，使得仅今天未推送才进行推送，如果今天已推送就不再推送了，目的是可以一天不同时间段任意设置多个定时PUSH推送脚本
-    if(msgCurrentDict.pool == "否" && msgCurrentDict.flagPush == "是" && msgCurrentDict.update != msgCurrentDict.date && msgCurrentDict.msg != "" && msgCurrentDict.date != todayDate){ // 时间不一致说明未推送。消息为空不进行推送。今天未推送
+    // 5.过期消息判断，如果运行时间是2天前的消息就不再推送了
+    // console.log(msgCurrentDict.update)  2024/9/29  脚本运行时间
+    // console.log(msgCurrentDict.date)  // 2024/10/30 上一次推送时间
+    if(msgCurrentDict.pool == "否" && msgCurrentDict.flagPush == "是" && msgCurrentDict.update != msgCurrentDict.date && msgCurrentDict.msg != "" && msgCurrentDict.date != todayDate && convertToDateNumber(todayDate) - convertToDateNumber(msgCurrentDict.update) <= 2 && convertToDateNumber(todayDate) - convertToDateNumber(msgCurrentDict.update) >= 0){ // 时间不一致说明未推送。消息为空不进行推送。今天未推送
       console.log("🚀 消息推送：" + msgCurrentDict.note)
       pushMessage(msgCurrentDict.msg, msgCurrentDict.methodPush, "【" + msgCurrentDict.note + "】",)
 
@@ -196,7 +205,7 @@ function sendNotify(){
       Application.Range("H" + (i + 2)).Value = todayDate
 
     }else{
-      if(msgCurrentDict.pool == "是" && msgCurrentDict.flagPush == "是" && msgCurrentDict.update != msgCurrentDict.date && msgCurrentDict.msg != "" && msgCurrentDict.date != todayDate){
+      if(msgCurrentDict.pool == "是" && msgCurrentDict.flagPush == "是" && msgCurrentDict.update != msgCurrentDict.date && msgCurrentDict.msg != "" && msgCurrentDict.date != todayDate && convertToDateNumber(todayDate) - convertToDateNumber(msgCurrentDict.update) <= 2 && convertToDateNumber(todayDate) - convertToDateNumber(msgCurrentDict.update) >= 0){
         // console.log("🧩 加入消息池：" + msgCurrentDict.note)
         msgPool += "【" + msgCurrentDict.note + "】" + msgCurrentDict.msg + "\n"
 

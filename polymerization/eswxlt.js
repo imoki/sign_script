@@ -4,7 +4,7 @@
     脚本兼容: 金山文档
     更新时间：20241029
     环境变量名：eswxlt
-    环境变量值：填写网页www.ablesci.com抓包得到得cookie
+    环境变量值：https://www.right.com.cn/积分页面 cookie
 */
 
 const logo = "艾默库 : https://github.com/imoki/sign_script"    // 仓库地址
@@ -423,12 +423,12 @@ function resultHandle(resp, pos){
     posLabel = pos-2 ;  // 存放下标，从0开始
     messageHeader[posLabel] = "🧑 " + messageName
     // console.log(messageName)
-     console.log(resp.status) // 200
-      console.log(resp.statusText) // OK
-      console.log(resp.text) // `{foo:"bar"}`
-      // console.log(resp.json()) // {foo:"bar"}
-     console.log(resp.headers)
-     console.log(resp.binary().toString('base64'))
+    //  console.log(resp.status) // 200
+    //   console.log(resp.statusText) // OK
+      // console.log(resp.text) // `{foo:"bar"}`
+    //   // console.log(resp.json()) // {foo:"bar"}
+    //  console.log(resp.headers)
+    //  console.log(resp.binary().toString('base64'))
     if (resp.status == 200) {
         // resp = resp.text(); // 返回json格式则resp.json()。否则为resp.text()，此时就要用正则处理响应
         // console.log(resp)
@@ -442,7 +442,7 @@ function resultHandle(resp, pos){
         // {"code":0,"msg":"","data":{"signcount":1,"signpoint":10,"today_history":"","is_alert":1}}   
         // 重复签到、失败
         // {"code":1,"msg":""}
-    content = "🎉 签到成功 "  // // 给自己看的，双引号内可以随便写
+        content = "🎉 签到成功 "  // // 给自己看的，双引号内可以随便写
 
         messageSuccess += content;
         console.log(content)
