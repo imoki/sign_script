@@ -1,5 +1,5 @@
 // PUSH.js 推送脚本
-// 20241031
+// 20241031-b
 
 // 支持推送：
 // bark、pushplus、Server酱、邮箱
@@ -166,11 +166,24 @@ function getMessage(){
   }
 }
 
-// 将日期转换为一串可比较的数字 2024/9/17 -> 20240917
+// 将日期转换为一串可比较的数字 2024/9/17 -> 20240917。隔月存在问题
 function convertToDateNumber(dateString) {
     const [year, month, day] = dateString.split('/').map(Number);
     return year * 10000 + (month * 100) + day;
 }
+
+// 计算两个日期之间的距离
+function dateDistance(oldDate, newDate){
+  // 定义两个日期，2024/9/17
+  let date1 = new Date(oldDate);
+  let date2 = new Date(newDate);
+  let diffInMilliseconds = date2 - date1; // 计算两个日期之间的毫秒差
+  let diffInDays = diffInMilliseconds / (1000 * 60 * 60 * 24);  // 将毫秒差转换为天数
+  return diffInDays // 返回天数 0-n
+}
+
+
+
 
 // 发送消息
 function sendNotify(){
@@ -197,7 +210,8 @@ function sendNotify(){
     // 5.过期消息判断，如果运行时间是2天前的消息就不再推送了
     // console.log(msgCurrentDict.update)  2024/9/29  脚本运行时间
     // console.log(msgCurrentDict.date)  // 2024/10/30 上一次推送时间
-    if(msgCurrentDict.pool == "否" && msgCurrentDict.flagPush == "是" && msgCurrentDict.update != msgCurrentDict.date && msgCurrentDict.msg != "" && msgCurrentDict.date != todayDate && convertToDateNumber(todayDate) - convertToDateNumber(msgCurrentDict.update) <= 2 && convertToDateNumber(todayDate) - convertToDateNumber(msgCurrentDict.update) >= 0){ // 时间不一致说明未推送。消息为空不进行推送。今天未推送
+    // todayDate = "2024/11/1"  // 测试
+    if(msgCurrentDict.pool == "否" && msgCurrentDict.flagPush == "是" && msgCurrentDict.update != msgCurrentDict.date && msgCurrentDict.msg != "" && msgCurrentDict.date != todayDate && dateDistance(msgCurrentDict.update, todayDate) <= 2 && dateDistance(msgCurrentDict.update, todayDate) >= 0){ // 时间不一致说明未推送。消息为空不进行推送。今天未推送
       console.log("🚀 消息推送：" + msgCurrentDict.note)
       pushMessage(msgCurrentDict.msg, msgCurrentDict.methodPush, "【" + msgCurrentDict.note + "】",)
 
@@ -205,7 +219,7 @@ function sendNotify(){
       Application.Range("H" + (i + 2)).Value = todayDate
 
     }else{
-      if(msgCurrentDict.pool == "是" && msgCurrentDict.flagPush == "是" && msgCurrentDict.update != msgCurrentDict.date && msgCurrentDict.msg != "" && msgCurrentDict.date != todayDate && convertToDateNumber(todayDate) - convertToDateNumber(msgCurrentDict.update) <= 2 && convertToDateNumber(todayDate) - convertToDateNumber(msgCurrentDict.update) >= 0){
+      if(msgCurrentDict.pool == "是" && msgCurrentDict.flagPush == "是" && msgCurrentDict.update != msgCurrentDict.date && msgCurrentDict.msg != "" && msgCurrentDict.date != todayDate && dateDistance(msgCurrentDict.update, todayDate) <= 2 && dateDistance(msgCurrentDict.update, todayDate) >= 0){
         // console.log("🧩 加入消息池：" + msgCurrentDict.note)
         msgPool += "【" + msgCurrentDict.note + "】" + msgCurrentDict.msg + "\n"
 
