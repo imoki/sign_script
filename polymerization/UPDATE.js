@@ -1,5 +1,5 @@
 // UPDATE.js 更新脚本
-// 20241026
+// 20241031
 
 var confiWorkbook = 'CONFIG'  // 主配置表名称
 var pushWorkbook = 'PUSH' // 推送表的名称
@@ -83,6 +83,7 @@ var configContent = [
   ['hdl', '海底捞', '否', '是', '是' , '' , '' , '', '@all' , '是' , '否' ,],
   ['hzh', '华住会', '否', '是', '是' , '' , '' , '', '@all' , '是' , '否' ,],
   ['eswxlt', '恩山无线论坛', '否', '是', '是' , '' , '' , '', '@all' , '是' , '否' ,],
+  ['steamtools', 'steamtools', '否', '是', '是' , '' , '' , '', '@all' , '是' , '否' ,],
 ]
 
 // PUSH表内容 		
@@ -290,7 +291,7 @@ function hypeLink(){
     }
 
     link_name ='=HYPERLINK("#'+link_name+'!$A$1","'+link_name+'")' //设置超链接
-    //console.log(link_name)  // HYPERLINK("#PUSH!$A$1","PUSH")
+    //console.log(link_name)  // HYPERLINK("#PUSH!$A$1","PUSH")
     workSheet.Range("A" + row).Value =link_name 
   }
 }
