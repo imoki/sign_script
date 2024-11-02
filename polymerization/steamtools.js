@@ -5,7 +5,7 @@
     更新时间：20241031
     环境变量名：steamtools
     环境变量值：cookie
-    备注：每天登录，签到获得T币，​获得两类积分。抓网页的包。
+    备注：每天登录，签到获得T币，​获得两类积分。抓网页的包，网址：https://bbs.steamtools.net/。
 */
 
 const logo = "艾默库 : https://github.com/imoki/sign_script"    // 仓库地址
