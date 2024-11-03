@@ -2,6 +2,7 @@
     name: "夸克订阅更新自动转存"
     脚本兼容: 金山文档
     更新时间：20240923
+    备注：需要cookie。cookie填写夸克网盘网页版中获取的cookie。F12 -> "NetWork"(中文名叫"网络") -> 按一下Ctrl+R -> list -> Cookie
 */
 
 const logo = "艾默库 : https://github.com/imoki/sign_script"    // 仓库地址
