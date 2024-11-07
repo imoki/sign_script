@@ -1,5 +1,5 @@
 // UPDATE.js 更新脚本
-// 20241031
+// 20241106
 
 var confiWorkbook = 'CONFIG'  // 主配置表名称
 var pushWorkbook = 'PUSH' // 推送表的名称
@@ -84,6 +84,7 @@ var configContent = [
   ['hzh', '华住会', '否', '是', '是' , '' , '' , '', '@all' , '是' , '否' ,],
   ['eswxlt', '恩山无线论坛', '否', '是', '是' , '' , '' , '', '@all' , '是' , '否' ,],
   ['steamtools', 'steamtools', '否', '是', '是' , '' , '' , '', '@all' , '是' , '否' ,],
+  ['xmdl', '熊猫代理', '否', '是', '是' , '' , '' , '', '@all' , '是' , '否' ,],
 ]
 
 // PUSH表内容 		
@@ -198,6 +199,13 @@ var subConfigEswxlt = [
   ['xxxxxxxx2', '否', '昵称2', '', '']
 ]
 
+// 定制化分配置表内容，xmdl熊猫代理
+var subConfigXmdl = [
+  ['cookie(默认20个)', '是否执行(是/否)', '账号名称(可不填写)', 'username', 'password'],
+  ['xxxxxxxx1', '是', '昵称1', '此格填用户名', '此格填密码'],
+  ['xxxxxxxx2', '否', '昵称2', '此格填用户名', '此格填密码']
+]
+
 // 定制化表
 var subConfig = {
   "ddmc"  : subConfigDdmc, 
@@ -211,6 +219,7 @@ var subConfig = {
   "hdl":subConfigHdl,
   "qcs":subConfigQcs,
   "eswxlt":subConfigEswxlt,
+  "xmdl":subConfigXmdl,
 }
 // var mosaic = "xxxxxxxx" // 马赛克
 // var strFail = "否"
