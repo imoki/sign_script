@@ -1,5 +1,5 @@
 // PUSH.js 推送脚本
-// 20241031-b
+// 20241113
 
 // 支持推送：
 // bark、pushplus、Server酱、邮箱
@@ -538,6 +538,7 @@ function jishida(message, key) {
 
 // wxpusher 适配两种模式：极简推送、标准推送
 function wxpusher(message, key) {
+  message = message.replace(/\n/g, '<br>'); // 单独适配，将/n换行变成<br>，以实现换行
   message = encodeURIComponent(message)
   let keyarry= key.split("|") // 使用|作为分隔符
   if(keyarry.length == 1){ 
@@ -566,6 +567,7 @@ function wxpusher(message, key) {
     let resp = HTTP.fetch(url, {
       method: "get",
     });
+    // console.log(resp.text())
   }else{
     // console.log("采用标准推送")
     let appToken = keyarry[0]
