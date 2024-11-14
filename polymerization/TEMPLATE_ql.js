@@ -1,10 +1,11 @@
 /*
     name: "模板"（修改这里）
     cron: 45 0 9 * * *
-    脚本兼容: 金山文档， 青龙
-    更新时间：20240907
+    脚本兼容: 金山文档（1.0）， 青龙
+    更新时间：20241113
     环境变量名：mouxue（修改这里）
     环境变量值：填写cookie（修改这里）
+    备注：抓取cookie（修改这里）
 */
 
 const logo = "艾默库 : https://github.com/imoki/sign_script"    // 仓库地址
@@ -437,16 +438,16 @@ function resultHandle(resp, pos){
 
         if(respcode == 0 )   // 通过code值来判断是不是签到成功，由抓包的情况1知道，0代表签到成功了,所以让code与0比较
         {
-            content = "🎉 签到成功" + ""
+            content = "🎉 签到成功" + "/n"
             messageSuccess += content;
             // console.log(content)
         }else{
             respmsg = resp["message"]   // 通过resp["键名"]的方式获取值，假设响应数据是情况1，这里取到的值就是“签到成功”
             if(respmsg == "请先登录"){
-                content = "❌ " + respmsg + ""
+                content = "❌ " + respmsg + "/n"
                 messageFail += content;
             }else{
-                content = "📢 " + respmsg + ""
+                content = "📢 " + respmsg + "/n"
                 messageSuccess += content;
             }
             
@@ -454,7 +455,7 @@ function resultHandle(resp, pos){
         }
 
     } else {
-        content = "❌ 签到失败"
+        content = "❌ 签到失败" + "/n"
         messageFail += content;
         // console.log(content);
     }
