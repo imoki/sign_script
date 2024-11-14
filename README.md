@@ -14,7 +14,7 @@
 📻️ <a href="https://t.me/mokuchannel">@mokuchannel</a>
 
 ## 🍨 教程 
-📖 <a href="https://moku.us.kg">艾默库教程</a>
+📖 <a href="https://jewel-pullover-9d0.notion.site/dfec17946a164658bb77e9682df954a2?pvs=4">艾默库教程</a>
 
 ## 📌 特别声明
 
