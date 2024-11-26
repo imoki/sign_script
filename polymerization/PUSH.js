@@ -1,5 +1,14 @@
 // PUSH.js 推送脚本
-// 20241113
+// 20241126
+
+// 具备功能：
+// 1. 多渠道推送
+// 2. 独立推送、消息池推送
+// 3. 消息过期判断
+// 4. 长度分片、分隔符分片
+// 5. 优先级排序
+// 6. 单日多次推送
+
 
 // 支持推送：
 // bark、pushplus、Server酱、邮箱
@@ -16,6 +25,50 @@ let line = 21; // 指定读取从第2行到第line行的内容
 var message = ""; // 待发送的消息
 var messagePushHeader = ""; // 存放在总消息的头部，默认是pushHeader,如：【xxxx】
 var pushHeader = ""
+var separator = "##########MOKU##########" // 分割符，分割消息。可用于PUSH.js灵活推送
+var maxMessageLength = 512;  // 设置最大长度，超过这个长度则分片发送
+var messageDistance = 256; // 消息距离，用于匹配100字符内最近的行
+
+// 消息分片，以换行符为分割，自动检索切割位置符号
+function splitMessage(data) {
+    let chunks = [];
+    let start = 0;
+
+    while (start < data.length) {
+        let end = start + maxMessageLength;
+        if (end >= data.length) {
+            chunks.push(data.slice(start));
+            break;
+        }
+
+        // 查找距离 maxMessageLength 在 20 字符以内的最近的换行符
+        let newlineIndex = data.lastIndexOf('【', end + parseInt(messageDistance));
+        // console.log(newlineIndex)
+        if (newlineIndex > start && newlineIndex >= end - parseInt(messageDistance)) {
+            end = newlineIndex;
+        }
+
+        chunks.push(data.slice(start, end));
+        start = end;
+    }
+
+    return chunks
+}
+
+// 纯长度分片
+// function splitMessage(data) {
+//     let chunks = [];
+//     for (let i = 0; i < data.length; i += maxMessageLength) {
+//         chunks.push(data.slice(i, i + maxMessageLength));
+//     }
+
+//     return chunks
+
+//     // chunks.forEach((chunk, index) => {
+//     //     // let message = `${index + 1}/${chunks.length}: ${chunk}`;
+//     //     bark(message, key)
+//     // });
+// }
 
 var jsonPush = [
   { name: "bark", key: "xxxxxx", flag: "0" },
@@ -119,15 +172,39 @@ function sleep(d) {
   for (var t = Date.now(); Date.now() - t <= d; );
 }
 
+// 推送优先级排序
+function sortMsgArrayByPriority(msgArray) {
+    return msgArray.sort((a, b) => b.priority - a.priority);
+}
+
 // 读取消息配置
 function getMessage(){
   flagConfig = ActivateSheet(sheetNameConfig); // 激活主配置表
   // 主配置工作表存在
   if (flagConfig == 1) {
     console.log("🍳 开始读取主配置表");
+
+    // var configTitleMapping = {
+    //     '工作表的名称': 'name',
+    //     '备注': 'note',
+    //     '只推送失败消息（是/否）': 'pushFailureOnly',
+    //     '推送昵称（是/否）': 'pushNickname',
+    //     '是否存活': 'isAlive',
+    //     '更新时间': 'updateTime',
+    //     '消息': 'message',
+    //     '推送时间': 'pushTime',
+    //     '推送方式': 'pushMethod',
+    //     '是否通知': 'notify',
+    //     '加入消息池': 'addToMessagePool',
+    //     '推送优先级': 'pushPriority',
+    //     '当日可推送次数': 'dailyPushLimit',
+    //     '当日剩余推送次数': 'remainingDailyPushes',
+    // };
+
     for (let i = 2; i <= 100; i++) {
       // 从工作表中读取推送数据
       let msgDict = {
+        "pos": 0,          // 位置，记录在表格的第几行，从2开始
         "name": "",       // 名称
         "note": "",   // 备注
         // "onlyError":  "", // 只推送错误消息
@@ -137,8 +214,12 @@ function getMessage(){
         "methodPush":"",  // 推送方式
         "flagPush" : "",  // 是否通知
         "pool":"",        // 是否加入消息池，加入消息池的都会整合为一条消息统一推送
+        "priority":"0",     // 优先级，根据优先级来对消息前后顺序进行排序
+        "dailyPushLimit":1, // 当日可推送次数
+        "remainingDailyPushes": ""  // 当日剩余推送次数
       }
 
+      msgDict.pos = i    // 位置，在第几行，从2开始
       msgDict["name"] = Application.Range("A" + i).Text;     // 工作表名称
       msgDict.note = Application.Range("B" + i).Text;     // 备注
       // msgDict.onlyError = Application.Range("C" + i).Text;     // 只推送错误消息
@@ -148,6 +229,10 @@ function getMessage(){
       msgDict.methodPush = Application.Range("I" + i).Text;     // 推送方式
       msgDict.flagPush = Application.Range("J" + i).Text;     // 是否通知
       msgDict.pool = Application.Range("K" + i).Text;     // 是否加入消息池，加入消息池的都会整合为一条消息统一推送
+      msgDict.priority = Application.Range("L" + i).Text;     // 优先级，根据优先级来对消息前后顺序进行排序
+      msgDict.dailyPushLimit = Application.Range("M" + i).Text;    // 当日可推送次数
+      msgDict.remainingDailyPushes = Application.Range("N" + i).Text;    // 当日剩余推送次数
+
     
       if (msgDict.name == "") {
         // 如果为空行，则提前结束读取
@@ -155,13 +240,11 @@ function getMessage(){
       }
       // console.log(msgDict)
       msgArray.push(msgDict)
-
-      
-
     }
+
+    // 根据优先级排序，值大的排前面
+    msgArray = sortMsgArrayByPriority(msgArray) 
     // console.log(msgArray)
-
-
     
   }
 }
@@ -182,7 +265,51 @@ function dateDistance(oldDate, newDate){
   return diffInDays // 返回天数 0-n
 }
 
+// 推送器
+function sendMessage(msgCurrentDict = "", msgPool = "", msgAppend = ""){
+  
+  let shards = [] // 分割符分片数据，一级分割
+  
+  if(msgCurrentDict != ""){
+    // 独立推送
+    console.log("🚀 消息推送：" + msgCurrentDict.note)
+    // 消息分片
+    // 方式1：按照指定分割符分片  separator
+    shards = msgCurrentDict.msg.split(separator); // // 分割符分片数据，一级分割
+    let chunks = []
+    for(let j=0; j<shards.length;j++){
+      chunks = splitMessage(shards[j])  // 长度限制分割，二级分割
+      // console.log(chunks)
+      // console.log(chunks.length)
+      for (let k = 0; k < chunks.length; k ++) {
+          pushMessage(chunks[k], msgCurrentDict.methodPush, "【" + msgCurrentDict.note + "】",)
+          sleep(2000)
+      }
+    }
 
+  }else{
+    // 消息池推送
+    console.log("🚀 艾默库消息池推送")
+    // 消息分片
+    // 方式1：按照指定分割符分片  separator
+    msgPool += msgAppend  // 追加数据
+    shards = msgPool.split(separator);
+    let chunks = []
+    for(let i=0; i<shards.length;i++){
+      chunks = splitMessage(shards[i])
+      // console.log(chunks)
+      // console.log(chunks.length)
+      for (let j = 0; j < chunks.length; j++) {
+          // console.log(chunks[i])
+          pushMessage(chunks[j], "@all", "【" + "艾默库消息池" + "】\n")
+          sleep(2000)
+      }
+    }
+
+
+  }
+
+}
 
 
 // 发送消息
@@ -192,6 +319,8 @@ function sendNotify(){
   // console.log("🍳 开始发送消息");
   let msgCurrentDict = ""
   let msgPool = ""
+  let msgAppend = ""  // 追加到消息池末尾的信息
+  let shards = [] // 分割符分片数据，一级分割
   for (let i = 0; i < msgArray.length; i++) {
     msgCurrentDict = msgArray[i]
     // console.log(msgCurrentDict)
@@ -203,33 +332,122 @@ function sendNotify(){
     // console.log(msgCurrentDict.date)
     // console.log(todayDate)
     // 消息池的先不推送，最后统一推送
-    // 1.消息池判断，使得消息池内的消息最后统一推送
-    // 2.是否推送判断，使得仅勾选是的才进行推送
-    // 3.更新时间和推送时间不一致才推送，此判断也可以使昨天签到成功且今天未签到的情况不推送。即只有今天签到且未推送的情况才进行推送
-    // 4.推送时间判断，使得仅今天未推送才进行推送，如果今天已推送就不再推送了，目的是可以一天不同时间段任意设置多个定时PUSH推送脚本
-    // 5.过期消息判断，如果运行时间是2天前的消息就不再推送了
+    // 1. 消息池判断，使得消息池内的消息最后统一推送
+    // 2. 是否推送判断，使得仅勾选是的才进行推送
+    // 3. 推送时间判断，使得仅今天未推送才进行推送，如果今天已推送就不再推送了，目的是可以一天不同时间段任意设置多个定时PUSH推送脚本
+    // 4. 过期消息判断，如果运行时间是2天前的消息就不再推送了
+    // 5. 时间不一致判断，更新时间和推送时间不一致才推送，此判断也可以使昨天签到成功且今天未签到的情况不推送。即只有今天签到且未推送的情况才进行推送
+    // 6. 时间一致额外推送判断。即一天多次运行，并多次推送
     // console.log(msgCurrentDict.update)  2024/9/29  脚本运行时间
     // console.log(msgCurrentDict.date)  // 2024/10/30 上一次推送时间
     // todayDate = "2024/11/1"  // 测试
-    if(msgCurrentDict.pool == "否" && msgCurrentDict.flagPush == "是" && msgCurrentDict.update != msgCurrentDict.date && msgCurrentDict.msg != "" && msgCurrentDict.date != todayDate && dateDistance(msgCurrentDict.update, todayDate) <= 2 && dateDistance(msgCurrentDict.update, todayDate) >= 0){ // 时间不一致说明未推送。消息为空不进行推送。今天未推送
-      console.log("🚀 消息推送：" + msgCurrentDict.note)
-      pushMessage(msgCurrentDict.msg, msgCurrentDict.methodPush, "【" + msgCurrentDict.note + "】",)
 
-      // 写入推送的时间
-      Application.Range("H" + (i + 2)).Value = todayDate
+    // // 计算是否能额外推送
+    // msgDict.dailyPushLimit  // 当日可推送次数
+    // msgDict.remainingDailyPushes  // 当日剩余推送次数
+
+    // 1. 消息池判断
+    // 2. 是否推送判断
+    if(msgCurrentDict.pool == "否" && msgCurrentDict.flagPush == "是")
+    {
+      // 独立推送
+      // 3.进行消息检测
+      // 4.进行过期消息判断
+      if(msgCurrentDict.msg != "" && dateDistance(msgCurrentDict.update, todayDate) <= 2 && dateDistance(msgCurrentDict.update, todayDate) >= 0)
+      {
+        // 5.时间不一致判断
+        if(msgCurrentDict.update != msgCurrentDict.date && msgCurrentDict.date != todayDate )
+        { 
+          // 时间不一致说明未推送。消息为空不进行推送。今天未推送
+          // 进行推送
+          
+          // pushMessage(msgCurrentDict.msg, msgCurrentDict.methodPush, "【" + msgCurrentDict.note + "】",)
+          sendMessage(msgCurrentDict)
+
+          // 写入推送的时间
+          // Application.Range("H" + (i + 2)).Value = todayDate
+          Application.Range("H" + msgCurrentDict.pos).Value = todayDate
+
+          // 更新推送次数。读取当日可推送次数，写入当日剩余推送次数。写入当日剩余推送次数 = 当日可推送次数 - 1
+          Application.Range("N" + msgCurrentDict.pos).Value =  parseInt(msgCurrentDict.dailyPushLimit) - 1
+
+        }else{  
+          //  6.时间一致额外推送判断
+          // 时间一致，计算是否推送
+          if(parseInt(msgCurrentDict.remainingDailyPushes) > 0){
+            sendMessage(msgCurrentDict)
+
+            // 写入推送的时间
+            Application.Range("H" + msgCurrentDict.pos).Value = todayDate
+            // 更新推送次数。读取当日可推送次数，写入当日剩余推送次数。写入当日剩余推送次数 = 当日可推送次数 - 1
+            Application.Range("N" + msgCurrentDict.pos).Value =  parseInt(msgCurrentDict.remainingDailyPushes) - 1
+          }
+          
+        }
+      }
 
     }else{
-      if(msgCurrentDict.pool == "是" && msgCurrentDict.flagPush == "是" && msgCurrentDict.update != msgCurrentDict.date && msgCurrentDict.msg != "" && msgCurrentDict.date != todayDate && dateDistance(msgCurrentDict.update, todayDate) <= 2 && dateDistance(msgCurrentDict.update, todayDate) >= 0){
-        // console.log("🧩 加入消息池：" + msgCurrentDict.note)
-        msgPool += "【" + msgCurrentDict.note + "】" + msgCurrentDict.msg + "\n"
+      if(msgCurrentDict.pool == "是" && msgCurrentDict.flagPush == "是"){
+        
+        // 消息池推送
+        // 3.进行消息检测
+        // 4.进行过期消息判断
+        if(msgCurrentDict.msg != "" && dateDistance(msgCurrentDict.update, todayDate) <= 2 && dateDistance(msgCurrentDict.update, todayDate) >= 0)
+        {
+          // 5.时间不一致判断
+          if(msgCurrentDict.update != msgCurrentDict.date && msgCurrentDict.date != todayDate ){
+            // 时间不一致说明未推送。
 
-        // 写入推送的时间
-        Application.Range("H" + (i + 2)).Value = todayDate
+            // 进行消息池生成
+            // 对分片消息进行特异化处理，只取第一条分片，后续分片放在消息池的末尾
+            shards = msgCurrentDict.msg.split(separator); // // 分割符分片数据，一级分割
+            // console.log(shards)
+            msgPool += "【" + msgCurrentDict.note + "】" + shards[0] + "\n" // 取分割后的第一条
+            for(let j=1; j<shards.length; j++){ // 后续一级分割分片数据放入追加数据当中
+              msgAppend += "【" + msgCurrentDict.note + "】" + shards[j] + "\n" // 取分割后的第一条
+            }
+
+            // 写入推送的时间
+            // Application.Range("H" + (i + 2)).Value = todayDate
+            Application.Range("H" + msgCurrentDict.pos).Value = todayDate
+            // 更新推送次数。读取当日可推送次数，写入当日剩余推送次数。写入当日剩余推送次数 = 当日可推送次数 - 1
+            Application.Range("N" + msgCurrentDict.pos).Value =  parseInt(msgCurrentDict.dailyPushLimit) - 1
+
+            
+          }else{
+            // 6.时间一致额外推送判断
+            // 时间一致，计算是否推送
+            if(parseInt(msgCurrentDict.remainingDailyPushes) > 0){
+              // 进行消息池生成
+              // 对分片消息进行特异化处理，只取第一条分片，后续分片放在消息池的末尾
+              shards = msgCurrentDict.msg.split(separator); // // 分割符分片数据，一级分割
+              // console.log(shards)
+              msgPool += "【" + msgCurrentDict.note + "】" + shards[0] + "\n" // 取分割后的第一条
+              for(let j=1; j<shards.length; j++){ // 后续一级分割分片数据放入追加数据当中
+                msgAppend += "【" + msgCurrentDict.note + "】" + shards[j] + "\n" // 取分割后的第一条
+              }
+
+              // 写入推送的时间
+              Application.Range("H" + msgCurrentDict.pos).Value = todayDate
+              // 更新推送次数。读取当日可推送次数，写入当日剩余推送次数。写入当日剩余推送次数 = 当日可推送次数 - 1
+              Application.Range("N" + msgCurrentDict.pos).Value =  parseInt(msgCurrentDict.remainingDailyPushes) - 1
+            }
+
+          }
+
+        }
+        
+
+        // console.log("🧩 加入消息池：" + msgCurrentDict.note)
+        // msgPool += "【" + msgCurrentDict.note + "】" + msgCurrentDict.msg + "\n"
+
+        
 
       }else{
         // console.log("🍳 不进行推送：" + msgCurrentDict.note)
       }
     }
+    
   }
   
   // console.log(msgPool)
@@ -237,8 +455,11 @@ function sendNotify(){
   let msgPoolJuice = msgPool.replace(/\n/g, '');  // 判断消息池内是否有数据
   // console.log(msgPoolJuice)
   if(msgPoolJuice != ""){ // 消息池内有消息才推送
-    console.log("🚀 艾默库消息池推送")
-    pushMessage(msgPool, "@all", "【" + "艾默库消息池" + "】\n")
+    
+    // pushMessage(msgPool, "@all", "【" + "艾默库消息池" + "】\n")
+    sendMessage("", msgPool, msgAppend)
+
+
   }
 
   console.log("🎉 推送结束")
@@ -359,6 +580,7 @@ function bark(message, key) {
   let resp = HTTP.get(url, {
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
   });
+  // console.log(resp.json())
   sleep(5000);
 }
 

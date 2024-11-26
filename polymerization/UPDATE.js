@@ -1,5 +1,5 @@
 // UPDATE.js 更新脚本
-// 20241106
+// 20241126
 
 var confiWorkbook = 'CONFIG'  // 主配置表名称
 var pushWorkbook = 'PUSH' // 推送表的名称
@@ -16,76 +16,126 @@ var colNum = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', '
 
 // CONFIG表内容
 // 推送昵称(推送位置标识)选项：若“是”则推送“账户名称”，若账户名称为空则推送“单元格Ax”，这两种统称为位置标识。若“否”，则不推送位置标识
-var configContent = [
-  ['工作表的名称', '备注', '只推送失败消息（是/否）', '推送昵称（是/否）', '是否存活', '更新时间', '消息', '推送时间', '推送方式',  '是否通知', '加入消息池'],
-  ['xxx', '', '否', '是', '否' , '' , '' , '', '@all' , '是' , '否' ,],
-  ['xxx', '', '否', '是', '否' , '' , '' , '', '@all' , '是' , '否' ,],
-  ['noteyoudao', '有道云笔记', '否', '是', '是' , '' , '' , '', '@all' , '是' , '否' ,],
-  ['tieba', '百度贴吧', '否', '是', '是' , '' , '' , '', '@all' , '是' , '否' ,],
-  ['xxx', '', '否', '是', '否' , '' , '' , '', '@all' , '是' , '否' ,],
-  ['xxx', '', '否', '是', '否' , '' , '' , '', '@all' , '是' , '否' ,],
-  ['xxx', '', '否', '是', '否' , '' , '' , '', '@all' , '是' , '否' ,],
-  ['xxx', '', '否', '是', '否' , '' , '' , '', '@all' , '是' , '否' ,],
-  ['smzdm', '什么值得买抽奖', '否', '是', '是' , '' , '' , '', '@all' , '是' , '否' ,],
-  ['toollu', '在线工具', '否', '是', '是' , '' , '' , '', '@all' , '是' , '否' ,],
-  ['xxx', '', '否', '是', '否' , '' , '' , '', '@all' , '是' , '否' ,],
-  ['xxx', '', '否', '是', '否' , '' , '' , '', '@all' , '是' , '否' ,],
-  ['xxx', '', '否', '是', '否' , '' , '' , '', '@all' , '是' , '否' ,],
-  ['xxx', '', '否', '是', '否' , '' , '' , '', '@all' , '是' , '否' ,],
-  ['ddmc_ddyt', '叮咚买菜-叮咚鱼塘', '否', '是', '是' , '' , '' , '', '@all' , '是' , '否' ,],
-  ['xxx', '', '否', '是', '否' , '' , '' , '', '@all' , '是' , '否' ,],
-  ['xxx', '', '否', '是', '否' , '' , '' , '', '@all' , '是' , '否' ,],
-  ['acfun', 'AcFun', '否', '是', '是' , '' , '' , '', '@all' , '是' , '否' ,],
-  ['xmly', '喜马拉雅', '否', '是', '是' , '' , '' , '', '@all' , '是' , '否' ,],
-  ['xxx', '', '否', '是', '否' , '' , '' , '', '@all' , '是' , '否' ,],
-  ['en', '希沃白板', '否', '是', '是' , '' , '' , '', '@all' , '是' , '否' ,],
-  ['xmc', '小木虫', '否', '是', '是' , '' , '' , '', '@all' , '是' , '否' ,],
-  ['quark', '夸克网盘', '否', '是', '是' , '' , '' , '', '@all' , '是' , '否' ,],
-  ['huluxia', '葫芦侠3楼', '否', '是', '是' , '' , '' , '', '@all' , '是' , '否' ,],
-  ['xxx', '', '否', '是', '否' , '' , '' , '', '@all' , '是' , '否' ,],
-  ['xxx', '', '否', '是', '否' , '' , '' , '', '@all' , '是' , '否' ,],
-  ['ztebbs', '中兴社区', '否', '是', '是' , '' , '' , '', '@all' , '是' , '否' ,],
-  ['mi', '小米商城', '否', '是', '是' , '' , '' , '', '@all' , '是' , '否' ,],
-  ['kanxue', '看雪论坛', '否', '是', '是' , '' , '' , '', '@all' , '是' , '否' ,],
-  ['bilibili', '哔哩哔哩', '否', '是', '是' , '' , '' , '', '@all' , '是' , '否' ,],
-  ['vivo', 'vivo社区', '否', '是', '是' , '' , '' , '', '@all' , '是' , '否' ,],
-  ['xxx', '', '否', '是', '否' , '' , '' , '', '@all' , '是' , '否' ,],
-  ['wps_daka', 'wps(打卡版）', '否', '是', '是' , '' , '' , '', '@all' , '是' , '否' ,],
-  ['golo', 'golo汽修大师', '否', '是', '是' , '' , '' , '', '@all' , '是' , '否' ,],
-  ['xxx', '', '否', '是', '否' , '' , '' , '', '@all' , '是' , '否' ,],
-  ['aliyun', '阿里云盘(自动更新token版)', '否', '是', '是' , '' , '' , '', '@all' , '是' , '否' ,],
-  ['chinadsl', '宽带技术网', '否', '是', '是' , '' , '' , '', '@all' , '是' , '否' ,],
-  ['xxx', '', '否', '是', '否' , '' , '' , '', '@all' , '是' , '否' ,],
-  ['xxx', '', '否', '是', '否' , '' , '' , '', '@all' , '是' , '否' ,],
-  ['ztemall', '中兴商城', '否', '是', '是' , '' , '' , '', '@all' , '是' , '否' ,],
-  ['wnflb', '万能福利吧', '否', '是', '是' , '' , '' , '', '@all' , '是' , '否' ,],
-  ['xxx', '', '否', '是', '否' , '' , '' , '', '@all' , '是' , '否' ,],
-  ['xxx', '', '否', '是', '否' , '' , '' , '', '@all' , '是' , '否' ,],
-  ['fwxs', '废文小说', '否', '是', '是' , '' , '' , '', '@all' , '是' , '否' ,],
-  ['hxek', '鸿星尔克', '否', '是', '是' , '' , '' , '', '@all' , '是' , '否' ,],
-  ['xxx', '', '否', '是', '否' , '' , '' , '', '@all' , '是' , '否' ,],
-  ['xxx', '', '否', '是', '否' , '' , '' , '', '@all' , '是' , '否' ,],
-  ['xxx', '', '否', '是', '否' , '' , '' , '', '@all' , '是' , '否' ,],
-  ['ddai', '钉钉AI', '否', '是', '是' , '' , '' , '', '@all' , '是' , '否' ,],
-  ['xxx', '', '否', '是', '否' , '' , '' , '', '@all' , '是' , '否' ,],
-  ['xxx', '', '否', '是', '否' , '' , '' , '', '@all' , '是' , '否' ,],
-  ['kyt', '科研通', '否', '是', '是' , '' , '' , '', '@all' , '是' , '否' ,],
-  ['parsdata', '伊朗域名注册优惠码', '否', '是', '是' , '' , '' , '', '@all' , '是' , '否' ,],
-  ['quarksave', '夸克订阅更新自动转存', '否', '是', '是' , '' , '' , '', '@all' , '是' , '否' ,],
-  ['games70', '70games', '否', '是', '是' , '' , '' , '', '@all' , '是' , '否' ,],
-  ['xxx', '', '否', '是', '否' , '' , '' , '', '@all' , '是' , '否' ,],
-  ['rainyun', '雨云', '否', '是', '是' , '' , '' , '', '@all' , '是' , '否' ,],
-  ['yhsh', '永辉生活', '否', '是', '是' , '' , '' , '', '@all' , '是' , '否' ,],
-  ['xpnc', '兴攀农场', '否', '是', '是' , '' , '' , '', '@all' , '是' , '否' ,],
-  ['bwcj', '霸王茶姬', '否', '是', '是' , '' , '' , '', '@all' , '是' , '否' ,],
-  ['syns', '所有女生', '否', '是', '是' , '' , '' , '', '@all' , '是' , '否' ,],
-  ['qcs', '屈臣氏', '否', '是', '是' , '' , '' , '', '@all' , '是' , '否' ,],
-  ['hdl', '海底捞', '否', '是', '是' , '' , '' , '', '@all' , '是' , '否' ,],
-  ['hzh', '华住会', '否', '是', '是' , '' , '' , '', '@all' , '是' , '否' ,],
-  ['eswxlt', '恩山无线论坛', '否', '是', '是' , '' , '' , '', '@all' , '是' , '否' ,],
-  ['steamtools', 'steamtools', '否', '是', '是' , '' , '' , '', '@all' , '是' , '否' ,],
-  ['xmdl', '熊猫代理', '否', '是', '是' , '' , '' , '', '@all' , '是' , '否' ,],
-]
+// 存放CONFIG表内容，标题+标题下内容
+var configContent = [];
+
+// 实际写入CONFIG表的值
+// CONFIG表标题
+configTitle = ['工作表的名称', '备注', '只推送失败消息（是/否）', '推送昵称（是/否）', '是否存活', '程序结束时间', '消息', '推送时间', '推送方式', '是否通知', '加入消息池', '推送优先级', '当日可推送次数', '当日剩余推送次数']
+// 定义CONFIG表标题下内容的默认值
+var configBodyDefault = ['xxx', '', '否', '是', '是', '', '', '', '@all', '是', '否', '0', '1', ''];
+// CONFIG表标题下内容
+var configBody = [
+    { name: 'xxx', note: '', isAlive: '否',},
+    { name: 'xxx', note: '', isAlive: '否',},
+    { name: 'noteyoudao', note: '有道云笔记',},
+    { name: 'tieba', note: '百度贴吧',},
+    { name: 'xxx', note: '', isAlive: '否',},
+    { name: 'xxx', note: '', isAlive: '否',},
+    { name: 'xxx', note: '', isAlive: '否',},
+    { name: 'xxx', note: '', isAlive: '否',},
+    { name: 'smzdm', note: '什么值得买抽奖',},
+    { name: 'toollu', note: '在线工具',},
+    { name: 'xxx', note: '', isAlive: '否',},
+    { name: 'xxx', note: '', isAlive: '否',},
+    { name: 'xxx', note: '', isAlive: '否',},
+    { name: 'xxx', note: '', isAlive: '否',},
+    { name: 'ddmc_ddyt', note: '叮咚买菜-叮咚鱼塘',},
+    { name: 'xxx', note: '', isAlive: '否',},
+    { name: 'xxx', note: '', isAlive: '否',},
+    { name: 'acfun', note: 'AcFun',},
+    { name: 'xmly', note: '喜马拉雅',},
+    { name: 'xxx', note: '', isAlive: '否',},
+    { name: 'en', note: '希沃白板',},
+    { name: 'xmc', note: '小木虫',},
+    { name: 'quark', note: '夸克网盘',},
+    { name: 'huluxia', note: '葫芦侠3楼',},
+    { name: 'xxx', note: '', isAlive: '否',},
+    { name: 'xxx', note: '', isAlive: '否',},
+    { name: 'ztebbs', note: '中兴社区',},
+    { name: 'mi', note: '小米商城',},
+    { name: 'kanxue', note: '看雪论坛',},
+    { name: 'bilibili', note: '哔哩哔哩',},
+    { name: 'vivo', note: 'vivo社区',},
+    { name: 'xxx', note: '', isAlive: '否',},
+    { name: 'wps_daka', note: 'wps(打卡版）',},
+    { name: 'golo', note: 'golo汽修大师',},
+    { name: 'xxx', note: '', isAlive: '否',},
+    { name: 'aliyun', note: '阿里云盘(自动更新token版)',},
+    { name: 'chinadsl', note: '宽带技术网',},
+    { name: 'xxx', note: '', isAlive: '否',},
+    { name: 'xxx', note: '', isAlive: '否',},
+    { name: 'ztemall', note: '中兴商城',},
+    { name: 'wnflb', note: '万能福利吧',},
+    { name: 'xxx', note: '', isAlive: '否',},
+    { name: 'xxx', note: '', isAlive: '否',},
+    { name: 'fwxs', note: '废文小说',},
+    { name: 'hxek', note: '鸿星尔克',},
+    { name: 'xxx', note: '', isAlive: '否',},
+    { name: 'xxx', note: '', isAlive: '否',},
+    { name: 'xxx', note: '', isAlive: '否',},
+    { name: 'ddai', note: '钉钉AI',},
+    { name: 'xxx', note: '', isAlive: '否',},
+    { name: 'xxx', note: '', isAlive: '否',},
+    { name: 'kyt', note: '科研通',},
+    { name: 'parsdata', note: '伊朗域名注册优惠码',},
+    { name: 'quarksave', note: '夸克订阅更新自动转存',},
+    { name: 'games70', note: '70games',},
+    { name: 'xxx', note: '', isAlive: '否',},
+    { name: 'xxx', note: '', isAlive: '否',},
+    { name: 'yhsh', note: '永辉生活',},
+    { name: 'xpnc', note: '兴攀农场',},
+    { name: 'bwcj', note: '霸王茶姬',},
+    { name: 'syns', note: '所有女生',},
+    { name: 'qcs', note: '屈臣氏',},
+    { name: 'hdl', note: '海底捞',},
+    { name: 'hzh', note: '华住会',},
+    { name: 'eswxlt', note: '恩山无线论坛',},
+    { name: 'steamtools', note: 'steamtools',},
+    { name: 'xmdl', note: '熊猫代理',},
+    { name: 'linkai', note: 'LinkAi',},
+    { name: 'hfweather', note: '和风天气', pushPriority: '1',},
+    { name: 'dml', note: '达美乐',}
+];
+
+
+// 定义字段映射关系，标题和键的对应关系，用于动态个性化处理
+var configTitleMapping = {
+    '工作表的名称': 'name',
+    '备注': 'note',
+    '只推送失败消息（是/否）': 'pushFailureOnly',
+    '推送昵称（是/否）': 'pushNickname',
+    '是否存活': 'isAlive',
+    '更新时间': 'updateTime',
+    '消息': 'message',
+    '推送时间': 'pushTime',
+    '推送方式': 'pushMethod',
+    '是否通知': 'notify',
+    '加入消息池': 'addToMessagePool',
+    '推送优先级': 'pushPriority',
+    '当日可推送次数': 'dailyPushLimit',
+    '当日剩余推送次数': 'remainingDailyPushes',
+};
+
+// 写入CONFIG表操作
+// 加入标题
+configContent[0] = configTitle
+// 写入标题下内容
+for (let i = 0; i < configBody.length; i++) {
+    let row = [];
+    for (let j = 0; j < configContent[0].length; j++) {
+        let fieldName = configContent[0][j];
+        let fieldValue = configBody[i][configTitleMapping[fieldName]];
+        if (fieldValue === undefined) {
+            fieldValue = configBodyDefault[j]; // 如果字段不存在，使用默认值
+        }
+        row.push(fieldValue);
+    }
+    configContent.push(row);
+}
+
+// // 输出结果
+// console.log(configContent);
 
 // PUSH表内容 		
 var pushContent = [
@@ -206,6 +256,13 @@ var subConfigXmdl = [
   ['xxxxxxxx2', '否', '昵称2', '此格填用户名', '此格填密码']
 ]
 
+// 定制化分配置表内容，hfweather和风天气
+var subConfigHfweather = [
+  ['cookie(默认20个)', '是否执行(是/否)', '账号名称(可不填写)', '省份/城市/区/经纬度/ID（手动输入）', '今日天气预报', '实时天气预报', '当天生活指数', '天气灾害预警', '逐小时天气预报', '分钟级降水','其他模式（可选）','消息过滤器（可选）','高级配置（可选）','实际定位（自动生成）','地区ID（自动生成）','经纬度（自动生成）','一致性校验（自动生成）','冗余观测站（自动生成）'],
+  ['xxxxxxxx1', '是', '昵称1', '朝阳区', '是', '否', '否', '否', '否', '否', '', '', '', '', '', '', '', ''],
+  // ['xxxxxxxx2', '否', '昵称2', '是', '否', '否', '否', '否', '否', '', '', '', '', '', '', '', '']
+]
+
 // 定制化表
 var subConfig = {
   "ddmc"  : subConfigDdmc, 
@@ -220,6 +277,7 @@ var subConfig = {
   "qcs":subConfigQcs,
   "eswxlt":subConfigEswxlt,
   "xmdl":subConfigXmdl,
+  "hfweather":subConfigHfweather,
 }
 // var mosaic = "xxxxxxxx" // 马赛克
 // var strFail = "否"
