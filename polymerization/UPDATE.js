@@ -95,7 +95,8 @@ var configBody = [
     { name: 'xmdl', note: '熊猫代理',},
     { name: 'linkai', note: 'LinkAi',},
     { name: 'hfweather', note: '和风天气', pushPriority: '1',},
-    { name: 'dml', note: '达美乐',}
+    { name: 'dml', note: '达美乐',},
+    { name: 'ciba', note: '词霸每日一句',},
 ];
 
 
@@ -263,6 +264,13 @@ var subConfigHfweather = [
   // ['xxxxxxxx2', '否', '昵称2', '是', '否', '否', '否', '否', '否', '', '', '', '', '', '', '', '']
 ]
 
+// 定制化分配置表内容，ciba词霸每日一句
+var subConfigCiba = [
+  ['cookie(默认20个)', '是否执行(是/否)', '账号名称(可不填写)', '中文每日一句', '英文每日一句'],
+  ['xxxxxxxx1', '是', '昵称1', '是', '是'],
+  ['xxxxxxxx2', '否', '昵称2', '是', '是']
+]
+
 // 定制化表
 var subConfig = {
   "ddmc"  : subConfigDdmc, 
@@ -278,6 +286,7 @@ var subConfig = {
   "eswxlt":subConfigEswxlt,
   "xmdl":subConfigXmdl,
   "hfweather":subConfigHfweather,
+  "ciba":subConfigCiba,
 }
 // var mosaic = "xxxxxxxx" // 马赛克
 // var strFail = "否"
