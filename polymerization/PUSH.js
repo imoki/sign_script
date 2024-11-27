@@ -1,5 +1,5 @@
 // PUSH.js 推送脚本
-// 20241126
+// 20241127
 
 // 具备功能：
 // 1. 多渠道推送
@@ -8,7 +8,7 @@
 // 4. 长度分片、分隔符分片
 // 5. 优先级排序
 // 6. 单日多次推送
-
+// 7. 消息池内格式自动排版
 
 // 支持推送：
 // bark、pushplus、Server酱、邮箱
@@ -28,6 +28,25 @@ var pushHeader = ""
 var separator = "##########MOKU##########" // 分割符，分割消息。可用于PUSH.js灵活推送
 var maxMessageLength = 512;  // 设置最大长度，超过这个长度则分片发送
 var messageDistance = 256; // 消息距离，用于匹配100字符内最近的行
+
+var jsonPush = [
+  { name: "bark", key: "xxxxxx", flag: "0" },
+  { name: "pushplus", key: "xxxxxx", flag: "0" },
+  { name: "ServerChan", key: "xxxxxx", flag: "0" },
+  { name: "email", key: "xxxxxx", flag: "0" },
+  { name: "dingtalk", key: "xxxxxx", flag: "0" },
+  { name: "discord", key: "xxxxxx", flag: "0" },
+  { name: "qywx", key: "xxxxxx", flag: "0" },
+  { name: "xizhi", key: "xxxxxx", flag: "0" },
+  { name: "jishida", key: "xxxxxx", flag: "0" },
+  { name: "wxpusher", key: "xxxxxx", flag: "0" },
+]; // 推送数据，flag=1则推送
+var jsonEmail = {
+  server: "",
+  port: "",
+  sender: "",
+  authorizationCode: "",
+}; 
 
 // 消息分片，以换行符为分割，自动检索切割位置符号
 function splitMessage(data) {
@@ -70,24 +89,10 @@ function splitMessage(data) {
 //     // });
 // }
 
-var jsonPush = [
-  { name: "bark", key: "xxxxxx", flag: "0" },
-  { name: "pushplus", key: "xxxxxx", flag: "0" },
-  { name: "ServerChan", key: "xxxxxx", flag: "0" },
-  { name: "email", key: "xxxxxx", flag: "0" },
-  { name: "dingtalk", key: "xxxxxx", flag: "0" },
-  { name: "discord", key: "xxxxxx", flag: "0" },
-  { name: "qywx", key: "xxxxxx", flag: "0" },
-  { name: "xizhi", key: "xxxxxx", flag: "0" },
-  { name: "jishida", key: "xxxxxx", flag: "0" },
-  { name: "wxpusher", key: "xxxxxx", flag: "0" },
-]; // 推送数据，flag=1则推送
-var jsonEmail = {
-  server: "",
-  port: "",
-  sender: "",
-  authorizationCode: "",
-}; // 
+// 去除首尾换行和空格
+function customTrim(str) {
+  return str.replace(/^\s+|\s+$/g, '');
+}
 
 // 获取时间
 function getDate(){
@@ -277,12 +282,13 @@ function sendMessage(msgCurrentDict = "", msgPool = "", msgAppend = ""){
     // 方式1：按照指定分割符分片  separator
     shards = msgCurrentDict.msg.split(separator); // // 分割符分片数据，一级分割
     let chunks = []
-    for(let j=0; j<shards.length;j++){
-      chunks = splitMessage(shards[j])  // 长度限制分割，二级分割
+    for(let i=0; i<shards.length; i++){
+      strTrim = customTrim(shards[i]) + "\n\n" // 消息内间隔。去除首位空格和换行，然后在末尾拼接2个换行。
+      chunks = splitMessage(strTrim)  // 长度限制分割，二级分割
       // console.log(chunks)
       // console.log(chunks.length)
-      for (let k = 0; k < chunks.length; k ++) {
-          pushMessage(chunks[k], msgCurrentDict.methodPush, "【" + msgCurrentDict.note + "】",)
+      for (let j = 0; j < chunks.length; j++) {
+          pushMessage(chunks[j], msgCurrentDict.methodPush, "【" + msgCurrentDict.note + "】",)
           sleep(2000)
       }
     }
@@ -296,7 +302,8 @@ function sendMessage(msgCurrentDict = "", msgPool = "", msgAppend = ""){
     shards = msgPool.split(separator);
     let chunks = []
     for(let i=0; i<shards.length;i++){
-      chunks = splitMessage(shards[i])
+      strTrim = customTrim(shards[i]) + "\n\n" // 消息内间隔。去除首位空格和换行，然后在末尾拼接2个换行
+      chunks = splitMessage(strTrim)
       // console.log(chunks)
       // console.log(chunks.length)
       for (let j = 0; j < chunks.length; j++) {
@@ -388,7 +395,6 @@ function sendNotify(){
 
     }else{
       if(msgCurrentDict.pool == "是" && msgCurrentDict.flagPush == "是"){
-        
         // 消息池推送
         // 3.进行消息检测
         // 4.进行过期消息判断
@@ -601,7 +607,7 @@ function pushplus(message, key) {
   sleep(5000);
 }
 
-// 推送serverchan消息
+// 推送serverchan消息，方糖
 function serverchan(message, key) {
   message = message.replace(/\n/g, '\n\n'); // 单独适配，将一个换行变成两个，以实现换行
   message = encodeURIComponent(message)
@@ -730,6 +736,7 @@ function qywx(message, key) {
 
 // 息知 https://xizhi.qqoq.net/{key}.send?title=标题&content=内容
 function xizhi(message, key) {
+  message = message.replace(/\n/g, '\n\n'); // 单独适配，将一个换行变成两个，以实现换行
   message = encodeURIComponent(message)
   let url = ""
   if(isHttpOrHttpsUrl(key)){  // 以http开头
