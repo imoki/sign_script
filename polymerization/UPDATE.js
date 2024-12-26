@@ -1,24 +1,29 @@
-// UPDATE.js 更新脚本
-// 20241126
+/*
+    脚本名称：UPDATE.js
+    脚本兼容: airsript 1.0、airscript 2.0
+    更新时间：20241226
+    备注：更新脚本。用于自动生成表格，以及追加表格数据
+          适配airsript 1.0版本及airscript 2.0版本
+    其他：若想添加新内容，请搜索（修改这里），按照格式修改
+*/
 
 var confiWorkbook = 'CONFIG'  // 主配置表名称
-var pushWorkbook = 'PUSH' // 推送表的名称
+var pushWorkbook  = 'PUSH' // 推送表的名称
 var emailWorkbook = 'EMAIL' // 邮箱表的名称
-
-var workbook = [] // 存储已存在表数组
+var version = 1 // 版本类型，自动识别并适配。默认为airscript 1.0，否则为2.0（Beta）
 
 // 表中激活的区域的行数和列数
+var workbook = [] // 存储已存在表数组
 var row = 0;
 var col = 0;
 var maxRow = 100; // 规定最大行
-var maxCol = 16; // 规定最大列
-var colNum = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q']
+var maxCol = 22; // 规定最大列
+var colNum = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V']
 
 // CONFIG表内容
 // 推送昵称(推送位置标识)选项：若“是”则推送“账户名称”，若账户名称为空则推送“单元格Ax”，这两种统称为位置标识。若“否”，则不推送位置标识
 // 存放CONFIG表内容，标题+标题下内容
 var configContent = [];
-
 // 实际写入CONFIG表的值
 // CONFIG表标题
 configTitle = ['工作表的名称', '备注', '只推送失败消息（是/否）', '推送昵称（是/否）', '是否存活', '程序结束时间', '消息', '推送时间', '推送方式', '是否通知', '加入消息池', '推送优先级', '当日可推送次数', '当日剩余推送次数']
@@ -97,6 +102,8 @@ var configBody = [
     { name: 'hfweather', note: '和风天气', pushPriority: '1',},
     { name: 'dml', note: '达美乐',},
     { name: 'ciba', note: '词霸每日一句',},
+
+    // { name: '（修改这里）', note: '（修改这里）',},  // 添加新增内容
 ];
 
 
@@ -117,26 +124,6 @@ var configTitleMapping = {
     '当日可推送次数': 'dailyPushLimit',
     '当日剩余推送次数': 'remainingDailyPushes',
 };
-
-// 写入CONFIG表操作
-// 加入标题
-configContent[0] = configTitle
-// 写入标题下内容
-for (let i = 0; i < configBody.length; i++) {
-    let row = [];
-    for (let j = 0; j < configContent[0].length; j++) {
-        let fieldName = configContent[0][j];
-        let fieldValue = configBody[i][configTitleMapping[fieldName]];
-        if (fieldValue === undefined) {
-            fieldValue = configBodyDefault[j]; // 如果字段不存在，使用默认值
-        }
-        row.push(fieldValue);
-    }
-    configContent.push(row);
-}
-
-// // 输出结果
-// console.log(configContent);
 
 // PUSH表内容 		
 var pushContent = [
@@ -292,83 +279,31 @@ var subConfig = {
 // var strFail = "否"
 // var strTrue = "是"
 
-// 主函数执行流程
-storeWorkbook()
-console.log("🥚 创建主分配表")
-// const sheet = Application.ActiveSheet // 激活当前表
-// sheet.Name = confiWorkbook  // 将当前工作表的名称改为 CONFIG
-createSheet(confiWorkbook)
-ActivateSheet(confiWorkbook)
-editConfigSheet(configContent)  // editConfig()
-
-console.log("🥚 创建推送表")
-createSheet(pushWorkbook)
-ActivateSheet(pushWorkbook)
-editConfigSheet(pushContent)  // editPush()
-
-console.log("🥚 创建邮箱表")
-createSheet(emailWorkbook)
-ActivateSheet(emailWorkbook)
-editConfigSheet(emailContent)
-
-// createSubConfig()
-
-function count2DArray(arr) {
-  let count = 0;
-  for (let i = 0; i < arr.length; i++) {
-      for (let j = 0; j < arr[i].length; j++) {
-          count++;
-      }
-  }
-  return count;
-}
-
-let length = configContent.length - 1
-// console.log(length)
-console.log("🍳 正在检索分配表，并进行创建")
-for (let i = 0; i < length; i++) {
-  let workbook = ""
-  let subworkbook = ""
-  // console.log(configContent[i+1][4])
-  if(configContent[i+1][4] == "是"){  // 存活的才生成表
-    // 部分表合并，如ddmc_ddgy，则以_为分割，生成ddmc表
-    workbook = configContent[i+1][0].split("_")[0] // 使用下划线作为分隔符，取第一个部分)
-    ActivateSheet(workbook)  // 根据CONFIG表来生成
-    editConfigSheet(subConfigContent)   // editSubConfig()
-
-    // 检查是否有定制化内容，有则生成
-    try{
-      subworkbook = subConfig[workbook]
-      // console.log(subworkbook)
-      if(subworkbook != undefined){
-        ActivateSheet(workbook) // 激活阿里云盘分配置表
-        editConfigSheet(subworkbook)  // editSubConfigCustomized(subConfigAliyundrive)
-        // console.log("存在定制化内容")
-      }
-    }catch{
-      // 无定制化内容
-      // console.log("无定制化内容")
-    }
-  }
-}
-
-// 加入跳转超链接
-hypeLink()
+main()  // 入口
 
 // CONFIG表添加超链接
 function hypeLink(){
+  // console.log("添加超链接")
   let workSheet= Application.Sheets(confiWorkbook) //配置表
-  let workUsedRowEnd = workSheet.UsedRange.RowEnd //用户使用表格的最后一行
-
+  // let workUsedRowEnd = workSheet.UsedRange.RowEnd //用户使用表格的最后一行
+  let rowcol = getRowCol() 
+  let workUsedRowEnd = rowcol[0]  // 行
+  // console.log(workUsedRowEnd)
   for(let row = 2; row <= workUsedRowEnd; row++){
     link_name=workSheet.Range("A" + row).Text
     if (link_name == "") {
       break; // 如果为空行，则提前结束读取
     }
-
     link_name ='=HYPERLINK("#'+link_name+'!$A$1","'+link_name+'")' //设置超链接
-    //console.log(link_name)  // HYPERLINK("#PUSH!$A$1","PUSH")
-    workSheet.Range("A" + row).Value =link_name 
+    // console.log(link_name)  // HYPERLINK("#PUSH!$A$1","PUSH")
+    if(version == 1){
+      // airscipt 1.0
+      workSheet.Range("A" + row).Value =link_name 
+    }else{
+      // airscipt 2.0
+      workSheet.Range("A" + row).Value2 =link_name
+    }
+    
   }
 }
 
@@ -393,23 +328,49 @@ function determineRowCol() {
     }
   }
   // 超过最大行了，认为col为0，从头开始
+  // console.log("✨ 当前激活表已存在：" + row + "行，" + col + "列")
+}
 
-  console.log("✨ 当前激活表已存在：" + row + "行，" + col + "列")
+// 获取当前激活表的表的行列
+function getRowCol() {
+  let row = 0
+  let col = 0
+  for (let i = 1; i < maxRow; i++) {
+    let content = Application.Range("A" + i).Text
+    if (content == "")  // 如果为空行，则提前结束读取
+    {
+      row = i - 1;  // 记录的是存在数据所在的行
+      break;
+    }
+  }
+  // 超过最大行了，认为row为0，从头开始
+  let length = colNum.length
+  for (let i = 1; i <= length; i++) {
+    content = Application.Range(colNum[i - 1] + "1").Text
+    if (content == "")  // 如果为空行，则提前结束读取
+    {
+      col = i - 1;  // 记录的是存在数据所在的行
+      break;
+    }
+  }
+  // 超过最大行了，认为col为0，从头开始
+
+  // console.log("✨ 当前激活表已存在：" + row + "行，" + col + "列")
+  return [row, col]
 }
 
 // 激活工作表函数
 function ActivateSheet(sheetName) {
   let flag = 0;
   try {
-    // 激活工作表
     let sheet = Application.Sheets.Item(sheetName)
     sheet.Activate()
-    console.log("🥚 激活工作表：" + sheet.Name)
+    // console.log("🍾 激活工作表：" + sheet.Name)
     flag = 1;
   } catch {
     flag = 0;
-    console.log("📢 无法激活工作表，工作表可能不存在")
-    console.log("🎉 创建此表：" + sheetName)
+    // console.log("📢 无法激活工作表，工作表可能不存在")
+    console.log("🪄 创建工作表：" + sheetName)
     createSheet(sheetName)
   }
   return flag;
@@ -422,7 +383,14 @@ function editConfigSheet(content) {
   let lengthCol = content[0].length
   if (row == 0) { // 如果行数为0，认为是空表,开始写表头
     for (let i = 0; i < lengthCol; i++) {
-      Application.Range(colNum[i] + 1).Value = content[0][i]
+      if(version == 1){
+        // airscipt 1.0
+        Application.Range(colNum[i] + 1).Value = content[0][i]
+      }else{
+        // airscript 2.0(Beta)
+        Application.Range(colNum[i] + 1).Value2 = content[0][i]
+      }
+      
     }
 
     row += 1; // 让行数加1，代表写入了表头。
@@ -432,136 +400,26 @@ function editConfigSheet(content) {
   // 先写行
   for (let i = 1 + row; i <= lengthRow; i++) {  // 从未写入区域开始写
     for (let j = 0; j < lengthCol; j++) {
-      Application.Range(colNum[j] + i).Value = content[i - 1][j]
+      if(version == 1){
+        // airscipt 1.0
+        Application.Range(colNum[j] + i).Value = content[i - 1][j]
+      }else{
+        // airscript 2.0(Beta)
+        Application.Range(colNum[j] + i).Value2 = content[i - 1][j]
+      }
     }
   }
   // 再写列
   for (let j = col; j < lengthCol; j++) {
     for (let i = 1; i <= lengthRow; i++) {  // 从未写入区域开始写
-      Application.Range(colNum[j] + i).Value = content[i - 1][j]
+      if(version == 1){
+        // airscipt 1.0
+        Application.Range(colNum[j] + i).Value = content[i - 1][j]
+      }else{
+        // airscript 2.0(Beta)
+        Application.Range(colNum[j] + i).Value2 = content[i - 1][j]
+      }
     }
-  }
-}
-
-// 编辑主分配表(已弃用)
-function editConfig() {
-  determineRowCol();
-  let lengthRow = configContent.length
-  let lengthCol = configContent[0].length
-  if (row == 0) { // 如果行数为0，认为是空表,开始写表头
-    for (let i = 0; i < lengthCol; i++) {
-      Application.Range(colNum[i] + 1).Value = configContent[0][i]
-    }
-
-    row += 1; // 让行数加1，代表写入了表头。
-  }
-
-  // 从已写入的行的后一行开始逐行写入数据
-  // 先写行
-  for (let i = 1 + row; i <= lengthRow; i++) {  // 从未写入区域开始写
-    for (let j = 0; j < lengthCol; j++) {
-      Application.Range(colNum[j] + i).Value = configContent[i - 1][j]
-    }
-  }
-  // 再写列
-  for (let j = col; j < lengthCol; j++) {
-    for (let i = 1; i <= lengthRow; i++) {  // 从未写入区域开始写
-      Application.Range(colNum[j] + i).Value = configContent[i - 1][j]
-    }
-  }
-}
-
-// 编辑推送表(已弃用)
-function editPush() {
-  determineRowCol();
-  let lengthRow = pushContent.length
-  let lengthCol = pushContent[0].length
-  if (row == 0) { // 如果行数为0，认为是空表,开始写表头
-    for (let i = 0; i < lengthCol; i++) {
-      Application.Range(colNum[i] + 1).Value = pushContent[0][i]
-    }
-
-    row += 1; // 让行数加1，代表写入了表头。
-  }
-
-  // 从已写入的行的后一行开始逐行写入数据
-  // 先写行
-  for (let i = 1 + row; i <= lengthRow; i++) {  // 从未写入区域开始写
-    for (let j = 0; j < lengthCol; j++) {
-      Application.Range(colNum[j] + i).Value = pushContent[i - 1][j]
-    }
-  }
-  // 再写列
-  for (let j = col; j < lengthCol; j++) {
-    for (let i = 1; i <= lengthRow; i++) {  // 从未写入区域开始写
-      Application.Range(colNum[j] + i).Value = pushContent[i - 1][j]
-    }
-  }
-}
-
-// 编辑分配置表(已弃用)
-function editSubConfig() {
-  determineRowCol();
-  let lengthRow = subConfigContent.length
-  let lengthCol = subConfigContent[0].length
-  if (row == 0) { // 如果行数为0，认为是空表,开始写表头
-    for (let i = 0; i < lengthCol; i++) {
-      Application.Range(colNum[i] + 1).Value = subConfigContent[0][i]
-    }
-
-    row += 1; // 让行数加1，代表写入了表头。
-  }
-
-  // 从已写入的行的后一行开始逐行写入数据
-  // 先写行
-  for (let i = 1 + row; i <= lengthRow; i++) {  // 从未写入区域开始写
-    for (let j = 0; j < lengthCol; j++) {
-      Application.Range(colNum[j] + i).Value = subConfigContent[i - 1][j]
-    }
-  }
-  // 再写列
-  for (let j = col; j < lengthCol; j++) {
-    for (let i = 1; i <= lengthRow; i++) {  // 从未写入区域开始写
-      Application.Range(colNum[j] + i).Value = subConfigContent[i - 1][j]
-    }
-  }
-}
-
-// 编辑定制化分配置表(已弃用)
-function editSubConfigCustomized(content) {
-  determineRowCol();
-  let lengthRow = content.length
-  let lengthCol = content[0].length
-  if (row == 0) { // 如果行数为0，认为是空表,开始写表头
-    for (let i = 0; i < lengthCol; i++) {
-      Application.Range(colNum[i] + 1).Value = content[0][i]
-    }
-
-    row += 1; // 让行数加1，代表写入了表头。
-  }
-
-  // 从已写入的行的后一行开始逐行写入数据
-  // 先写行
-  for (let i = 1 + row; i <= lengthRow; i++) {  // 从未写入区域开始写
-    for (let j = 0; j < lengthCol; j++) {
-      Application.Range(colNum[j] + i).Value = content[i - 1][j]
-    }
-  }
-  // 再写列
-  for (let j = col; j < lengthCol; j++) {
-    for (let i = 1; i <= lengthRow; i++) {  // 从未写入区域开始写
-      Application.Range(colNum[j] + i).Value = content[i - 1][j]
-    }
-  }
-}
-
-
-// 创建分配置表(已弃用)
-function createSubConfig() {
-  let length = subConfigWorkbook.length
-  for (let i = 0; i < length; i++) {
-    console.log("🥚 创建分配置表：" + subConfigWorkbook[i])
-    createSheet(subConfigWorkbook[i])
   }
 }
 
@@ -593,16 +451,114 @@ function workbookComp(name) {
 }
 
 // 创建表，若表已存在则不创建，直接写入数据
-function createSheet(name) {
+function createSheet(sheetname) {
   // const defaultName = Application.Sheets.DefaultNewSheetName
   // 工作表对象
-  if (!workbookComp(name)) {
-    Application.Sheets.Add(
-      null,
-      Application.ActiveSheet.Name,
-      1,
-      Application.Enum.XlSheetType.xlWorksheet,
-      name
-    )
+  if (!workbookComp(sheetname)) {
+    console.log("🪄 创建工作表：" + sheetname)
+    try{
+        Application.Sheets.Add(
+        null,
+        Application.ActiveSheet.Name,
+        1,
+        Application.Enum.XlSheetType.xlWorksheet,
+        sheetname
+      )
+      
+    }catch{
+      // console.log("😶‍🌫️ 适配airscript 2.0版本")
+      version = 2 // 设置版本为2.0
+      let newSheet = Application.Sheets.Add(undefined, undefined, undefined, xlWorksheet)
+      // let newSheet = Application.Worksheets.Add()
+      newSheet.Name = sheetname
+    }
+
   }
+}
+
+// airscript检测版本
+function checkVesion(){
+  try{
+    let temp = Application.Range("A1").Text;
+    Application.Range("A1").Value  = temp
+    console.log("😶‍🌫️ 检测到当前airscript版本为1.0，进行1.0适配")
+  }catch{
+    console.log("😶‍🌫️ 检测到当前airscript版本为2.0，进行2.0适配")
+    version = 2
+  }
+}
+
+// 主函数执行流程
+function main(){
+  checkVesion() // 版本检测，以进行不同版本的适配
+
+  // 动态写入CONFIG表数组数据操作
+  // 加入标题
+  configContent[0] = configTitle
+  // 写入标题下内容
+  for (let i = 0; i < configBody.length; i++) {
+      let row = [];
+      for (let j = 0; j < configContent[0].length; j++) {
+          let fieldName = configContent[0][j];
+          let fieldValue = configBody[i][configTitleMapping[fieldName]];
+          if (fieldValue === undefined) {
+              fieldValue = configBodyDefault[j]; // 如果字段不存在，使用默认值
+          }
+          row.push(fieldValue);
+      }
+      configContent.push(row);
+  }
+
+  storeWorkbook()
+  // console.log("🪄 创建主分配表")
+  // const sheet = Application.ActiveSheet // 激活当前表
+  // sheet.Name = confiWorkbook  // 将当前工作表的名称改为 CONFIG
+  createSheet(confiWorkbook)
+  ActivateSheet(confiWorkbook)
+  editConfigSheet(configContent)  // editConfig()
+
+  // 加入跳转超链接
+  hypeLink()
+
+  // console.log("🪄 创建推送表")
+  createSheet(pushWorkbook)
+  ActivateSheet(pushWorkbook)
+  editConfigSheet(pushContent)  // editPush()
+
+  // console.log("🪄 创建邮箱表")
+  createSheet(emailWorkbook)
+  ActivateSheet(emailWorkbook)
+  editConfigSheet(emailContent)
+
+  let length = configContent.length - 1
+  // console.log(length)
+  console.log("🍳 正在检索分配置表进行创建")
+  for (let i = 0; i < length; i++) {
+    let workbook = ""
+    let subworkbook = ""
+    // console.log(configContent[i+1][4])
+    if(configContent[i+1][4] == "是"){  // 存活的才生成表
+      // 部分表合并，如ddmc_ddgy，则以_为分割，生成ddmc表
+      workbook = configContent[i+1][0].split("_")[0] // 使用下划线作为分隔符，取第一个部分)
+      ActivateSheet(workbook)  // 根据CONFIG表来生成
+      editConfigSheet(subConfigContent)
+
+      // 检查是否有定制化内容，有则生成
+      try{
+        subworkbook = subConfig[workbook]
+        // console.log(subworkbook)
+        if(subworkbook != undefined){
+          ActivateSheet(workbook) // 激活分配置表
+          editConfigSheet(subworkbook)
+          // console.log("存在定制化内容")
+        }
+      }catch{
+        // 无定制化内容
+        // console.log("无定制化内容")
+      }
+    }
+  }
+
+  console.log("🎉 更新完成")
+
 }
