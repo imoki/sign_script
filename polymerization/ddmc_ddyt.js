@@ -1,25 +1,32 @@
-// 叮咚买菜-叮咚鱼塘自动签到
-// 20241025
 /*
-备注：需要Cookie、seedId、propsId。"叮咚买菜"APP，然后用抓包软件进行抓包，分别在叮咚鱼塘中点击喂饲料，在果园中点击浇水，就能抓到含有Cookie、seedId和propsId的包。（叮咚鱼塘与叮咚果园的seedId、propsId不同，因此需要分别抓包，Cookie相同）
+    name: "叮咚买菜-叮咚鱼塘自动签到"
+    cron: 45 0 9 * * *
+    脚本兼容: 金山文档（1.0），金山文档（2.0）
+    更新时间：20241025
+    环境变量名：无
+    环境变量值：无
+    备注：需要Cookie、seedId、propsId。
+          "叮咚买菜"APP，然后用抓包软件进行抓包，分别在叮咚鱼塘中点击喂饲料，在果园中点击浇水，就能抓到含有Cookie、seedId和propsId的包。
+          （叮咚鱼塘与叮咚果园的seedId、propsId不同，因此需要分别抓包，Cookie相同）
 */
 
-let sheetNameSubConfig = "ddmc"; // 分配置表名称
+var sheetNameSubConfig = "ddmc"; // 分配置表名称
 let sheetNameSubConfig2 = "ddmc_ddyt";
-let pushHeader = "【叮咚买菜-叮咚鱼塘】";
-let sheetNameConfig = "CONFIG"; // 总配置表
-let sheetNamePush = "PUSH"; // 推送表名称
-let sheetNameEmail = "EMAIL"; // 邮箱表
-let flagSubConfig = 0; // 激活分配置工作表标志
-let flagConfig = 0; // 激活主配置工作表标志
-let flagPush = 0; // 激活推送工作表标志
-let line = 21; // 指定读取从第2行到第line行的内容
+var pushHeader = "【叮咚买菜-叮咚鱼塘】";
+var sheetNameConfig = "CONFIG"; // 总配置表
+var sheetNamePush = "PUSH"; // 推送表名称
+var sheetNameEmail = "EMAIL"; // 邮箱表
+var flagSubConfig = 0; // 激活分配置工作表标志
+var flagConfig = 0; // 激活主配置工作表标志
+var flagPush = 0; // 激活推送工作表标志
+var line = 21; // 指定读取从第2行到第line行的内容
 var message = ""; // 待发送的消息
 var messageArray = [];  // 待发送的消息数据，每个元素都是某个账号的消息。目的是将不同用户消息分离，方便个性化消息配置
 var messageOnlyError = 0; // 0为只推送失败消息，1则为推送成功消息。
 var messageNickname = 0; // 1为推送位置标识（昵称/单元格Ax（昵称为空时）），0为不推送位置标识
 var messageHeader = []; // 存放每个消息的头部，如：单元格A3。目的是分离附加消息和执行结果消息
 var messagePushHeader = pushHeader; // 存放在总消息的头部，默认是pushHeader,如：【xxxx】
+var version = 1 // 版本类型，自动识别并适配。默认为airscript 1.0，否则为2.0（Beta）
 
 var jsonPush = [
   { name: "bark", key: "xxxxxx", flag: "0" },
@@ -43,6 +50,18 @@ qlSwitch = 0
 // =================青龙适配结束===================
 
 // =================金山适配开始===================
+// airscript检测版本
+function checkVesion(){
+  try{
+    let temp = Application.Range("A1").Text;
+    Application.Range("A1").Value  = temp
+    console.log("😶‍🌫️ 检测到当前airscript版本为1.0，进行1.0适配")
+  }catch{
+    console.log("😶‍🌫️ 检测到当前airscript版本为2.0，进行2.0适配")
+    version = 2
+  }
+}
+
 // 推送相关
 // 获取时间
 function getDate(){
@@ -235,97 +254,104 @@ function discord(message, key) {
 
 // =================金山适配结束===================
 // =================共用开始===================
-flagConfig = ActivateSheet(sheetNameConfig); // 激活推送表
-// 主配置工作表存在
-if (flagConfig == 1) {
-  console.log("🍳 开始读取主配置表");
-  let name; // 名称
-  let onlyError;
-  let nickname;
-  for (let i = 2; i <= 100; i++) {
-    // 从工作表中读取推送数据
-    name = Application.Range("A" + i).Text;
-    onlyError = Application.Range("C" + i).Text;
-    nickname = Application.Range("D" + i).Text;
-    if (name == "") {
-      // 如果为空行，则提前结束读取
-      break; // 提前退出，提高效率
-    }
-    if (name == sheetNameSubConfig) {
-      if (onlyError == "是") {
-        messageOnlyError = 1;
-        console.log("🍳 只推送错误消息");
-      }
+// main()  // 入口
 
-      if (nickname == "是") {
-        messageNickname = 1;
-        console.log("🍳 单元格用昵称替代");
-      }
+// function main(){
+  checkVesion() // 版本检测，以进行不同版本的适配
 
-      break; // 提前退出，提高效率
+  flagConfig = ActivateSheet(sheetNameConfig); // 激活推送表
+  // 主配置工作表存在
+  if (flagConfig == 1) {
+    console.log("🍳 开始读取主配置表");
+    let name; // 名称
+    let onlyError;
+    let nickname;
+    for (let i = 2; i <= 100; i++) {
+      // 从工作表中读取推送数据
+      name = Application.Range("A" + i).Text;
+      onlyError = Application.Range("C" + i).Text;
+      nickname = Application.Range("D" + i).Text;
+      if (name == "") {
+        // 如果为空行，则提前结束读取
+        break; // 提前退出，提高效率
+      }
+      if (name == sheetNameSubConfig) {
+        if (onlyError == "是") {
+          messageOnlyError = 1;
+          console.log("🍳 只推送错误消息");
+        }
+
+        if (nickname == "是") {
+          messageNickname = 1;
+          console.log("🍳 单元格用昵称替代");
+        }
+
+        break; // 提前退出，提高效率
+      }
     }
   }
-}
 
-flagPush = ActivateSheet(sheetNamePush); // 激活推送表
-// 推送工作表存在
-if (flagPush == 1) {
-  console.log("🍳 开始读取推送工作表");
-  let pushName; // 推送类型
-  let pushKey;
-  let pushFlag; // 是否推送标志
-  for (let i = 2; i <= line; i++) {
-    // 从工作表中读取推送数据
-    pushName = Application.Range("A" + i).Text;
-    pushKey = Application.Range("B" + i).Text;
-    pushFlag = Application.Range("C" + i).Text;
-    if (pushName == "") {
-      // 如果为空行，则提前结束读取
-      break;
+  flagPush = ActivateSheet(sheetNamePush); // 激活推送表
+  // 推送工作表存在
+  if (flagPush == 1) {
+    console.log("🍳 开始读取推送工作表");
+    let pushName; // 推送类型
+    let pushKey;
+    let pushFlag; // 是否推送标志
+    for (let i = 2; i <= line; i++) {
+      // 从工作表中读取推送数据
+      pushName = Application.Range("A" + i).Text;
+      pushKey = Application.Range("B" + i).Text;
+      pushFlag = Application.Range("C" + i).Text;
+      if (pushName == "") {
+        // 如果为空行，则提前结束读取
+        break;
+      }
+      jsonPushHandle(pushName, pushFlag, pushKey);
     }
-    jsonPushHandle(pushName, pushFlag, pushKey);
+    // console.log(jsonPush)
   }
-  // console.log(jsonPush)
-}
 
-// 邮箱配置函数
-emailConfig();
+  // 邮箱配置函数
+  emailConfig();
 
-flagSubConfig = ActivateSheet(sheetNameSubConfig); // 激活分配置表
-if (flagSubConfig == 1) {
-  console.log("🍳 开始读取分配置表");
+  flagSubConfig = ActivateSheet(sheetNameSubConfig); // 激活分配置表
+  if (flagSubConfig == 1) {
+    console.log("🍳 开始读取分配置表");
 
-    if(qlSwitch != 1){  // 金山文档
-        for (let i = 2; i <= line; i++) {
-            var cookie = Application.Range("A" + i).Text;
-            var exec = Application.Range("B" + i).Text;
-            if (cookie == "") {
-                // 如果为空行，则提前结束读取
-                break;
-            }
-            if (exec == "是") {
-                execHandle(cookie, i);
-            }
-        }   
-        message = messageMerge()// 将消息数组融合为一条总消息
-        push(message); // 推送消息
-    }else{
-        for (let i = 2; i <= line; i++) {
-            var cookie = Application.Range("A" + i).Text;
-            var exec = Application.Range("B" + i).Text;
-            if (cookie == "") {
-                // 如果为空行，则提前结束读取
-                break;
-            }
-            if (exec == "是") {
-                console.log("🧑 开始执行用户：" + "1" )
-                execHandle(cookie, i);
-                break;  // 只取一个
-            }
-        } 
-    }
+      if(qlSwitch != 1){  // 金山文档
+          for (let i = 2; i <= line; i++) {
+              var cookie = Application.Range("A" + i).Text;
+              var exec = Application.Range("B" + i).Text;
+              if (cookie == "") {
+                  // 如果为空行，则提前结束读取
+                  break;
+              }
+              if (exec == "是") {
+                  execHandle(cookie, i);
+              }
+          }   
+          message = messageMerge()// 将消息数组融合为一条总消息
+          push(message); // 推送消息
+      }else{
+          for (let i = 2; i <= line; i++) {
+              var cookie = Application.Range("A" + i).Text;
+              var exec = Application.Range("B" + i).Text;
+              if (cookie == "") {
+                  // 如果为空行，则提前结束读取
+                  break;
+              }
+              if (exec == "是") {
+                  console.log("🧑 开始执行用户：" + "1" )
+                  execHandle(cookie, i);
+                  break;  // 只取一个
+              }
+          } 
+      }
 
-}
+  }
+
+// }
 
 // 激活工作表函数
 function ActivateSheet(sheetName) {
@@ -506,10 +532,11 @@ function execHandle(cookie, pos) {
     // 签到领饲料
     let flagSign = 0; // 标识是否签到领取饲料
     let tempmessageFail = "";  // 记录临时失败的消息
-    resp = HTTP.fetch(url[1], {
-      method: "get",
-      headers: headers,
-    });
+    // resp = HTTP.fetch(url[1], {
+    //   method: "get",
+    //   headers: headers,
+    // });
+    resp = HTTP.get(url[1], {headers: headers,});
 
     if (resp.status == 200) {
       resp = resp.json();
@@ -532,10 +559,11 @@ function execHandle(cookie, pos) {
       console.log("🍳 帐号：" + messageName + "签到失败 ");
     }
 
-    resp = HTTP.fetch(url[2], {
-      method: "get",
-      headers: headers,
-    });
+    // resp = HTTP.fetch(url[2], {
+    //   method: "get",
+    //   headers: headers,
+    // });
+    resp = HTTP.get(url[2], {headers: headers,});
 
     if (resp.status == 200) {
       resp = resp.json();
@@ -577,10 +605,11 @@ function execHandle(cookie, pos) {
     }
 
     // 获取任务列表
-    resp = HTTP.fetch(url[4], {
-      method: "get",
-      headers: headers,
-    });
+    // resp = HTTP.fetch(url[4], {
+    //   method: "get",
+    //   headers: headers,
+    // });
+    resp = HTTP.get(url[4], {headers: headers,});
 
     if (resp.status == 200) {
       resp = resp.json();
@@ -609,10 +638,11 @@ function execHandle(cookie, pos) {
           urlTask = url[5] + taskCode[j]
           // console.log(urlTask)
           try{
-            resp = HTTP.fetch(urlTask, {
-              method: "get",
-              headers: headers,
-            });
+            // resp = HTTP.fetch(urlTask, {
+            //   method: "get",
+            //   headers: headers,
+            // });
+            resp = HTTP.get(urlTask, {headers: headers,});
             // console.log(resp.text())
             sleep(2000)
           }catch{
@@ -622,10 +652,11 @@ function execHandle(cookie, pos) {
     }
 
     // 获取奖励id
-    resp = HTTP.fetch(url[4], {
-      method: "get",
-      headers: headers,
-    });
+    // resp = HTTP.fetch(url[4], {
+    //   method: "get",
+    //   headers: headers,
+    // });
+    resp = HTTP.get(url[4], {headers: headers,});
 
     if (resp.status == 200) {
       resp = resp.json();
@@ -661,10 +692,11 @@ function execHandle(cookie, pos) {
           urlTask = url[6] + userTaskLogId[j]
           // console.log(urlTask)
           try{
-            resp = HTTP.fetch(urlTask, {
-              method: "get",
-              headers: headers,
-            });
+            // resp = HTTP.fetch(urlTask, {
+            //   method: "get",
+            //   headers: headers,
+            // });
+            resp = HTTP.get(urlTask, {headers: headers,});
             // console.log(resp.text())
             sleep(2000)
           }catch{
@@ -682,10 +714,11 @@ function execHandle(cookie, pos) {
     let countSeedId = 0; // 计算是不是每次浇花的剩余水量都一样，如果三次都一样，则认为seedid过期
     let lastamount = 0; // 记录上一次剩余水量
     while(amount >= 10){
-      resp = HTTP.fetch(url[3], {
-        method: "get",
-        headers: headers,
-      });
+      // resp = HTTP.fetch(url[3], {
+      //   method: "get",
+      //   headers: headers,
+      // });
+      resp = HTTP.get(url[3], {headers: headers,});
 
       if (resp.status == 200) {
         resp = resp.json();

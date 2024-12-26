@@ -1,33 +1,35 @@
-// PUSH.js 推送脚本
-// 20241127
+/*
+    脚本名称：PUSH.js
+    脚本兼容: airsript 1.0、airscript 2.0
+    更新时间：20241226
+    具备功能：
+            1. 多渠道推送
+            2. 独立推送、消息池推送
+            3. 消息过期判断
+            4. 长度分片、分隔符分片
+            5. 优先级排序
+            6. 单日多次推送
+            7. 消息池内格式自动排版
+    支持推送：
+            bark、pushplus、Server酱、邮箱
+            钉钉、discord、企业微信
+            息知、即时达、wxpusher
+*/
 
-// 具备功能：
-// 1. 多渠道推送
-// 2. 独立推送、消息池推送
-// 3. 消息过期判断
-// 4. 长度分片、分隔符分片
-// 5. 优先级排序
-// 6. 单日多次推送
-// 7. 消息池内格式自动排版
-
-// 支持推送：
-// bark、pushplus、Server酱、邮箱
-// 钉钉、discord、企业微信
-// 息知、即时达、wxpusher
-
-let sheetNameConfig = "CONFIG"; // 总配置表
-let sheetNamePush = "PUSH"; // 推送表名称
-let sheetNameEmail = "EMAIL"; // 邮箱表
-let flagSubConfig = 0; // 激活分配置工作表标志
-let flagConfig = 0; // 激活主配置工作表标志
-let flagPush = 0; // 激活推送工作表标志
-let line = 21; // 指定读取从第2行到第line行的内容
+var sheetNameConfig = "CONFIG"; // 总配置表
+var sheetNamePush = "PUSH"; // 推送表名称
+var sheetNameEmail = "EMAIL"; // 邮箱表
+var flagSubConfig = 0; // 激活分配置工作表标志
+var flagConfig = 0; // 激活主配置工作表标志
+var flagPush = 0; // 激活推送工作表标志
+var line = 21; // 指定读取从第2行到第line行的内容
 var message = ""; // 待发送的消息
 var messagePushHeader = ""; // 存放在总消息的头部，默认是pushHeader,如：【xxxx】
 var pushHeader = ""
 var separator = "##########MOKU##########" // 分割符，分割消息。可用于PUSH.js灵活推送
 var maxMessageLength = 512;  // 设置最大长度，超过这个长度则分片发送
 var messageDistance = 256; // 消息距离，用于匹配100字符内最近的行
+var version = 1 // 版本类型，自动识别并适配。默认为airscript 1.0，否则为2.0（Beta）
 
 var jsonPush = [
   { name: "bark", key: "xxxxxx", flag: "0" },
@@ -47,6 +49,18 @@ var jsonEmail = {
   sender: "",
   authorizationCode: "",
 }; 
+
+// airscript检测版本
+function checkVesion(){
+  try{
+    let temp = Application.Range("A1").Text;
+    Application.Range("A1").Value  = temp
+    console.log("😶‍🌫️ 检测到当前airscript版本为1.0，进行1.0适配")
+  }catch{
+    console.log("😶‍🌫️ 检测到当前airscript版本为2.0，进行2.0适配")
+    version = 2
+  }
+}
 
 // 消息分片，以换行符为分割，自动检索切割位置符号
 function splitMessage(data) {
@@ -103,6 +117,8 @@ function getDate(){
   
   return currentDate
 }
+
+checkVesion()
 
 // 当天时间
 var todayDate = getDate()
@@ -373,21 +389,34 @@ function sendNotify(){
 
           // 写入推送的时间
           // Application.Range("H" + (i + 2)).Value = todayDate
-          Application.Range("H" + msgCurrentDict.pos).Value = todayDate
-
-          // 更新推送次数。读取当日可推送次数，写入当日剩余推送次数。写入当日剩余推送次数 = 当日可推送次数 - 1
-          Application.Range("N" + msgCurrentDict.pos).Value =  parseInt(msgCurrentDict.dailyPushLimit) - 1
+          if(version == 1){
+            Application.Range("H" + msgCurrentDict.pos).Value = todayDate
+            // 更新推送次数。读取当日可推送次数，写入当日剩余推送次数。写入当日剩余推送次数 = 当日可推送次数 - 1
+            Application.Range("N" + msgCurrentDict.pos).Value =  parseInt(msgCurrentDict.dailyPushLimit) - 1
+          }else{
+            Application.Range("H" + msgCurrentDict.pos).Value2 = todayDate
+            // 更新推送次数。读取当日可推送次数，写入当日剩余推送次数。写入当日剩余推送次数 = 当日可推送次数 - 1
+            Application.Range("N" + msgCurrentDict.pos).Value2 =  parseInt(msgCurrentDict.dailyPushLimit) - 1
+          }
+          
 
         }else{  
           //  6.时间一致额外推送判断
           // 时间一致，计算是否推送
           if(parseInt(msgCurrentDict.remainingDailyPushes) > 0){
             sendMessage(msgCurrentDict)
-
-            // 写入推送的时间
-            Application.Range("H" + msgCurrentDict.pos).Value = todayDate
-            // 更新推送次数。读取当日可推送次数，写入当日剩余推送次数。写入当日剩余推送次数 = 当日可推送次数 - 1
-            Application.Range("N" + msgCurrentDict.pos).Value =  parseInt(msgCurrentDict.remainingDailyPushes) - 1
+            if(version == 1){
+              // 写入推送的时间
+              Application.Range("H" + msgCurrentDict.pos).Value = todayDate
+              // 更新推送次数。读取当日可推送次数，写入当日剩余推送次数。写入当日剩余推送次数 = 当日可推送次数 - 1
+              Application.Range("N" + msgCurrentDict.pos).Value =  parseInt(msgCurrentDict.remainingDailyPushes) - 1
+            }else{
+              // 写入推送的时间
+              Application.Range("H" + msgCurrentDict.pos).Value2 = todayDate
+              // 更新推送次数。读取当日可推送次数，写入当日剩余推送次数。写入当日剩余推送次数 = 当日可推送次数 - 1
+              Application.Range("N" + msgCurrentDict.pos).Value2 =  parseInt(msgCurrentDict.remainingDailyPushes) - 1
+            }
+            
           }
           
         }
@@ -413,12 +442,19 @@ function sendNotify(){
               msgAppend += "【" + msgCurrentDict.note + "】" + shards[j] + "\n" // 取分割后的第一条
             }
 
-            // 写入推送的时间
-            // Application.Range("H" + (i + 2)).Value = todayDate
-            Application.Range("H" + msgCurrentDict.pos).Value = todayDate
-            // 更新推送次数。读取当日可推送次数，写入当日剩余推送次数。写入当日剩余推送次数 = 当日可推送次数 - 1
-            Application.Range("N" + msgCurrentDict.pos).Value =  parseInt(msgCurrentDict.dailyPushLimit) - 1
-
+            if(version == 1){
+              // 写入推送的时间
+              // Application.Range("H" + (i + 2)).Value = todayDate
+              Application.Range("H" + msgCurrentDict.pos).Value = todayDate
+              // 更新推送次数。读取当日可推送次数，写入当日剩余推送次数。写入当日剩余推送次数 = 当日可推送次数 - 1
+              Application.Range("N" + msgCurrentDict.pos).Value =  parseInt(msgCurrentDict.dailyPushLimit) - 1
+            }else{
+              // 写入推送的时间
+              // Application.Range("H" + (i + 2)).Value = todayDate
+              Application.Range("H" + msgCurrentDict.pos).Value2 = todayDate
+              // 更新推送次数。读取当日可推送次数，写入当日剩余推送次数。写入当日剩余推送次数 = 当日可推送次数 - 1
+              Application.Range("N" + msgCurrentDict.pos).Value2 =  parseInt(msgCurrentDict.dailyPushLimit) - 1
+            }
             
           }else{
             // 6.时间一致额外推送判断
@@ -433,10 +469,18 @@ function sendNotify(){
                 msgAppend += "【" + msgCurrentDict.note + "】" + shards[j] + "\n" // 取分割后的第一条
               }
 
-              // 写入推送的时间
-              Application.Range("H" + msgCurrentDict.pos).Value = todayDate
-              // 更新推送次数。读取当日可推送次数，写入当日剩余推送次数。写入当日剩余推送次数 = 当日可推送次数 - 1
-              Application.Range("N" + msgCurrentDict.pos).Value =  parseInt(msgCurrentDict.remainingDailyPushes) - 1
+              if(version == 1){
+                // 写入推送的时间
+                Application.Range("H" + msgCurrentDict.pos).Value = todayDate
+                // 更新推送次数。读取当日可推送次数，写入当日剩余推送次数。写入当日剩余推送次数 = 当日可推送次数 - 1
+                Application.Range("N" + msgCurrentDict.pos).Value =  parseInt(msgCurrentDict.remainingDailyPushes) - 1
+              }else{
+                // 写入推送的时间
+                Application.Range("H" + msgCurrentDict.pos).Value2 = todayDate
+                // 更新推送次数。读取当日可推送次数，写入当日剩余推送次数。写入当日剩余推送次数 = 当日可推送次数 - 1
+                Application.Range("N" + msgCurrentDict.pos).Value2 =  parseInt(msgCurrentDict.remainingDailyPushes) - 1
+              }
+              
             }
 
           }
@@ -601,9 +645,11 @@ function pushplus(message, key) {
   }
 
   // url = "http://www.pushplus.plus/send?token=" + key + "&content=" + message;
-  let resp = HTTP.fetch(url, {
-    method: "get",
-  });
+  // let resp = HTTP.fetch(url, {
+  //   method: "get",
+  // });
+  headers = {}
+  resp = HTTP.get(url, {headers: headers,});
   sleep(5000);
 }
 
@@ -619,9 +665,11 @@ function serverchan(message, key) {
     url = "https://sctapi.ftqq.com/" + key + ".send?title=" + messagePushHeader + "&desp=" + message;
   }
 
-  let resp = HTTP.fetch(url, {
-    method: "get",
-  });
+  // let resp = HTTP.fetch(url, {
+  //   method: "get",
+  // });
+  headers = {}
+  resp = HTTP.get(url, {headers: headers,});
   sleep(5000);
 }
 
@@ -744,9 +792,11 @@ function xizhi(message, key) {
   }else{
     url = "https://xizhi.qqoq.net/" + key + ".send?title=" + messagePushHeader + "&content=" + message;  // 增加标题
   }
-  let resp = HTTP.fetch(url, {
-    method: "get",
-  });
+  // let resp = HTTP.fetch(url, {
+  //   method: "get",
+  // });
+  headers = {}
+  resp = HTTP.get(url, {headers: headers,});
   sleep(5000);
 }
 
@@ -759,9 +809,11 @@ function jishida(message, key) {
   }else{
     url = "http://push.ijingniu.cn/send?key=" + key + "&head=" + messagePushHeader + "&body=" + message;  // 增加标题
   }
-  let resp = HTTP.fetch(url, {
-    method: "get",
-  });
+  // let resp = HTTP.fetch(url, {
+  //   method: "get",
+  // });
+  headers = {}
+  resp = HTTP.get(url, {headers: headers,});
   sleep(5000);
 }
 
@@ -793,9 +845,11 @@ function wxpusher(message, key) {
       url = "https://wxpusher.zjiecode.com/api/send/message/" + key + "/" + message
     }
     // console.log(url)
-    let resp = HTTP.fetch(url, {
-      method: "get",
-    });
+    // let resp = HTTP.fetch(url, {
+    //   method: "get",
+    // });
+    headers = {}
+    resp = HTTP.get(url, {headers: headers,});
     // console.log(resp.text())
   }else{
     // console.log("采用标准推送")
@@ -808,10 +862,14 @@ function wxpusher(message, key) {
       url = "https://wxpusher.zjiecode.com/api/send/message/?appToken=" + appToken + "&uid=" + uid + "&verifyPayType=0&content=" + message 
     }
     // console.log(url)
-    let resp = HTTP.fetch(url, {
-      method: "get",
-    });
+    // let resp = HTTP.fetch(url, {
+    //   method: "get",
+    // });
+    headers = {}
+    resp = HTTP.get(url, {headers: headers,});
     // console.log(resp.json())
   }
   sleep(5000);
 }
+
+

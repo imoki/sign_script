@@ -1,27 +1,28 @@
 /*
     name: "熊猫代理"
     cron: 45 0 9 * * *
-    脚本兼容: 金山文档
+    脚本兼容: 金山文档（2.0）
     更新时间：20241106
     环境变量名：xmdl
     环境变量值：http://www.xiongmaodaili.com?invitationCode=1368A6DA-2960-4070-9F9B-4ABACC8D678D 需要用户名和密码
 */
 
-let sheetNameSubConfig = "xmdl"; // 分配置表名称
-let pushHeader = "【熊猫代理】";
-let sheetNameConfig = "CONFIG"; // 总配置表
-let sheetNamePush = "PUSH"; // 推送表名称
-let sheetNameEmail = "EMAIL"; // 邮箱表
-let flagSubConfig = 0; // 激活分配置工作表标志
-let flagConfig = 0; // 激活主配置工作表标志
-let flagPush = 0; // 激活推送工作表标志
-let line = 21; // 指定读取从第2行到第line行的内容
+var sheetNameSubConfig = "xmdl"; // 分配置表名称
+var pushHeader = "【熊猫代理】";
+var sheetNameConfig = "CONFIG"; // 总配置表
+var sheetNamePush = "PUSH"; // 推送表名称
+var sheetNameEmail = "EMAIL"; // 邮箱表
+var flagSubConfig = 0; // 激活分配置工作表标志
+var flagConfig = 0; // 激活主配置工作表标志
+var flagPush = 0; // 激活推送工作表标志
+var line = 21; // 指定读取从第2行到第line行的内容
 var message = ""; // 待发送的消息
 var messageArray = [];  // 待发送的消息数据，每个元素都是某个账号的消息。目的是将不同用户消息分离，方便个性化消息配置
 var messageOnlyError = 0; // 0为只推送失败消息，1则为推送成功消息。
 var messageNickname = 0; // 1为推送位置标识（昵称/单元格Ax（昵称为空时）），0为不推送位置标识
 var messageHeader = []; // 存放每个消息的头部，如：单元格A3。目的是分离附加消息和执行结果消息
 var messagePushHeader = pushHeader; // 存放在总消息的头部，默认是pushHeader,如：【xxxx】
+var version = 1 // 版本类型，自动识别并适配。默认为airscript 1.0，否则为2.0（Beta）
 
 var jsonPush = [
   { name: "bark", key: "xxxxxx", flag: "0" },
@@ -45,6 +46,18 @@ qlSwitch = 0
 // =================青龙适配结束===================
 
 // =================金山适配开始===================
+// airscript检测版本
+function checkVesion(){
+  try{
+    let temp = Application.Range("A1").Text;
+    Application.Range("A1").Value  = temp
+    console.log("😶‍🌫️ 检测到当前airscript版本为1.0，进行1.0适配")
+  }catch{
+    console.log("😶‍🌫️ 检测到当前airscript版本为2.0，进行2.0适配")
+    version = 2
+  }
+}
+
 // 推送相关
 // 获取时间
 function getDate() {

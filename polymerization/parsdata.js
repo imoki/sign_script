@@ -1,27 +1,28 @@
 /*
     name: "parsdata"
     cron: 45 0 9 * * *
-    脚本兼容: 金山文档
+    脚本兼容: 金山文档（1.0）
     更新时间：20240908
     说明：非分离式推送，脚本自带推送。检测到优惠码变化就会直接推送。
 */
 
 const logo = "艾默库 : https://github.com/imoki/sign_script"    // 仓库地址
-let sheetNameSubConfig = "parsdata"; // 分配置表名称， （修改这里）
-let pushHeader = "【parsdata域名注册】";    // （修改这里）
-let sheetNameConfig = "CONFIG"; // 总配置表
-let sheetNamePush = "PUSH"; // 推送表名称
-let sheetNameEmail = "EMAIL"; // 邮箱表
-let flagSubConfig = 0; // 激活分配置工作表标志
-let flagConfig = 0; // 激活主配置工作表标志
-let flagPush = 0; // 激活推送工作表标志
-let line = 21; // 指定读取从第2行到第line行的内容
+var sheetNameSubConfig = "parsdata"; // 分配置表名称， （修改这里）
+var pushHeader = "【parsdata域名注册】";    // （修改这里）
+var sheetNameConfig = "CONFIG"; // 总配置表
+var sheetNamePush = "PUSH"; // 推送表名称
+var sheetNameEmail = "EMAIL"; // 邮箱表
+var flagSubConfig = 0; // 激活分配置工作表标志
+var flagConfig = 0; // 激活主配置工作表标志
+var flagPush = 0; // 激活推送工作表标志
+var line = 21; // 指定读取从第2行到第line行的内容
 var message = ""; // 待发送的消息
 var messageArray = [];  // 待发送的消息数据，每个元素都是某个账号的消息。目的是将不同用户消息分离，方便个性化消息配置
 var messageOnlyError = 0; // 0为只推送失败消息，1则为推送成功消息。
 var messageNickname = 0; // 1为推送位置标识（昵称/单元格Ax（昵称为空时）），0为不推送位置标识
 var messageHeader = []; // 存放每个消息的头部，如：单元格A3。目的是分离附加消息和执行结果消息
 var messagePushHeader = pushHeader; // 存放在总消息的头部，默认是pushHeader,如：【xxxx】
+var version = 1 // 版本类型，自动识别并适配。默认为airscript 1.0，否则为2.0（Beta）
 
 var jsonPush = [
   { name: "bark", key: "xxxxxx", flag: "0" },
@@ -57,6 +58,18 @@ try{
 // =================青龙适配结束===================
 
 // =================金山适配开始===================
+// airscript检测版本
+function checkVesion(){
+  try{
+    let temp = Application.Range("A1").Text;
+    Application.Range("A1").Value  = temp
+    console.log("😶‍🌫️ 检测到当前airscript版本为1.0，进行1.0适配")
+  }catch{
+    console.log("😶‍🌫️ 检测到当前airscript版本为2.0，进行2.0适配")
+    version = 2
+  }
+}
+
 // 推送相关
 // 获取时间
 function getDate(){
@@ -74,18 +87,30 @@ function writeMessageQueue(message){
   if (flagConfig == 1) {
     console.log("✨ 开始将结果写入主配置表");
     for (let i = 2; i <= 100; i++) {
-      // 找到指定的表行
-      if(Application.Range("A" + (i + 2)).Value == sheetNameSubConfig){
-        // 写入更新的时间
-        Application.Range("F" + (i + 2)).Value = todayDate
-        // 写入消息
-        Application.Range("G" + (i + 2)).Value = message
-        console.log("✨ 写入结果完成");
-        break;
+      if(version == 1){
+        // 找到指定的表行
+        if(Application.Range("A" + (i + 2)).Value == sheetNameSubConfig){
+          // 写入更新的时间
+          Application.Range("F" + (i + 2)).Value = todayDate
+          // 写入消息
+          Application.Range("G" + (i + 2)).Value = message
+          console.log("✨ 写入结果完成");
+          break;
+        }
+      }else{
+        // 找到指定的表行
+        if(Application.Range("A" + (i + 2)).Value2 == sheetNameSubConfig){
+          // 写入更新的时间
+          Application.Range("F" + (i + 2)).Value2 = todayDate
+          // 写入消息
+          Application.Range("G" + (i + 2)).Value2 = message
+          console.log("✨ 写入结果完成");
+          break;
+        }
       }
+      
     }
   }
-
 }
 
 // 总推送
@@ -699,11 +724,12 @@ function execHandle(cookie, pos) {
 
     // 请求方式3：GET请求，无data数据。则用这个
     if(qlSwitch != 1){  // 金山文档
-      resp = HTTP.fetch(url, {
-          method: "get",
-          headers: headers,
-          // data: data
-      });
+      // resp = HTTP.fetch(url, {
+      //     method: "get",
+      //     headers: headers,
+      //     // data: data
+      // });
+      resp = HTTP.get(url, {headers: headers,});
     }else{  // 青龙
         data = {}
         option = "get"
