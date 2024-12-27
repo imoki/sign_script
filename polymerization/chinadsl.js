@@ -462,7 +462,7 @@ function execHandle(cookie, pos) {
     //   method: "get",
     //   headers: headers,
     // });
-    resp = HTTP.get(url, {headers: headers,});
+    resp = HTTP.get(url1, {headers: headers,});
 
         // 正则匹配
     Reg = [
