@@ -2,7 +2,7 @@
     name: "有道云笔记自动签到"
     cron: 45 0 9 * * *
     脚本兼容: 金山文档（1.0），金山文档（2.0）
-    更新时间：20240718
+    更新时间：20241227
     环境变量名：无
     环境变量值：无
     备注：需要cookie。
@@ -497,14 +497,21 @@ function execHandle(cookie, pos) {
       "Host": "note.youdao.com",
     };
 
-    let resp = HTTP.fetch(url1, {
-      method: "post",
-      headers: headers,
-    });
+    // let resp = HTTP.fetch(url1, {
+    //   method: "post",
+    //   headers: headers,
+    // });
+    resp = HTTP.post(
+      url1,
+      // JSON.stringify(data),
+      {},
+      { headers: headers }
+    );
+
 
     if (resp.status == 200) {
       resp = resp.json();
-      console.log(resp);
+      // console.log(resp);
       total = resp["total"] / 1048576;
       space = resp["space"] / 1048576;
       content = "🎉 签到成功，本次获取 " + space + " M, 总共获取 " + total + " M "
