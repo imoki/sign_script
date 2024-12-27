@@ -2,7 +2,7 @@
     name: "阿里云盘(自动更新token版)"
     cron: 45 0 9 * * *
     脚本兼容: 金山文档（1.0），金山文档（2.0）
-    更新时间：20241226
+    更新时间：20241227
     环境变量名：无
     环境变量值：无
     备注：已移除自动领奖功能
@@ -548,7 +548,8 @@ function doTask(row){
                         // console.log(content)
                         // continue; // 跳过当前行的后续操作()
                     }
-                    Time.sleep(3000)
+                    // Time.sleep(3000)
+                    sleep(3000);
                     if(0){
                     try {
                         // 领取奖励
@@ -561,7 +562,13 @@ function doTask(row){
                         console.log(data3)
                         var result3 = data3["result"]["name"]; // 获取奖励名称
                         var result4 = data3["result"]["notice"]; // 获取奖励描述
-                        Application.Range(signinresult + row).Value = date + '已签到'
+                        
+                        if(version == 1){
+                          Application.Range(signinresult + row).Value = date + '已签到'
+                        }else{
+                          Application.Range(signinresult + row).Value2 = date + '已签到'
+                        }
+
                         //把签到结果 写入文档内
                         // console.log(result4)
                         content = " " + result4
@@ -619,7 +626,7 @@ function doTask(row){
                     if (ldate !== '') {
                         Application.Range(logindateColumn + row).NumberFormat = 'yyyy-mm-dd;@'
                         var formatlogindate = Application.Range(logindateColumn + row).Text
-                        console.log(formatlogindate)
+                        // console.log(formatlogindate)
                         function formatDateTime(date) {
                             const year = date.getFullYear();
                             const month = date.getMonth() + 1;
@@ -656,7 +663,7 @@ function doTask(row){
                             }
                         }
                         var timeslong = getDate(formacurrentdate).getTime() - getDate(formatlogindate).getTime();
-                        console.log(timeslong)
+                        // console.log(timeslong)
                         if (timeslong > 1728000000) {//时间差单位毫秒
                             var loginnotice = "登录已超20天自动刷新refresh_token";
  
@@ -667,10 +674,18 @@ function doTask(row){
                                 }));
                             my_token = my_token.json()["refresh_token"]
                             if (my_token) {
+
+                              if(version == 1){
                                 console.log("🍳 当前账号refresh_token刷新为", my_token);
                                 Application.Range(tokenColumn + row).Value = my_token;
                                 console.log("🍳 当前账号登录日期刷新为", formacurrentdate);
                                 Application.Range(logindateColumn + row).Value = formacurrentdate
+                              }else{
+                                console.log("🍳 当前账号refresh_token刷新为", my_token);
+                                Application.Range(tokenColumn + row).Value2 = my_token;
+                                console.log("🍳 当前账号登录日期刷新为", formacurrentdate);
+                                Application.Range(logindateColumn + row).Value2 = formacurrentdate
+                              }
                             }
                         }
                     }
