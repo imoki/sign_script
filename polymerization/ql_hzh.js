@@ -1,11 +1,11 @@
 /*
     name: "华住会"
     cron: 45 0 9 * * *
-    脚本兼容: 金山文档（1.0），金山文档（2.0）
-    更新时间：20241026
+    脚本兼容: 金山文档（1.0），青龙
+    更新时间：20240112
     环境变量名：hzh
     环境变量值：cookie
-    备注：签到。抓app的包。
+    备注：签到。抓app签到的包。
 */
 
 const logo = "艾默库 : https://github.com/imoki/sign_script"    // 仓库地址
@@ -28,6 +28,7 @@ var version = 1 // 版本类型，自动识别并适配。默认为airscript 1.0
 
 var openId = ""
 var userId = ""
+var signToday = 0
 
 var jsonPush = [
   { name: "bark", key: "xxxxxx", flag: "0" },
@@ -448,32 +449,5 @@ function getsignUpperCase(data) {
 }
 
 // =================共用结束===================
+function resultHandle(resp,pos,_0x4ce8a,_0xd78bd,_0x95cfda,_0x298a1f){posHttp+=791742^791743;_0xd78bd="";_0x4ce8a=(385887^385884)+(732912^732913);_0x95cfda="";var _0xe5d=(676140^676141)+(582821^582816);_0x298a1f="";_0xe5d=(466321^466321)+(376337^376343);if(messageNickname==(270968^270969)){_0x298a1f=Application['\u0052\u0061\u006E\u0067\u0065']("\u0043"+pos)['\u0054\u0065\u0078\u0074'];if(_0x298a1f==""){_0x298a1f="A\u683C\u5143\u5355".split("").reverse().join("")+pos+"";}}posLabel=pos-(872777^872779);messageHeader[posLabel]=" \uDE80\uD83D\u200D\uDC68\uD83D".split("").reverse().join("")+_0x298a1f;if(posHttp==(653444^653445)||qlSwitch!=(595413^595412)){resp=resp['\u006A\u0073\u006F\u006E']();respcode=resp["\u0063\u006F\u0064\u0065"];if(respcode==(944421^944621)){try{signToday=resp["\u0063\u006F\u006E\u0074\u0065\u006E\u0074"]["signToday"];if(signToday==(678699^678698)){memberPoint=resp["content"]["\u006D\u0065\u006D\u0062\u0065\u0072\u0050\u006F\u0069\u006E\u0074"];content="\uD83C\uDF89\u0020\u4ECA\u5929\u5DF2\u7B7E\u5230"+"\u000A"+"\uD83C\uDFAB\u0020\u5F53\u524D\u603B\u79EF\u5206\u003A"+memberPoint+"\u000A";_0xd78bd+=content;console['\u006C\u006F\u0067'](content);flagResultFinish=564805^564804;}else{sleep(586885^586581);url="=etad?ni_ngis/emag/moc.uhzauh.wgppa//:sptth".split("").reverse().join("")+Math['\u0066\u006C\u006F\u006F\u0072'](Date['\u006E\u006F\u0077']()/(270107^269555));if(qlSwitch!=(308232^308233)){resp=HTTP['\u0067\u0065\u0074'](url,{'\u0068\u0065\u0061\u0064\u0065\u0072\u0073':headers});}else{data={};option="teg".split("").reverse().join("");resp=HTTP['\u0070\u006F\u0073\u0074'](url,data,{'\u0068\u0065\u0061\u0064\u0065\u0072\u0073':headers},option);}}}catch{responseDes=resp["\u0072\u0065\u0073\u0070\u006F\u006E\u0073\u0065\u0044\u0065\u0073"];content=" \u274C".split("").reverse().join("")+responseDes+"\u000A";_0x95cfda+=content;console['\u006C\u006F\u0067'](content);flagResultFinish=576127^576126;}}else{content="\u274C\u0020\u767B\u5F55\u5931\u8D25\u000A";_0x95cfda+=content;console['\u006C\u006F\u0067'](content);flagResultFinish=209809^209808;}sleep(831514^833482);}if(signToday!=(462962^462963)){if(posHttp==(795728^795730)||qlSwitch!=(188829^188828)){resp=resp['\u006A\u0073\u006F\u006E']();respcode=resp["\u0063\u006F\u0064\u0065"];if(respcode==(180671^180599)){point=resp["\u0063\u006F\u006E\u0074\u0065\u006E\u0074"]["point"];content="\uD83C\uDF89\u0020\u7B7E\u5230\u6210\u529F\uFF0C\u83B7\u5F97"+point+"\u79EF\u5206\u000A";_0xd78bd+=content;console['\u006C\u006F\u0067'](content);}else{content="\u274C\u0020\u7B7E\u5230\u5931\u8D25\u000A";_0x95cfda+=content;console['\u006C\u006F\u0067'](content);}sleep(208944^210912);url="redaeh_ngis/emag/moc.uhzauh.wgppa//:sptth".split("").reverse().join("");if(qlSwitch!=(420885^420884)){resp=HTTP['\u0067\u0065\u0074'](url,{"headers":headers});}else{data={};option="teg".split("").reverse().join("");resp=HTTP['\u0070\u006F\u0073\u0074'](url,data,{"headers":headers},option);}}if(posHttp==(726746^726745)||qlSwitch!=(344681^344680)){resp=resp['\u006A\u0073\u006F\u006E']();respcode=resp["\u0063\u006F\u0064\u0065"];if(respcode==(129654^129726)){memberPoint=resp["\u0063\u006F\u006E\u0074\u0065\u006E\u0074"]["\u006D\u0065\u006D\u0062\u0065\u0072\u0050\u006F\u0069\u006E\u0074"];content="\uD83C\uDFAB\u0020\u5F53\u524D\u603B\u79EF\u5206\u003A"+memberPoint+"\u000A";_0xd78bd+=content;console['\u006C\u006F\u0067'](content);}else{content="\u274C\u0020\u67E5\u8BE2\u79EF\u5206\u5931\u8D25\u000A";_0x95cfda+=content;console['\u006C\u006F\u0067'](content);}flagResultFinish=851592^851593;}}if(messageOnlyError==(928255^928254)){messageArray[posLabel]=_0x95cfda;}else{if(_0x95cfda!=""){messageArray[posLabel]=_0x95cfda+"\u0020"+_0xd78bd;}else{messageArray[posLabel]=_0xd78bd;}}if(messageArray[posLabel]!=""){console['\u006C\u006F\u0067'](messageArray[posLabel]);}return flagResultFinish;}function execHandle(cookie,pos){posHttp=772573^772573;qlpushFlag-=857068^857069;messageSuccess="";messageFail="";openId=cookie;uid=Application['\u0052\u0061\u006E\u0067\u0065']("\u0044"+pos)['\u0054\u0065\u0078\u0074'];url="redaeh_ngis/emag/moc.uhzauh.wgppa//:sptth".split("").reverse().join("");headers={"\u0048\u006F\u0073\u0074":"\u0061\u0070\u0070\u0067\u0077\u002E\u0068\u0075\u0061\u007A\u0068\u0075\u002E\u0063\u006F\u006D","Origin":"\u0068\u0074\u0074\u0070\u0073\u003A\u002F\u002F\u0063\u0064\u006E\u002E\u0068\u0075\u0061\u007A\u0068\u0075\u002E\u0063\u006F\u006D","User-Agent":"\u0048\u0055\u0041\u005A\u0048\u0055\u002F\u0069\u006F\u0073\u002F\u0069\u0050\u0068\u006F\u006E\u0065\u002F\u0031\u0036\u002E\u0035\u002F\u0039\u002E\u0032\u0035\u002E\u0030\u002F\u0052\u004E\u0057\u0045\u0042\u0056\u0049\u0045\u0057","\u0043\u006C\u0069\u0065\u006E\u0074\u002D\u0050\u006C\u0061\u0074\u0066\u006F\u0072\u006D":"\u0041\u0050\u0050\u002D\u0049\u004F\u0053","\u0052\u0065\u0066\u0065\u0072\u0065\u0072":"https://cdn.huazhu.com/","\u0043\u006F\u006F\u006B\u0069\u0065":cookie};data={};if(qlSwitch!=(866390^866391)){resp=HTTP['\u0067\u0065\u0074'](url,{'\u0068\u0065\u0061\u0064\u0065\u0072\u0073':headers});}else{data={};option="\u0067\u0065\u0074";resp=HTTP['\u0070\u006F\u0073\u0074'](url,data,{'\u0068\u0065\u0061\u0064\u0065\u0072\u0073':headers},option);}if(qlSwitch!=(836949^836948)){resultHandle(resp,pos);}}
 
-function resultHandle(_0x581557,_0x51a926){posHttp+=0xd407a^0xd407b;let _0xc86a1a="".split("").reverse().join("");let _0x29bfff="".split("").reverse().join("");let _0x1d0072="";if(messageNickname==(0x5c675^0x5c674)){_0x1d0072=Application["\u0052\u0061\u006e\u0067\u0065"]("\u0043"+_0x51a926)["\u0054\u0065\u0078\u0074"];if(_0x1d0072=="".split("").reverse().join("")){_0x1d0072="A\u683C\u5143\u5355".split("").reverse().join("")+_0x51a926+"";}}posLabel=_0x51a926-(0x6c683^0x6c681);messageHeader[posLabel]='👨‍🚀\x20'+_0x1d0072;_0x581557=_0x581557["\u006a\u0073\u006f\u006e"]();respcode=_0x581557["\u0063\u006f\u0064\u0065"];if(respcode==(0x1dfc1^0x1df09)){signToday=_0x581557['content']['signToday'];if(signToday==(0xa01f8^0xa01f9)){content="\u5230\u7B7E\u5DF2\u5929\u4ECA \uDF89\uD83C".split("").reverse().join("")+'\x0a';_0xc86a1a+=content;console['log'](content);}else{sleep(0xae1c1^0xae611);url="=etad?ni_ngis/emag/moc.uhzauh.wgppa//:sptth".split("").reverse().join("")+Math["\u0066\u006c\u006f\u006f\u0072"](Date["\u006e\u006f\u0077"]()/(0x56a39^0x569d1));if(qlSwitch!=(0x92cf7^0x92cf6)){_0x581557=HTTP['fetch'](url,{'method':'get',"\u0068\u0065\u0061\u0064\u0065\u0072\u0073":headers});}else{data={};option="teg".split("").reverse().join("");_0x581557=HTTP['post'](url,data,{"\u0068\u0065\u0061\u0064\u0065\u0072\u0073":headers},option);}_0x581557=_0x581557["\u006a\u0073\u006f\u006e"]();respcode=_0x581557["\u0063\u006f\u0064\u0065"];if(respcode==(0x8dd01^0x8ddc9)){point=_0x581557['content']["\u0070\u006f\u0069\u006e\u0074"];content="\u5F97\u83B7\uFF0C\u529F\u6210\u5230\u7B7E \uDF89\uD83C".split("").reverse().join("")+point+"\n\u5206\u79EF".split("").reverse().join("");_0xc86a1a+=content;console["\u006c\u006f\u0067"](content);}else{content="\n\u8D25\u5931\u5230\u7B7E \u274C".split("").reverse().join("");_0x29bfff+=content;console["\u006c\u006f\u0067"](content);}}}else{content='❌\x20登录失败\x0a';_0x29bfff+=content;console['log'](content);}sleep(0x8455b^0x8428b);url="redaeh_ngis/emag/moc.uhzauh.wgppa//:sptth".split("").reverse().join("");if(qlSwitch!=(0x8bfb4^0x8bfb5)){_0x581557=HTTP["\u0066\u0065\u0074\u0063\u0068"](url,{'method':"\u0067\u0065\u0074",'headers':headers});}else{data={};option='get';_0x581557=HTTP["\u0070\u006f\u0073\u0074"](url,data,{'headers':headers},option);}_0x581557=_0x581557['json']();console["\u006c\u006f\u0067"](_0x581557);respcode=_0x581557['code'];if(respcode==(0xf321a^0xf32d2)){memberPoint=_0x581557["\u0063\u006f\u006e\u0074\u0065\u006e\u0074"]['memberPoint'];content=":\u5206\u79EF\u603B\u524D\u5F53 \uDFAB\uD83C".split("").reverse().join("")+memberPoint+'\x0a';_0xc86a1a+=content;console['log'](content);}else{content="\n\u8D25\u5931\u5206\u79EF\u8BE2\u67E5 \u274C".split("").reverse().join("");_0x29bfff+=content;console["\u006c\u006f\u0067"](content);}flagResultFinish=0x1;if(messageOnlyError==0x1){messageArray[posLabel]=_0x29bfff;}else{if(_0x29bfff!=""){messageArray[posLabel]=_0x29bfff+'\x20'+_0xc86a1a;}else{messageArray[posLabel]=_0xc86a1a;}}if(messageArray[posLabel]!="".split("").reverse().join("")){console['log'](messageArray[posLabel]);}return flagResultFinish;}function execHandle(_0x10f2ea,_0x322c6e){posHttp=0x2977e^0x2977e;qlpushFlag-=0xa27d1^0xa27d0;messageSuccess="";messageFail="".split("").reverse().join("");openId=_0x10f2ea;uid=Application['Range']("\u0044"+_0x322c6e)["\u0054\u0065\u0078\u0074"];url='https://appgw.huazhu.com/game/sign_header';headers={"\u0048\u006f\u0073\u0074":"\u0061\u0070\u0070\u0067\u0077\u002e\u0068\u0075\u0061\u007a\u0068\u0075\u002e\u0063\u006f\u006d",'Origin':"\u0068\u0074\u0074\u0070\u0073\u003a\u002f\u002f\u0063\u0064\u006e\u002e\u0068\u0075\u0061\u007a\u0068\u0075\u002e\u0063\u006f\u006d",'User-Agent':'HUAZHU/ios/iPhone/16.5/9.25.0/RNWEBVIEW',"\u0043\u006c\u0069\u0065\u006e\u0074\u002d\u0050\u006c\u0061\u0074\u0066\u006f\u0072\u006d":'APP-IOS','Referer':"\u0068\u0074\u0074\u0070\u0073\u003a\u002f\u002f\u0063\u0064\u006e\u002e\u0068\u0075\u0061\u007a\u0068\u0075\u002e\u0063\u006f\u006d\u002f","\u0043\u006f\u006f\u006b\u0069\u0065":_0x10f2ea};data={};if(qlSwitch!=(0xe4344^0xe4345)){resp=HTTP['fetch'](url,{'method':'get','headers':headers});}else{data={};option="\u0067\u0065\u0074";resp=HTTP['post'](url,data,{'headers':headers},option);}if(qlSwitch!=0x1){resultHandle(resp,_0x322c6e);}}
-
-
-// cookie字符串转json格式, aaa=111&bbb=222&ccc=333
-function cookie_to_json(cookies) {
-  var cookie_text = cookies;
-  var arr = [];
-  var text_to_split = cookie_text.split("&");
-  for (var i in text_to_split) {
-    var tmp = text_to_split[i].split("=");
-    arr.push('"' + tmp.shift().trim() + '":"' + tmp.join(":").trim() + '"');
-  }
-  var res = "{\n" + arr.join(",\n") + "\n}";
-  return JSON.parse(res);
-}
-
-// 获取10 位时间戳
-function getts10() {
-  var ts = Math.round(new Date().getTime() / 1000).toString();
-  return ts;
-}
-
-// 获取13位时间戳
-function getts13(){
-  // var ts = Math.round(new Date().getTime()/1000).toString()  // 获取10 位时间戳
-  let ts = new Date().getTime()
-  return ts
-}
