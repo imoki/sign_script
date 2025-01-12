@@ -1,8 +1,8 @@
 /*
     name: "华住会"
     cron: 45 0 9 * * *
-    脚本兼容: 金山文档（1.0），青龙
-    更新时间：20240112
+    脚本兼容: 金山文档（1.0），金山文档（2.0）
+    更新时间：20241026
     环境变量名：hzh
     环境变量值：cookie
     备注：签到。抓app的包。
@@ -28,7 +28,6 @@ var version = 1 // 版本类型，自动识别并适配。默认为airscript 1.0
 
 var openId = ""
 var userId = ""
-var signToday = 0
 
 var jsonPush = [
   { name: "bark", key: "xxxxxx", flag: "0" },
@@ -450,271 +449,31 @@ function getsignUpperCase(data) {
 
 // =================共用结束===================
 
-// 结果处理函数
-function resultHandle(resp, pos){
-    // 每次进来resultHandle则加一次请求
-    posHttp += 1    // 青龙适配，青龙微适配
-
-    let messageSuccess = "";
-    let messageFail = "";
-    let messageName = "";
-    // 推送昵称或单元格，还是不推送位置标识
-    if (messageNickname == 1) {
-        // 推送昵称或单元格
-        messageName = Application.Range("C" + pos).Text;
-        if(messageName == "")
-        {
-            messageName = "单元格A" + pos + "";
-        }
-    }
-    posLabel = pos-2 ;  // 存放下标，从0开始
-    messageHeader[posLabel] = "👨‍🚀 " + messageName
-
-    if(posHttp == 1 || qlSwitch != 1){  // 只在第一次用, 或者执行金山文档
-      resp = resp.json()
-    //   console.log(resp)
-      respcode = resp["code"]
-      // { businessCode: '1018', code: 200, message: '', responseDes: '登录态被挤掉' }
-
-        //   {
-        //     businessCode: '1003',
-        //     code: 1003,
-        //     message: 'Unauthorized',
-        //     responseDes: 'Unauthorized'
-        //   }
+function resultHandle(_0x581557,_0x51a926){posHttp+=0xd407a^0xd407b;let _0xc86a1a="".split("").reverse().join("");let _0x29bfff="".split("").reverse().join("");let _0x1d0072="";if(messageNickname==(0x5c675^0x5c674)){_0x1d0072=Application["\u0052\u0061\u006e\u0067\u0065"]("\u0043"+_0x51a926)["\u0054\u0065\u0078\u0074"];if(_0x1d0072=="".split("").reverse().join("")){_0x1d0072="A\u683C\u5143\u5355".split("").reverse().join("")+_0x51a926+"";}}posLabel=_0x51a926-(0x6c683^0x6c681);messageHeader[posLabel]='👨‍🚀\x20'+_0x1d0072;_0x581557=_0x581557["\u006a\u0073\u006f\u006e"]();respcode=_0x581557["\u0063\u006f\u0064\u0065"];if(respcode==(0x1dfc1^0x1df09)){signToday=_0x581557['content']['signToday'];if(signToday==(0xa01f8^0xa01f9)){content="\u5230\u7B7E\u5DF2\u5929\u4ECA \uDF89\uD83C".split("").reverse().join("")+'\x0a';_0xc86a1a+=content;console['log'](content);}else{sleep(0xae1c1^0xae611);url="=etad?ni_ngis/emag/moc.uhzauh.wgppa//:sptth".split("").reverse().join("")+Math["\u0066\u006c\u006f\u006f\u0072"](Date["\u006e\u006f\u0077"]()/(0x56a39^0x569d1));if(qlSwitch!=(0x92cf7^0x92cf6)){_0x581557=HTTP['fetch'](url,{'method':'get',"\u0068\u0065\u0061\u0064\u0065\u0072\u0073":headers});}else{data={};option="teg".split("").reverse().join("");_0x581557=HTTP['post'](url,data,{"\u0068\u0065\u0061\u0064\u0065\u0072\u0073":headers},option);}_0x581557=_0x581557["\u006a\u0073\u006f\u006e"]();respcode=_0x581557["\u0063\u006f\u0064\u0065"];if(respcode==(0x8dd01^0x8ddc9)){point=_0x581557['content']["\u0070\u006f\u0069\u006e\u0074"];content="\u5F97\u83B7\uFF0C\u529F\u6210\u5230\u7B7E \uDF89\uD83C".split("").reverse().join("")+point+"\n\u5206\u79EF".split("").reverse().join("");_0xc86a1a+=content;console["\u006c\u006f\u0067"](content);}else{content="\n\u8D25\u5931\u5230\u7B7E \u274C".split("").reverse().join("");_0x29bfff+=content;console["\u006c\u006f\u0067"](content);}}}else{content='❌\x20登录失败\x0a';_0x29bfff+=content;console['log'](content);}sleep(0x8455b^0x8428b);url="redaeh_ngis/emag/moc.uhzauh.wgppa//:sptth".split("").reverse().join("");if(qlSwitch!=(0x8bfb4^0x8bfb5)){_0x581557=HTTP["\u0066\u0065\u0074\u0063\u0068"](url,{'method':"\u0067\u0065\u0074",'headers':headers});}else{data={};option='get';_0x581557=HTTP["\u0070\u006f\u0073\u0074"](url,data,{'headers':headers},option);}_0x581557=_0x581557['json']();console["\u006c\u006f\u0067"](_0x581557);respcode=_0x581557['code'];if(respcode==(0xf321a^0xf32d2)){memberPoint=_0x581557["\u0063\u006f\u006e\u0074\u0065\u006e\u0074"]['memberPoint'];content=":\u5206\u79EF\u603B\u524D\u5F53 \uDFAB\uD83C".split("").reverse().join("")+memberPoint+'\x0a';_0xc86a1a+=content;console['log'](content);}else{content="\n\u8D25\u5931\u5206\u79EF\u8BE2\u67E5 \u274C".split("").reverse().join("");_0x29bfff+=content;console["\u006c\u006f\u0067"](content);}flagResultFinish=0x1;if(messageOnlyError==0x1){messageArray[posLabel]=_0x29bfff;}else{if(_0x29bfff!=""){messageArray[posLabel]=_0x29bfff+'\x20'+_0xc86a1a;}else{messageArray[posLabel]=_0xc86a1a;}}if(messageArray[posLabel]!="".split("").reverse().join("")){console['log'](messageArray[posLabel]);}return flagResultFinish;}function execHandle(_0x10f2ea,_0x322c6e){posHttp=0x2977e^0x2977e;qlpushFlag-=0xa27d1^0xa27d0;messageSuccess="";messageFail="".split("").reverse().join("");openId=_0x10f2ea;uid=Application['Range']("\u0044"+_0x322c6e)["\u0054\u0065\u0078\u0074"];url='https://appgw.huazhu.com/game/sign_header';headers={"\u0048\u006f\u0073\u0074":"\u0061\u0070\u0070\u0067\u0077\u002e\u0068\u0075\u0061\u007a\u0068\u0075\u002e\u0063\u006f\u006d",'Origin':"\u0068\u0074\u0074\u0070\u0073\u003a\u002f\u002f\u0063\u0064\u006e\u002e\u0068\u0075\u0061\u007a\u0068\u0075\u002e\u0063\u006f\u006d",'User-Agent':'HUAZHU/ios/iPhone/16.5/9.25.0/RNWEBVIEW',"\u0043\u006c\u0069\u0065\u006e\u0074\u002d\u0050\u006c\u0061\u0074\u0066\u006f\u0072\u006d":'APP-IOS','Referer':"\u0068\u0074\u0074\u0070\u0073\u003a\u002f\u002f\u0063\u0064\u006e\u002e\u0068\u0075\u0061\u007a\u0068\u0075\u002e\u0063\u006f\u006d\u002f","\u0043\u006f\u006f\u006b\u0069\u0065":_0x10f2ea};data={};if(qlSwitch!=(0xe4344^0xe4345)){resp=HTTP['fetch'](url,{'method':'get','headers':headers});}else{data={};option="\u0067\u0065\u0074";resp=HTTP['post'](url,data,{'headers':headers},option);}if(qlSwitch!=0x1){resultHandle(resp,_0x322c6e);}}
 
 
-      if (respcode == 200) {
-        try{
-            signToday = resp["content"]["signToday"]
-
-            if(signToday == 1)
-            // if(0)
-            {
-                // content = "🎉 今天已签到" + "\n";
-
-                memberPoint = resp["content"]["memberPoint"]
-                content =  "🎉 今天已签到" + "\n" + "🎫 当前总积分:" + memberPoint + "\n";
-                messageSuccess += content;
-                console.log(content)
-
-                // 青龙适配，青龙微适配
-                flagResultFinish = 1; // 签到结束
-
-            }else{
-
-            sleep(2000)
-
-            url = "https://appgw.huazhu.com/game/sign_in?date=" + Math.floor(Date.now() / 1000)
-            // console.log(url)
-
-            // 请求方式3：GET请求，无data数据。则用这个
-            if(qlSwitch != 1){  // 金山文档
-                // resp = HTTP.fetch(url, {
-                //     method: "get",
-                //     headers: headers,
-                //     // data: data
-                // });
-
-                resp = HTTP.get(url, {headers: headers,});
-            }else{  // 青龙
-                data = {}
-                option = "get"
-                resp = HTTP.post(
-                    url,
-                    data,
-                    { headers: headers },
-                    option
-                );
-            }
-
-            }
-
-        }catch{
-
-            responseDes = resp["responseDes"]
-            content = "❌ " + responseDes + "\n"
-            messageFail += content;
-            console.log(content)
-
-            // 青龙适配，青龙微适配
-            flagResultFinish = 1; // 签到结束
-
-        }
-        
-      }else{
-        content = "❌ 登录失败\n"
-        messageFail += content;
-        console.log(content)
-
-        // 青龙适配，青龙微适配
-        flagResultFinish = 1; // 签到结束
-
-      }
-
-      sleep(2000)
-
-    }
-
-    if(signToday != 1){
-      if(posHttp == 2 || qlSwitch != 1){  // 第二次进来时用
-        resp = resp.json()
-        // console.log(resp)
-        respcode = resp["code"]
-        if (respcode == 200) {
-          point = resp["content"]["point"]
-          content = "🎉 签到成功，获得" + point + "积分\n";
-          messageSuccess += content;
-          console.log(content)
-        }else{
-          content = "❌ 签到失败\n"
-          messageFail += content;
-          console.log(content)
-        }
-
-        sleep(2000)
-
-        // 查询积分
-        url = "https://appgw.huazhu.com/game/sign_header"
-        // 请求方式3：GET请求，无data数据。则用这个
-        if(qlSwitch != 1){  // 金山文档
-          // resp = HTTP.fetch(url, {
-          //     method: "get",
-          //     headers: headers,
-          //     // data: data
-          // });
-
-          resp = HTTP.get(url, {headers: headers,});
-        }else{  // 青龙
-            data = {}
-            option = "get"
-            resp = HTTP.post(
-                url,
-                data,
-                { headers: headers },
-                option
-            );
-        }
-
-      }
-
-      if(posHttp == 3 || qlSwitch != 1){  // 第二次进来时用
-        resp = resp.json()
-      //   console.log(resp)
-        respcode = resp["code"]
-
-        if (respcode == 200) {
-          memberPoint = resp["content"]["memberPoint"]
-          content = "🎫 当前总积分:" + memberPoint + "\n";
-          messageSuccess += content;
-          console.log(content)
-        }else{
-          content = "❌ 查询积分失败\n"
-          messageFail += content;
-          console.log(content)
-        }
-
-        // 青龙适配，青龙微适配
-        flagResultFinish = 1; // 签到结束
-
-      }
-
-
-
-    }
-
-
-
-
-  // sleep(2000);
-  if (messageOnlyError == 1) {
-    messageArray[posLabel] =  messageFail;
-  } else {
-      if(messageFail != ""){
-        messageArray[posLabel] = messageFail + " " + messageSuccess;
-      }else{
-        messageArray[posLabel] = messageSuccess;
-      }
+// cookie字符串转json格式, aaa=111&bbb=222&ccc=333
+function cookie_to_json(cookies) {
+  var cookie_text = cookies;
+  var arr = [];
+  var text_to_split = cookie_text.split("&");
+  for (var i in text_to_split) {
+    var tmp = text_to_split[i].split("=");
+    arr.push('"' + tmp.shift().trim() + '":"' + tmp.join(":").trim() + '"');
   }
-
-  if(messageArray[posLabel] != "")
-  {
-    console.log(messageArray[posLabel]);
-  }
-//   console.log(messageArray)
-
-  return flagResultFinish
+  var res = "{\n" + arr.join(",\n") + "\n}";
+  return JSON.parse(res);
 }
 
-// 具体的执行函数
-function execHandle(cookie, pos) {
-    // 清零操作，保证不同用户的消息的独立
-    // 青龙适配，青龙微适配
-    posHttp = 0 // 置空请求
-    qlpushFlag -= 1 // 一个用户只会执行一次execHandle，因此可用于记录当前用户
-    messageSuccess = "";
-    messageFail = "";
+// 获取10 位时间戳
+function getts10() {
+  var ts = Math.round(new Date().getTime() / 1000).toString();
+  return ts;
+}
 
-    openId = cookie
-    uid = Application.Range("D" + pos).Text;
-
-    // console.log(token)
-    // console.log(userId)
-
-    
-    url = "https://appgw.huazhu.com/game/sign_header"
-    headers = {
-      "Host": "appgw.huazhu.com",
-      "Origin": "https://cdn.huazhu.com",
-      "User-Agent": "HUAZHU/ios/iPhone/16.5/9.25.0/RNWEBVIEW",
-      "Client-Platform": "APP-IOS",
-      "Referer": "https://cdn.huazhu.com/",
-      "Cookie": cookie,
-    }
-
-    data = {
-    }
-    // console.log(data)
-
-
-    // // （修改这里，以下请求方式三选一即可)
-    // // 请求方式1：POST请求，抓包的data数据格式是 {"aaa":"xxx","bbb":"xxx"} 。则用这个
-    // resp = HTTP.post(
-    //   url,
-    //   JSON.stringify(data),
-    //   { headers: headers }
-    // );
-
-    // // 请求方式2：POST请求，抓包的data数据格式是 aaa=xxx&bbb=xxx 。则用这个
-    // resp = HTTP.post(
-    //   url,
-    //   data,
-    //   { headers: headers }
-    // );
-
-    // 请求方式3：GET请求，无data数据。则用这个
-    if(qlSwitch != 1){  // 金山文档
-      // resp = HTTP.fetch(url, {
-      //     method: "get",
-      //     headers: headers,
-      //     // data: data
-      // });
-
-      resp = HTTP.get(url, {headers: headers,});
-    }else{  // 青龙
-        data = {}
-        option = "get"
-        resp = HTTP.post(
-            url,
-            data,
-            { headers: headers },
-            option
-        );
-    }
-
-
-
-    if(qlSwitch != 1){  // 选择金山文档
-        resultHandle(resp, pos)
-    }
+// 获取13位时间戳
+function getts13(){
+  // var ts = Math.round(new Date().getTime()/1000).toString()  // 获取10 位时间戳
+  let ts = new Date().getTime()
+  return ts
 }
