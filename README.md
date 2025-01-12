@@ -2,6 +2,30 @@
     <img src="https://socialify.git.ci/imoki/sign_script/image?description=1&font=Rokkitt&forks=1&issues=1&language=1&owner=1&pattern=Circuit%20Board&pulls=1&stargazers=1&theme=Dark">
 <div>
 
+## 🎉 感谢所有做出贡献的人！ 
+<div align="center" style="display:flex;flex-wrap:wrap;justify-content:center;">
+    <a href="https://github.com/jarryyen" style="text-align: center;">
+        <img src="https://avatars.githubusercontent.com/u/11880312?v=4" width="50" height="50" style="border-radius:50%; margin:10px;">
+<!--         <p style="display: inline-block; margin: 0;">jarryyen</p> -->
+    </a>
+    <a href="https://github.com/wawmb" style="text-align: center;">
+        <img src="https://avatars.githubusercontent.com/u/80245716?v=4" width="50" height="50" style="border-radius:50%; margin:10px;">
+<!--         <p style="display: inline-block; margin: 0;">Wawmb</p> -->
+    </a>
+    <a href="https://github.com/codebhc" style="text-align: center;">
+        <img src="https://avatars.githubusercontent.com/u/176098738?v=4" width="50" height="50" style="border-radius:50%; margin:10px;">
+<!--         <p style="display: inline-block; margin: 0;">codebhc</p> -->
+    </a>
+    <a href="https://github.com/fdsuf" style="text-align: center;">
+        <img src="https://avatars.githubusercontent.com/u/49027081?v=4" width="50" height="50" style="border-radius:50%; margin:10px;">
+<!--         <p style="display: inline-block; margin: 0;">fdsuf</p> -->
+    </a>
+    <a href="https://github.com/SunWuyuan" style="text-align: center;">
+        <img src="https://avatars.githubusercontent.com/u/88357633" width="50" height="50" style="border-radius: 50%; margin: 10px;">
+<!--         <p style="display: inline-block; margin: 0;">SunWuyuan</p> -->
+    </a>
+</div>
+
 ## ⚠ 请遵循以下几点来使用
 1. 可以点击star收藏支持，但请**不要点击fork**，若希望参与项目开发，可以fork。  
 2. 除项目贡献者外，请**不要fork**。  
