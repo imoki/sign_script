@@ -24,6 +24,9 @@
         <img src="https://avatars.githubusercontent.com/u/88357633" width="50" height="50" style="border-radius: 50%; margin: 10px;">
 <!--         <p style="display: inline-block; margin: 0;">SunWuyuan</p> -->
     </a>
+    <a href="https://space.bilibili.com/473278350/" style="text-align: center;">
+        <img src="https://i1.hdslb.com/bfs/face/1d433d7c2d02d04b67b2102928d1c7c24d22f430.jpg" width="50" height="50" style="border-radius: 50%; margin: 10px;">
+    </a>
 </div>
 
 ## ⚠ 请遵循以下几点来使用
