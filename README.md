@@ -96,6 +96,9 @@
     <a style="text-align: center;">
         <img src="https://i.ibb.co/vCf1wgnB/22.jpg" width="50" height="50" style="border-radius: 50%; margin: 10px;">
     </a>
+    <a style="text-align: center;">
+        <img src="https://s21.ax1x.com/2025/04/06/pEcumwV.jpg" width="50" height="50" style="border-radius: 50%; margin: 10px;">
+    </a>
 </div>
 <!--
 ## ⚠ 请遵循以下几点来使用
