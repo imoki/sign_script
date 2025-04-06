@@ -41,18 +41,18 @@ var configBody = [
     { name: 'airabsorbed', note: '全国空气吸收剂量率',},
     { name: 'smzdm', note: '什么值得买抽奖',},
     { name: 'toollu', note: '在线工具',},
-    { name: 'zaoan', note: '早安问候语'},
-    { name: 'wanan', note: '晚安问候语'},
-    { name: 'bilihot', note: '哔哩哔哩热搜榜'},
-    { name: 'dyhot', note: '抖音热搜榜 '},
+    { name: 'zaoan', note: '早安问候语',},
+    { name: 'wanan', note: '晚安问候语',},
+    { name: 'bilihot', note: '哔哩哔哩热搜榜',},
+    { name: 'dyhot', note: '抖音热搜榜',},
     { name: 'ddmc_ddyt', note: '叮咚买菜-叮咚鱼塘',},
-    { name: 'wbhot', note: '微博热搜榜'},
-    { name: 'zhhot', note: '知乎热搜榜'},
+    { name: 'wbhot', note: '微博热搜榜',},
+    { name: 'zhhot', note: '知乎热搜榜',},
     { name: 'bdhot', note: '百度热搜榜',},
     { name: 'xmly', note: '喜马拉雅',},
-    { name: 'ssphot', note: '少数派热榜'},
+    { name: 'ssphot', note: '少数派热榜',},
     { name: 'en', note: '希沃白板',},
-    { name: 'bdsl', note: '百度收录'},
+    { name: 'bdsl', note: '百度收录',},
     { name: 'quark', note: '夸克网盘',},
     { name: 'huluxia', note: '葫芦侠3楼',},
     { name: 'steamrank', note: 'steam游戏在线人数获取'},
@@ -62,21 +62,21 @@ var configBody = [
     { name: 'kanxue', note: '看雪论坛',},
     { name: 'day60s', note: '每天60秒读懂世界'},
     { name: 'vivo', note: 'vivo社区',},
-    { name: 'xxx', note: '', isAlive: '否',},
-    { name: 'xxx', note: '', isAlive: '否',},
+    { name: 'chouq', note: '随机抽签',},
+    { name: 'kfc', note: 'KFC疯狂星期四搞笑语录',},
     { name: 'golo', note: 'golo汽修大师',},
-    { name: 'xxx', note: '', isAlive: '否',},
-    { name: 'xxx', note: '', isAlive: '否',},
+    { name: 'xingzuo', note: '星座运势',},
+    { name: 'tzgsc', note: '挑战古诗词',},
     { name: 'chinadsl', note: '宽带技术网',},
     { name: 'xxx', note: '', isAlive: '否',},
     { name: 'xxx', note: '', isAlive: '否',},
     { name: 'ztemall', note: '中兴商城',},
     { name: 'wnflb', note: '万能福利吧',},
-    { name: 'xxx', note: '', isAlive: '否',},
-    { name: 'xxx', note: '', isAlive: '否',},
+    { name: 'wangzhe', note: '王者荣耀英雄介绍',},
+    { name: 'rsdjs', note: '人生倒计时',},
     { name: 'fwxs', note: '废文小说',},
     { name: 'hxek', note: '鸿星尔克',},
-    { name: 'xxx', note: '', isAlive: '否',},
+    { name: '神回复', note: '神回复',},
     { name: 'xxx', note: '', isAlive: '否',},
     { name: 'xxx', note: '', isAlive: '否',},
     { name: 'ddai', note: '钉钉AI',},
@@ -103,9 +103,6 @@ var configBody = [
     { name: 'xxx', note: '', isAlive: '否',},
     { name: 'ciba', note: '词霸每日一句',},
     { name: 'deepseek', note: 'deepseek分析工具',},
-
-    
-    
     
     // { name: '（修改这里）', note: '（修改这里）',},  // 添加新增内容
 ];
@@ -291,6 +288,20 @@ var subConfigSteamrank = [
   ['xxxxxxxx2', '否', '昵称2', '']
 ]
 
+// 定制化分配置表内容，xingzuo
+var subConfigXingzuo = [
+  ['cookie(默认20个)', '是否执行(是/否)', '账号名称(可不填写)', '星座'],
+  ['xxxxxxxx1', '是', '昵称1', '白羊座'],
+  ['xxxxxxxx2', '否', '昵称2', '']
+]
+
+// 定制化分配置表内容，wangzhe
+var subConfigWangzhe = [
+  ['cookie(默认20个)', '是否执行(是/否)', '账号名称(可不填写)', '英雄名'],
+  ['xxxxxxxx1', '是', '昵称1', '李白'],
+  ['xxxxxxxx2', '否', '昵称2', '']
+]
+
 
 
 // 定制化表
@@ -313,6 +324,8 @@ var subConfig = {
   "oilprice" : subConfigOilprice,
   "bdsl" : subConfigBdsl,
   "steamrank" : subConfigSteamrank,
+  "xingzuo" : subConfigXingzuo,
+  "wangzhe" : subConfigWangzhe,
 }
 // var mosaic = "xxxxxxxx" // 马赛克
 // var strFail = "否"
