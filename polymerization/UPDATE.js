@@ -60,7 +60,7 @@ var configBody = [
     { name: 'ztebbs', note: '中兴社区',},
     { name: 'mi', note: '小米商城',},
     { name: 'kanxue', note: '看雪论坛',},
-    { name: 'xxx', note: '', isAlive: '否',},
+    { name: 'day60s', note: '每天60秒读懂世界'},
     { name: 'vivo', note: 'vivo社区',},
     { name: 'xxx', note: '', isAlive: '否',},
     { name: 'xxx', note: '', isAlive: '否',},
