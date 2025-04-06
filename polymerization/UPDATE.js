@@ -31,13 +31,13 @@ configTitle = ['工作表的名称', '备注', '只推送失败消息（是/否�
 var configBodyDefault = ['xxx', '', '否', '是', '是', '', '', '', '@all', '是', '否', '0', '1', ''];
 // CONFIG表标题下内容
 var configBody = [
-    { name: 'xxx', note: '', isAlive: '否',},
-    { name: 'xxx', note: '', isAlive: '否',},
+    { name: 'remind', note: '日期提醒工具',},
+    { name: 'qrcode', note: '二维码生成工具',},
     { name: 'noteyoudao', note: '有道云笔记',},
     { name: 'tieba', note: '百度贴吧',},
-    { name: 'xxx', note: '', isAlive: '否',},
-    { name: 'xxx', note: '', isAlive: '否',},
-    { name: 'xxx', note: '', isAlive: '否',},
+    { name: 'weekplan', note: '周安排工具',},
+    { name: 'todayhistory', note: '历史上的今天',},
+    { name: 'oilprice', note: '今日油价',},
     { name: 'xxx', note: '', isAlive: '否',},
     { name: 'smzdm', note: '什么值得买抽奖',},
     { name: 'toollu', note: '在线工具',},
@@ -103,12 +103,8 @@ var configBody = [
     { name: 'xxx', note: '', isAlive: '否',},
     { name: 'ciba', note: '词霸每日一句',},
     { name: 'deepseek', note: 'deepseek分析工具',},
-    { name: 'remind', note: '日期提醒工具',},
-    { name: 'qrcode', note: '二维码生成工具',},
-    { name: 'weekplan', note: '周安排工具',},
-    { name: 'todayhistory', note: '历史上的今天',},
-    { name: 'oilprice', note: '今日油价',},
-
+    
+    
     // { name: '（修改这里）', note: '（修改这里）',},  // 添加新增内容
 ];
 
