@@ -38,7 +38,7 @@ var configBody = [
     { name: 'weekplan', note: '周安排工具',},
     { name: 'todayhistory', note: '历史上的今天',},
     { name: 'oilprice', note: '今日油价',},
-    { name: 'xxx', note: '', isAlive: '否',},
+    { name: 'airabsorbed', note: '全国空气吸收剂量率',},
     { name: 'smzdm', note: '什么值得买抽奖',},
     { name: 'toollu', note: '在线工具',},
     { name: 'xxx', note: '', isAlive: '否',},
@@ -103,6 +103,8 @@ var configBody = [
     { name: 'xxx', note: '', isAlive: '否',},
     { name: 'ciba', note: '词霸每日一句',},
     { name: 'deepseek', note: 'deepseek分析工具',},
+
+    
     
     
     // { name: '（修改这里）', note: '（修改这里）',},  // 添加新增内容
