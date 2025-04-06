@@ -33,7 +33,7 @@ var configBodyDefault = ['xxx', '', '否', '是', '是', '', '', '', '@all', '�
 var configBody = [
     { name: 'remind', note: '日期提醒工具',},
     { name: 'qrcode', note: '二维码生成工具',},
-    { name: 'noteyoudao', note: '有道云笔记',},
+    { name: 'jitang', note: '鸡汤',},
     { name: 'tieba', note: '百度贴吧',},
     { name: 'weekplan', note: '周安排工具',},
     { name: 'todayhistory', note: '历史上的今天',},
@@ -41,22 +41,22 @@ var configBody = [
     { name: 'airabsorbed', note: '全国空气吸收剂量率',},
     { name: 'smzdm', note: '什么值得买抽奖',},
     { name: 'toollu', note: '在线工具',},
-    { name: 'xxx', note: '', isAlive: '否',},
-    { name: 'xxx', note: '', isAlive: '否',},
-    { name: 'xxx', note: '', isAlive: '否',},
-    { name: 'xxx', note: '', isAlive: '否',},
+    { name: 'zaoan', note: '早安问候语'},
+    { name: 'wanan', note: '晚安问候语'},
+    { name: 'bilihot', note: '哔哩哔哩热搜榜'},
+    { name: 'dyhot', note: '抖音热搜榜 '},
     { name: 'ddmc_ddyt', note: '叮咚买菜-叮咚鱼塘',},
-    { name: 'xxx', note: '', isAlive: '否',},
-    { name: 'xxx', note: '', isAlive: '否',},
-    { name: 'acfun', note: 'AcFun',},
+    { name: 'wbhot', note: '微博热搜榜'},
+    { name: 'zhhot', note: '知乎热搜榜'},
+    { name: 'bdhot', note: '百度热搜榜',},
     { name: 'xmly', note: '喜马拉雅',},
-    { name: 'xxx', note: '', isAlive: '否',},
+    { name: 'ssphot', note: '少数派热榜'},
     { name: 'en', note: '希沃白板',},
-    { name: 'xxx', note: '', isAlive: '否',},
+    { name: 'bdsl', note: '百度收录'},
     { name: 'quark', note: '夸克网盘',},
     { name: 'huluxia', note: '葫芦侠3楼',},
-    { name: 'xxx', note: '', isAlive: '否',},
-    { name: 'xxx', note: '', isAlive: '否',},
+    { name: 'steamrank', note: 'steam游戏在线人数获取'},
+    { name: 'oneyan', note: '随机一句一言',},
     { name: 'ztebbs', note: '中兴社区',},
     { name: 'mi', note: '小米商城',},
     { name: 'kanxue', note: '看雪论坛',},
@@ -277,6 +277,22 @@ var subConfigOilprice = [
 ]
 
 
+// 定制化分配置表内容，bdsl
+var subConfigBdsl = [
+  ['cookie(默认20个)', '是否执行(是/否)', '账号名称(可不填写)', '域名'],
+  ['xxxxxxxx1', '是', '昵称1', 'github.com'],
+  ['xxxxxxxx2', '否', '昵称2', '']
+]
+
+// 定制化分配置表内容，steamrank
+var subConfigSteamrank = [
+  ['cookie(默认20个)', '是否执行(是/否)', '账号名称(可不填写)', 'appid'],
+  ['xxxxxxxx1', '是', '昵称1', '578080'],
+  ['xxxxxxxx2', '否', '昵称2', '']
+]
+
+
+
 // 定制化表
 var subConfig = {
   "ddmc"  : subConfigDdmc, 
@@ -295,6 +311,8 @@ var subConfig = {
   "qrcode" : subConfigQrcode,
   "weekplan" : subConfigWeekplan,
   "oilprice" : subConfigOilprice,
+  "bdsl" : subConfigBdsl,
+  "steamrank" : subConfigSteamrank,
 }
 // var mosaic = "xxxxxxxx" // 马赛克
 // var strFail = "否"
