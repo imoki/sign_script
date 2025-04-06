@@ -48,7 +48,7 @@ var configBody = [
     { name: 'ddmc_ddyt', note: '叮咚买菜-叮咚鱼塘',},
     { name: 'xxx', note: '', isAlive: '否',},
     { name: 'xxx', note: '', isAlive: '否',},
-    { name: 'xxx', note: '', isAlive: '否',},
+    { name: 'acfun', note: 'AcFun',},
     { name: 'xmly', note: '喜马拉雅',},
     { name: 'xxx', note: '', isAlive: '否',},
     { name: 'en', note: '希沃白板',},
@@ -106,6 +106,7 @@ var configBody = [
     { name: 'remind', note: '日期提醒工具',},
     { name: 'qrcode', note: '二维码生成工具',},
     { name: 'weekplan', note: '周安排工具',},
+    { name: 'todayhistory', note: '历史上的今天',},
 
     // { name: '（修改这里）', note: '（修改这里）',},  // 添加新增内容
 ];
