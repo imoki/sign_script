@@ -107,6 +107,7 @@ var configBody = [
     { name: 'qrcode', note: '二维码生成工具',},
     { name: 'weekplan', note: '周安排工具',},
     { name: 'todayhistory', note: '历史上的今天',},
+    { name: 'oilprice', note: '今日油价',},
 
     // { name: '（修改这里）', note: '（修改这里）',},  // 添加新增内容
 ];
@@ -270,6 +271,14 @@ var subConfigWeekplan = [
   ['xxxxxxxx2', '否', '昵称2', '', '', '', '', '', '', '', '', '',]
 ]
 
+// 定制化分配置表内容，oilprice
+var subConfigOilprice = [
+  ['cookie(默认20个)', '是否执行(是/否)', '账号名称(可不填写)', '地区'],
+  ['xxxxxxxx1', '是', '昵称1', '北京'],
+  ['xxxxxxxx2', '否', '昵称2', '']
+]
+
+
 // 定制化表
 var subConfig = {
   "ddmc"  : subConfigDdmc, 
@@ -287,6 +296,7 @@ var subConfig = {
   "remind" : subConfigRemind,
   "qrcode" : subConfigQrcode,
   "weekplan" : subConfigWeekplan,
+  "oilprice" : subConfigOilprice,
 }
 // var mosaic = "xxxxxxxx" // 马赛克
 // var strFail = "否"
