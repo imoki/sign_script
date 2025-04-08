@@ -85,9 +85,9 @@ var configBody = [
     { name: 'kyt', note: '科研通',},
     { name: 'parsdata', note: '伊朗域名注册优惠码',},
     { name: 'quarksave', note: '夸克订阅更新自动转存',},
-    { name: 'xxx', note: '', isAlive: '否',},
-    { name: 'xxx', note: '', isAlive: '否',},
-    { name: 'xxx', note: '', isAlive: '否',},
+    { name: 'dailynewscn', note: '中国日报',},
+    { name: 'telgsd', note: '手机号归属地',},
+    { name: 'dwz', note: '短网址生成'},
     { name: 'xxx', note: '', isAlive: '否',},
     { name: 'xpnc', note: '兴攀农场',},
     { name: 'xxx', note: '', isAlive: '否',},
@@ -295,6 +295,34 @@ var subConfigImgecy = [
   ['xxxxxxxx2', '否', '昵称2', '']
 ]
 
+// 定制化分配置表内容，imgbing
+var subConfigImgbing = [
+  ['cookie(默认20个)', '是否执行(是/否)', '账号名称(可不填写)', '图片(自动生成)'],
+  ['xxxxxxxx1', '是', '昵称1', ''],
+  ['xxxxxxxx2', '否', '昵称2', '']
+]
+
+// 定制化分配置表内容，imgavatar
+var subConfigImgavatar = [
+  ['cookie(默认20个)', '是否执行(是/否)', '账号名称(可不填写)', '图片(自动生成)'],
+  ['xxxxxxxx1', '是', '昵称1', ''],
+  ['xxxxxxxx2', '否', '昵称2', '']
+]
+
+// 定制化分配置表内容，imglandscape
+var subConfigImglandscape = [
+  ['cookie(默认20个)', '是否执行(是/否)', '账号名称(可不填写)', '图片(自动生成)'],
+  ['xxxxxxxx1', '是', '昵称1', ''],
+  ['xxxxxxxx2', '否', '昵称2', '']
+]
+
+// 定制化分配置表内容，imgphone
+var subConfigImgphone = [
+  ['cookie(默认20个)', '是否执行(是/否)', '账号名称(可不填写)', '图片(自动生成)'],
+  ['xxxxxxxx1', '是', '昵称1', ''],
+  ['xxxxxxxx2', '否', '昵称2', '']
+]
+
 // 定制化分配置表内容，telsaorao
 var subConfigTelsaorao = [
   ['cookie(默认20个)', '是否执行(是/否)', '账号名称(可不填写)', '手机号','检测报告(自动生成)'],
@@ -305,6 +333,20 @@ var subConfigTelsaorao = [
 // 定制化分配置表内容，favicon
 var subConfigFavicon = [
   ['cookie(默认20个)', '是否执行(是/否)', '账号名称(可不填写)', '域名','网站图标(自动生成)'],
+  ['xxxxxxxx1', '是', '昵称1', 'github.com', ''],
+  ['xxxxxxxx2', '否', '昵称2', '', '']
+]
+
+// 定制化分配置表内容，telgsd
+var subConfigTelgsd = [
+  ['cookie(默认20个)', '是否执行(是/否)', '账号名称(可不填写)', '手机号','归属地(自动生成)'],
+  ['xxxxxxxx1', '是', '昵称1', '', ''],
+  ['xxxxxxxx2', '否', '昵称2', '', '']
+]
+
+// 定制化分配置表内容，dwz
+var subConfigDwz = [
+  ['cookie(默认20个)', '是否执行(是/否)', '账号名称(可不填写)', '域名','短网址(自动生成)'],
   ['xxxxxxxx1', '是', '昵称1', 'github.com', ''],
   ['xxxxxxxx2', '否', '昵称2', '', '']
 ]
@@ -330,8 +372,14 @@ var subConfig = {
   "xingzuo" : subConfigXingzuo,
   "wangzhe" : subConfigWangzhe,
   "imgecy" : subConfigImgecy,
+  "imgbing" : subConfigImgbing,
+  "imgavatar" : subConfigImgavatar,
+  "imglandscape" : subConfigImglandscape,
+  "imgphone" : subConfigImgphone,
   "telsaorao" : subConfigTelsaorao,
   "favicon" : subConfigFavicon,
+  "telgsd" : subConfigTelgsd,
+  "dwz" : subConfigDwz,
 }
 // var mosaic = "xxxxxxxx" // 马赛克
 // var strFail = "否"
