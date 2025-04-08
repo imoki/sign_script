@@ -81,7 +81,7 @@ var configBody = [
     { name: 'miyu', note: '谜语', },
     { name: 'telsaorao', note: '骚扰电话查询',},
     { name: 'favicon', note: '网站图标获取',},
-    { name: 'xxx', note: '', isAlive: '否',},
+    { name: 'imgphone', note: '随机手机壁纸',},
     { name: 'kyt', note: '科研通',},
     { name: 'parsdata', note: '伊朗域名注册优惠码',},
     { name: 'quarksave', note: '夸克订阅更新自动转存',},
