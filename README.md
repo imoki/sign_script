@@ -99,11 +99,20 @@
     <a style="text-align: center;">
         <img src="https://s21.ax1x.com/2025/04/06/pEcumwV.jpg" width="50" height="50" style="border-radius: 50%; margin: 10px;">
     </a>
+    <a style="text-align: center;">
+        <img src="https://s21.ax1x.com/2025/04/07/pEccHDs.jpg" width="50" height="50" style="border-radius: 50%; margin: 10px;">
+    </a>
+    <a style="text-align: center;">
+        <img src="https://s21.ax1x.com/2025/04/07/pEccbbn.md.jpg" width="50" height="50" style="border-radius: 50%; margin: 10px;">
+    </a>
+    <a style="text-align: center;">
+        <img src="https://s21.ax1x.com/2025/04/07/pEcc7uj.jpg" width="50" height="50" style="border-radius: 50%; margin: 10px;">
+    </a>
 </div>
 <!--
 ## ⚠ 请遵循以下几点来使用
-1. 可以点击star收藏支持，但请**不要点击fork**，若希望参与项目开发，可以fork。  
-2. 除项目贡献者外，请**不要fork**。  
+1. 欢迎点击star收藏支持，但请**不要点击fork**。  
+2. 若希望参与项目开发，欢迎fork。  
 3. 请**不要自建公开仓库**上传本仓库代码。  
 4. 感谢遵循以上几点的各位  
 -->
