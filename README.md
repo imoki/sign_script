@@ -12,6 +12,9 @@
         <img src="https://avatars.githubusercontent.com/u/80245716?v=4" width="50" height="50" style="border-radius:50%; margin:10px;">
 <!--         <p style="display: inline-block; margin: 0;">Wawmb</p> -->
     </a>
+    <a href="https://space.bilibili.com/473278350/" style="text-align: center;">
+        <img src="https://i1.hdslb.com/bfs/face/1d433d7c2d02d04b67b2102928d1c7c24d22f430.jpg" width="50" height="50" style="border-radius: 50%; margin: 10px;">
+    </a>
     <a href="https://github.com/codebhc" style="text-align: center;">
         <img src="https://avatars.githubusercontent.com/u/176098738?v=4" width="50" height="50" style="border-radius:50%; margin:10px;">
 <!--         <p style="display: inline-block; margin: 0;">codebhc</p> -->
@@ -24,23 +27,11 @@
         <img src="https://avatars.githubusercontent.com/u/88357633" width="50" height="50" style="border-radius: 50%; margin: 10px;">
 <!--         <p style="display: inline-block; margin: 0;">SunWuyuan</p> -->
     </a>
-    <a href="https://space.bilibili.com/473278350/" style="text-align: center;">
-        <img src="https://i1.hdslb.com/bfs/face/1d433d7c2d02d04b67b2102928d1c7c24d22f430.jpg" width="50" height="50" style="border-radius: 50%; margin: 10px;">
-    </a>
     <a href="https://github.com/darkbfly" style="text-align: center;">
         <img src="https://avatars.githubusercontent.com/u/9347954" width="50" height="50" style="border-radius: 50%; margin: 10px;">
     </a>
     <a style="text-align: center;">
-        <img src="https://s21.ax1x.com/2025/04/05/pE6O8rq.jpg" width="50" height="50" style="border-radius: 50%; margin: 10px;">
-    </a>
-    <a style="text-align: center;">
         <img src="https://s21.ax1x.com/2025/04/05/pE6O3Mn.jpg" width="50" height="50" style="border-radius: 50%; margin: 10px;">
-    </a>
-    <a style="text-align: center;">
-        <img src="https://s21.ax1x.com/2025/04/05/pE6XhkT.jpg" width="50" height="50" style="border-radius: 50%; margin: 10px;">
-    </a>
-    <a style="text-align: center;">
-        <img src="https://s21.ax1x.com/2025/04/05/pE6XR00.jpg" width="50" height="50" style="border-radius: 50%; margin: 10px;">
     </a>
     <a style="text-align: center;">
         <img src="https://s21.ax1x.com/2025/04/05/pE6XW7V.md.jpg" width="50" height="50" style="border-radius: 50%; margin: 10px;">
@@ -49,19 +40,37 @@
         <img src="https://s21.ax1x.com/2025/04/05/pE6X5hF.jpg" width="50" height="50" style="border-radius: 50%; margin: 10px;">
     </a>
     <a style="text-align: center;">
+        <img src="https://s21.ax1x.com/2025/04/05/pE6XR00.jpg" width="50" height="50" style="border-radius: 50%; margin: 10px;">
+    </a>
+    <a style="text-align: center;">
+        <img src="https://s21.ax1x.com/2025/04/05/pE6XhkT.jpg" width="50" height="50" style="border-radius: 50%; margin: 10px;">
+    </a>
+    <a style="text-align: center;">
+        <img src="https://s21.ax1x.com/2025/04/05/pE6O8rq.jpg" width="50" height="50" style="border-radius: 50%; margin: 10px;">
+    </a>
+    <a style="text-align: center;">
         <img src="https://s21.ax1x.com/2025/04/05/pE6Xop4.md.jpg" width="50" height="50" style="border-radius: 50%; margin: 10px;">
     </a>
     <a style="text-align: center;">
         <img src="https://s21.ax1x.com/2025/04/05/pE6X4tU.md.jpg" width="50" height="50" style="border-radius: 50%; margin: 10px;">
     </a>
     <a style="text-align: center;">
+        <img src="https://s21.ax1x.com/2025/04/07/pEccHDs.jpg" width="50" height="50" style="border-radius: 50%; margin: 10px;">
+    </a>
+    <a style="text-align: center;">
+        <img src="https://s21.ax1x.com/2025/04/07/pEccbbn.md.jpg" width="50" height="50" style="border-radius: 50%; margin: 10px;">
+    </a>
+    <a style="text-align: center;">
+        <img src="https://s21.ax1x.com/2025/04/07/pEcc7uj.jpg" width="50" height="50" style="border-radius: 50%; margin: 10px;">
+    </a>
+    <a style="text-align: center;">
+        <img src="https://s21.ax1x.com/2025/04/08/pEgAgpR.jpg" width="50" height="50" style="border-radius: 50%; margin: 10px;">
+    </a>
+    <a style="text-align: center;">
         <img src="https://i.ibb.co/Vpqz5pGy/9.jpg" width="50" height="50" style="border-radius: 50%; margin: 10px;">
     </a>
     <a style="text-align: center;">
         <img src="https://i.ibb.co/j982QxGx/10.jpg" width="50" height="50" style="border-radius: 50%; margin: 10px;">
-    </a>
-    <a style="text-align: center;">
-        <img src="https://s21.ax1x.com/2025/04/08/pEgAgpR.jpg" width="50" height="50" style="border-radius: 50%; margin: 10px;">
     </a>
     <a style="text-align: center;">
         <img src="https://i.ibb.co/4rT0Pxs/12.jpg" width="50" height="50" style="border-radius: 50%; margin: 10px;">
@@ -99,15 +108,6 @@
     <a style="text-align: center;">
         <img src="https://s21.ax1x.com/2025/04/06/pEcumwV.jpg" width="50" height="50" style="border-radius: 50%; margin: 10px;">
     </a>
-    <a style="text-align: center;">
-        <img src="https://s21.ax1x.com/2025/04/07/pEccHDs.jpg" width="50" height="50" style="border-radius: 50%; margin: 10px;">
-    </a>
-    <a style="text-align: center;">
-        <img src="https://s21.ax1x.com/2025/04/07/pEccbbn.md.jpg" width="50" height="50" style="border-radius: 50%; margin: 10px;">
-    </a>
-    <a style="text-align: center;">
-        <img src="https://s21.ax1x.com/2025/04/07/pEcc7uj.jpg" width="50" height="50" style="border-radius: 50%; margin: 10px;">
-    </a>
 </div>
 <!--
 ## ⚠ 请遵循以下几点来使用
@@ -119,7 +119,7 @@
 
 ## 📖 简介
 1. 低代码配置系统:通过表格驱动设计实现零编码脚本管理。 
-2. 多版本兼容架构:采用适配器模式同时支持 Airscript 1.0/2.0 环境，具备较强 兼容性。 
+2. 多版本兼容架构:采用适配器模式同时支持 Airscript 1.0/2.0 环境，具备较强兼容性。 
 3. 多表管理框架:设计了多表配置结构和管理方式，使项目具备智能生成初始表格配置、配置动态更新、多表统一管理、多渠道消息推送等能力。   
 
 ## 📌 特别声明
