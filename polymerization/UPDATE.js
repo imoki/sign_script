@@ -55,7 +55,7 @@ var configBody = [
     { name: 'bdsl', note: '百度收录',},
     { name: 'quark', note: '夸克网盘',},
     { name: 'huluxia', note: '葫芦侠3楼',},
-    { name: 'steamrank', note: 'steam游戏在线人数获取'},
+    { name: 'steamrank', note: 'steam游戏在线人数'},
     { name: 'oneyan', note: '随机一句一言',},
     { name: 'ztebbs', note: '中兴社区',},
     { name: 'mi', note: '小米商城',},
@@ -361,8 +361,8 @@ var subConfigFjzh = [
 // 定制化分配置表内容，lnglat
 var subConfigLnglat = [
   ['cookie(默认20个)', '是否执行(是/否)', '账号名称(可不填写)', '经度', '纬度','结果(自动生成)'],
-  ['xxxxxxxx1', '是', '昵称1', '', ''],
-  ['xxxxxxxx2', '否', '昵称2', '', '']
+  ['xxxxxxxx1', '是', '昵称1', '', '', ''],
+  ['xxxxxxxx2', '否', '昵称2', '', '', '']
 ]
 
 // 定制化表
