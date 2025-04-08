@@ -4,7 +4,7 @@
     脚本兼容: 金山文档（1.0）
     更新时间：20250311
     环境变量名：deepseek
-    环境变量值：填写阿里云百炼平台的Authorization
+    环境变量值：填写阿里云百炼平台的API-KEY
 */
 
 const logo = "艾默库 : https://github.com/imoki/sign_script"    // 仓库地址

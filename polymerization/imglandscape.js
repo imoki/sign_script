@@ -1,18 +1,15 @@
 /*
-    name: "海底捞"
+    name: "随机风景图片"
     cron: 45 0 9 * * *
     脚本兼容: 金山文档（1.0），金山文档（2.0）
-    更新时间：20241024
-    环境变量名：hdl
-    环境变量值：openId#uid
-    备注：签到。抓小程序的包。
-          url为：https://superapp-public.kiwa-tech.com/api/gateway/login/center/login/wechatLogin 
-          将请求体中的openId、uid填到表格中
+    更新时间：20240408
+    环境变量名：imglandscape
+    环境变量值：无（修改这里）
 */
 
 const logo = "艾默库 : https://github.com/imoki/sign_script"    // 仓库地址
-var sheetNameSubConfig = "hdl"; // 分配置表名称， （修改这里）
-var pushHeader = "海底捞";    // （修改这里）
+var sheetNameSubConfig = "imglandscape"; // 分配置表名称， （修改这里）
+var pushHeader = "【随机风景图片】";    // （修改这里）
 var sheetNameConfig = "CONFIG"; // 总配置表
 var sheetNamePush = "PUSH"; // 推送表名称
 var sheetNameEmail = "EMAIL"; // 邮箱表
@@ -27,8 +24,6 @@ var messageNickname = 0; // 1为推送位置标识（昵称/单元格Ax（昵称
 var messageHeader = []; // 存放每个消息的头部，如：单元格A3。目的是分离附加消息和执行结果消息
 var messagePushHeader = pushHeader; // 存放在总消息的头部，默认是pushHeader,如：【xxxx】
 var version = 1 // 版本类型，自动识别并适配。默认为airscript 1.0，否则为2.0（Beta）
-
-var openId = ""
 
 var jsonPush = [
   { name: "bark", key: "xxxxxx", flag: "0" },
@@ -111,6 +106,38 @@ function writeMessageQueue(message){
       }
       
     }
+  }
+}
+
+// 直推，调用就直接就进行推送
+function pushDirect(message) {
+  console.log("✨ 推送直推")
+  if (message != "") {
+    // message = messagePushHeader + message // 消息头最前方默认存放：【xxxx】
+    let length = jsonPush.length;
+    let name;
+    let key;
+    for (let i = 0; i < length; i++) {
+      if (jsonPush[i].flag == 1) {
+        name = jsonPush[i].name;
+        key = jsonPush[i].key;
+        if (name == "bark") {
+          bark(message, key);
+        } else if (name == "pushplus") {
+          pushplus(message, key);
+        } else if (name == "ServerChan") {
+          serverchan(message, key);
+        } else if (name == "email") {
+          email(message);
+        } else if (name == "dingtalk") {
+          dingtalk(message, key);
+        } else if (name == "discord") {
+          discord(message, key);
+        }
+      }
+    }
+  } else {
+    console.log("🍳 消息为空不推送");
   }
 }
 
@@ -355,7 +382,7 @@ function discord(message, key) {
               }
           }   
           message = messageMerge()// 将消息数组融合为一条总消息
-          push(message); // 推送消息
+          // push(message); // 推送消息
       }else{
           for (let i = 2; i <= line; i++) {
               var cookie = Application.Range("A" + i).Text;
@@ -438,42 +465,72 @@ function getsign(data) {
     return sign;
 }
 
-// 获取sign，返回大写
-function getsignUpperCase(data) {
-    var sign = Crypto.createHash("md5")
-        .update(data, "utf8")
-        .digest("hex")
-        .toUpperCase() // 大写
-        .toString();
-    return sign;
-}
-
 // =================共用结束===================
 
-function resultHandle(_0x13b21a,_0xaaa994){posHttp+=0xb397d^0xb397c;let _0x271498="";let _0x46020e="";let _0x361196="";if(messageNickname==(0x39295^0x39294)){_0x361196=Application["\u0052\u0061\u006e\u0067\u0065"]("\u0043"+_0xaaa994)["\u0054\u0065\u0078\u0074"];if(_0x361196=="".split("").reverse().join("")){_0x361196="A\u683C\u5143\u5355".split("").reverse().join("")+_0xaaa994+"".split("").reverse().join("");}}posLabel=_0xaaa994-(0x8afcb^0x8afc9);messageHeader[posLabel]=" \uDE80\uD83D\u200D\uDC68\uD83D".split("").reverse().join("")+_0x361196;_0x13b21a=_0x13b21a["\u006a\u0073\u006f\u006e"]();respcode=_0x13b21a['code'];if(respcode==0x186a0){sleep(0x75df3^0x75a23);url="yreuq/ningis/ppaxw/ytivitca/moc.hcet-awik.cilbup-pparepus//:sptth".split("").reverse().join("");token=_0x13b21a["\u0064\u0061\u0074\u0061"]['token'];headers['_HAIDILAO_APP_TOKEN']=token;data={};_0x13b21a=HTTP['post'](url,JSON["\u0073\u0074\u0072\u0069\u006e\u0067\u0069\u0066\u0079"](data),{"\u0068\u0065\u0061\u0064\u0065\u0072\u0073":headers});_0x13b21a=_0x13b21a['json']();signinOr=_0x13b21a["\u0064\u0061\u0074\u0061"]['signinOr'];activityName=_0x13b21a['data']["\u0061\u0063\u0074\u0069\u0076\u0069\u0074\u0079\u004e\u0061\u006d\u0065"];content=" \u2728".split("").reverse().join("")+activityName+'\x20';_0x271498+=content;console["\u006c\u006f\u0067"](content);if(signinOr==(0xe7587^0xe7587)){url="ningis/ningis/ppaxw/ytivitca/moc.hcet-awik.cilbup-pparepus//:sptth".split("").reverse().join("");data={'signinSourcei':'MiniApp'};_0x13b21a=HTTP['post'](url,JSON["\u0073\u0074\u0072\u0069\u006e\u0067\u0069\u0066\u0079"](data),{"\u0068\u0065\u0061\u0064\u0065\u0072\u0073":headers});_0x13b21a=_0x13b21a['json']();console['log'](_0x13b21a);respcode=_0x13b21a['code'];if(respcode=="ko".split("").reverse().join("")){signinQueryDetailList=_0x13b21a["\u0064\u0061\u0074\u0061"]['signinQueryDetailList'];if(signinQueryDetailList["\u006c\u0065\u006e\u0067\u0074\u0068"]===(0x29072^0x29072)){content="\n\u8D25\u5931\u5230\u7B7E \u274C".split("").reverse().join("");_0x46020e+=content;console["\u006c\u006f\u0067"](content);}else{fragment=signinQueryDetailList[0x5758d^0x5758d]['fragment'];fragmentSeries=signinQueryDetailList[0xb5b29^0xb5b29]["\u0066\u0072\u0061\u0067\u006d\u0065\u006e\u0074\u0053\u0065\u0072\u0069\u0065\u0073"];dishes=signinQueryDetailList[0xd52a0^0xd52a0]["\u0064\u0069\u0073\u0068\u0065\u0073"];console["\u006c\u006f\u0067"](dishes);if(dishes=="]tcejbO tcejbo[".split("").reverse().join("")){content='🎉\x20签到成功，获得🧩碎片'+fragment+'，🎁奖励'+fragmentSeries+'\x0a';}else{content='🎉\x20签到成功，获得🧩碎片'+fragment+'，🎁奖励'+fragmentSeries+'菜品'+dishes+'\x0a';}_0x46020e+=content;console['log'](content);}}else{content='❌\x20签到失败\x0a';_0x46020e+=content;console["\u006c\u006f\u0067"](content);}}else{content="\u4E86\u8FC7\u5230\u7B7E\u5DF2 \uDCE2\uD83D".split("").reverse().join("")+'\x0a';_0x46020e+=content;console["\u006c\u006f\u0067"](content);}sleep(0xe4036^0xe47e6);url='https://superapp-public.kiwa-tech.com/activity/wxapp/signin/queryFragment';_0x13b21a=HTTP["\u0070\u006f\u0073\u0074"](url,JSON['stringify'](data),{'headers':headers});_0x13b21a=_0x13b21a["\u006a\u0073\u006f\u006e"]();console["\u006c\u006f\u0067"](_0x13b21a);total=_0x13b21a['data']['total'];expireDate=_0x13b21a["\u0064\u0061\u0074\u0061"]["\u0065\u0078\u0070\u0069\u0072\u0065\u0044\u0061\u0074\u0065"];content="\u6570\u603B\u7247\u788E \uDDE9\uD83E".split("").reverse().join("")+total+":\u95F4\u65F6\u675F\u7ED3\u52A8\u6D3B\u2728\uFF0C".split("").reverse().join("")+expireDate+'\x0a';_0x271498+=content;console["\u006c\u006f\u0067"](content);}else{content='❌\x20登录失败';_0x46020e+=content;console["\u006c\u006f\u0067"](content);}flagResultFinish=0x9d2a5^0x9d2a4;if(messageOnlyError==(0x4035b^0x4035a)){messageArray[posLabel]=_0x46020e;}else{if(_0x46020e!="".split("").reverse().join("")){messageArray[posLabel]=_0x46020e+'\x20'+_0x271498;}else{messageArray[posLabel]=_0x271498;}}if(messageArray[posLabel]!=""){console['log'](messageArray[posLabel]);}return flagResultFinish;}function execHandle(_0x2822e2,_0x557d96){posHttp=0x0;qlpushFlag-=0x99b9e^0x99b9f;messageSuccess='';messageFail='';openId=_0x2822e2;uid=Application["\u0052\u0061\u006e\u0067\u0065"]("\u0044"+_0x557d96)["\u0054\u0065\u0078\u0074"];url="\u0068\u0074\u0074\u0070\u0073\u003a\u002f\u002f\u0073\u0075\u0070\u0065\u0072\u0061\u0070\u0070\u002d\u0070\u0075\u0062\u006c\u0069\u0063\u002e\u006b\u0069\u0077\u0061\u002d\u0074\u0065\u0063\u0068\u002e\u0063\u006f\u006d\u002f\u0061\u0070\u0069\u002f\u0067\u0061\u0074\u0065\u0077\u0061\u0079\u002f\u006c\u006f\u0067\u0069\u006e\u002f\u0063\u0065\u006e\u0074\u0065\u0072\u002f\u006c\u006f\u0067\u0069\u006e\u002f\u0077\u0065\u0063\u0068\u0061\u0074\u004c\u006f\u0067\u0069\u006e";headers={'content-type':"\u0061\u0070\u0070\u006c\u0069\u0063\u0061\u0074\u0069\u006f\u006e\u002f\u006a\u0073\u006f\u006e","\u0061\u0070\u0070\u0049\u0064":0xf,'appVersion':"\u0033\u002e\u0031\u0030\u0039\u002e\u0030",'appName':"\u0048\u0044\u004c\u004d\u0065\u006d\u0062\u0065\u0072","\u0052\u0065\u0066\u0065\u0072\u0065\u0072":'https://servicewechat.com/wx1ddeb67115f30d1a/185/page-frame.html','_HAIDILAO_APP_TOKEN':''};data={"\u0074\u0079\u0070\u0065":0x1,'country':"\u0043\u004e","\u0063\u006f\u0064\u0065\u0054\u0079\u0070\u0065":0x1,'business':'登录','terminal':"\u4f1a\u5458\u5c0f\u7a0b\u5e8f","\u006f\u0070\u0065\u006e\u0049\u0064":openId,"\u0075\u0069\u0064":uid};resp=HTTP["\u0070\u006f\u0073\u0074"](url,JSON["\u0073\u0074\u0072\u0069\u006e\u0067\u0069\u0066\u0079"](data),{'headers':headers});if(qlSwitch!=(0x43522^0x43523)){resultHandle(resp,_0x557d96);}}
+// 直接推送
+// 结果处理函数
+function resultHandle(resp, pos){
+    // 每次进来resultHandle则加一次请求
+    posHttp += 1    // 青龙适配，青龙微适配
 
-// cookie字符串转json格式, aaa=111&bbb=222&ccc=333
-function cookie_to_json(cookies) {
-  var cookie_text = cookies;
-  var arr = [];
-  var text_to_split = cookie_text.split("&");
-  for (var i in text_to_split) {
-    var tmp = text_to_split[i].split("=");
-    arr.push('"' + tmp.shift().trim() + '":"' + tmp.join(":").trim() + '"');
-  }
-  var res = "{\n" + arr.join(",\n") + "\n}";
-  return JSON.parse(res);
+    let messageSuccess = "";
+    let messageFail = "";
+    let messageName = "";
+    // 推送昵称或单元格，还是不推送位置标识
+    if (messageNickname == 1) {
+        // 推送昵称或单元格
+        messageName = Application.Range("C" + pos).Text;
+        if(messageName == "")
+        {
+            messageName = "单元格A" + pos + "";
+        }
+    }
+    posLabel = pos-2 ;  // 存放下标，从0开始
+    messageHeader[posLabel] = "👨‍🚀 " + messageName
+    // console.log(messageName)
+
+    let url = "https://api.71xk.com/api/picture/v3"
+    resp = HTTP.fetch(url, {
+        method: "get",
+        headers: {},
+        // data: data
+    });
+
+    resp = resp.binary().toString('base64')
+    // console.log(resp)
+    let qrcodeImage = 'data:image/png;base64,' + resp
+    // console.log(resp)
+    const range = Range('D' + pos)
+    // 向目标单元格插入图片
+    range.InsertImage(
+      qrcodeImage
+    )
+    console.log("✨ 获取成功" )
+    // message = "" 
+    // pushDirect(message)
+
+
+    // 青龙适配，青龙微适配
+    flagResultFinish = 1; // 签到结束
+
+    sleep(2000);
+
+
+  return flagResultFinish
 }
 
-// 获取10 位时间戳
-function getts10() {
-  var ts = Math.round(new Date().getTime() / 1000).toString();
-  return ts;
-}
+// 具体的执行函数
+function execHandle(cookie, pos) {
+    // 清零操作，保证不同用户的消息的独立
+    // 青龙适配，青龙微适配
+    posHttp = 0 // 置空请求
+    qlpushFlag -= 1 // 一个用户只会执行一次execHandle，因此可用于记录当前用户
+    messageSuccess = "";
+    messageFail = "";
 
-// 获取13位时间戳
-function getts13(){
-  // var ts = Math.round(new Date().getTime()/1000).toString()  // 获取10 位时间戳
-  let ts = new Date().getTime()
-  return ts
+    resp = ""
+
+    if(qlSwitch != 1){  // 选择金山文档
+        resultHandle(resp, pos)
+    }
 }

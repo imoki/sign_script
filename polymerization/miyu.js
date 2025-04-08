@@ -1,16 +1,15 @@
 /*
-    name: "二维码生成"
+    name: "谜语"
     cron: 45 0 9 * * *
     脚本兼容: 金山文档（1.0），金山文档（2.0）
-    更新时间：20240405
-    环境变量名：qrcode（修改这里）
+    更新时间：20240406
+    环境变量名：miyu
     环境变量值：无（修改这里）
-    备注：二维码生成工具
 */
 
 const logo = "艾默库 : https://github.com/imoki/sign_script"    // 仓库地址
-var sheetNameSubConfig = "qrcode"; // 分配置表名称， （修改这里）
-var pushHeader = "【二维码生成】";    // （修改这里）
+var sheetNameSubConfig = "miyu"; // 分配置表名称， （修改这里）
+var pushHeader = "【谜语】";    // （修改这里）
 var sheetNameConfig = "CONFIG"; // 总配置表
 var sheetNamePush = "PUSH"; // 推送表名称
 var sheetNameEmail = "EMAIL"; // 邮箱表
@@ -383,7 +382,7 @@ function discord(message, key) {
               }
           }   
           message = messageMerge()// 将消息数组融合为一条总消息
-          // push(message); // 推送消息
+          push(message); // 推送消息
       }else{
           for (let i = 2; i <= line; i++) {
               var cookie = Application.Range("A" + i).Text;
@@ -487,39 +486,40 @@ function resultHandle(resp, pos){
         }
     }
     posLabel = pos-2 ;  // 存放下标，从0开始
-    messageHeader[posLabel] = "👨‍🚀 " + messageName
+    // messageHeader[posLabel] = "👨‍🚀 " + messageName
+     messageHeader[posLabel] = ""
     // console.log(messageName)
 
-    
-    let qrcodeContent = Range('D'+pos).Value2
-    // console.log(qrcodeContent)
-
-    let url = "https://api.pwmqr.com/qrcode/create/?url=" + qrcodeContent;
+    input = Range("D" + pos).Value2
+    let url = "https://api.71xk.com/api/miyu"
     resp = HTTP.fetch(url, {
         method: "get",
         headers: {},
         // data: data
     });
-
-    resp = resp.binary().toString('base64')
-    let qrcodeImage = 'data:image/png;base64,' + resp
+    resp = resp.text()
     // console.log(resp)
-    const range = Range('E' + pos)
-    // 向目标单元格插入图片
-    range.InsertImage(
-      qrcodeImage
-    )
-    console.log("✨ 二维码已生成" )
-    // message = "二维码已生成" 
-    // pushDirect(message)
-
-
+    content = resp
+    messageSuccess += content
 
     // 青龙适配，青龙微适配
     flagResultFinish = 1; // 签到结束
 
-    sleep(2000);
+  sleep(2000);
+  if (messageOnlyError == 1) {
+    messageArray[posLabel] =  messageFail;
+  } else {
+      if(messageFail != ""){
+        messageArray[posLabel] = messageFail + " " + messageSuccess;
+      }else{
+        messageArray[posLabel] = messageSuccess;
+      }
+  }
 
+  // if(messageArray[posLabel] != "")
+  // {
+  //   console.log(messageArray[posLabel]);
+  // }
 
   return flagResultFinish
 }

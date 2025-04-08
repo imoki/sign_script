@@ -1,17 +1,15 @@
 /*
-    name: "钉钉AI"
-    cron: 10 0 16 * * *
-    脚本兼容: 金山文档（1.0），金山文档（2.0）， 青龙
-    更新时间：20241226
-    环境变量名：ddai
-    环境变量值：填写cookie
-    备注：需要Cookie。
-          抓包工具抓取所需的值，钉钉首页左上角有个切换个人空间，里面有AI签到领算粒，在这附近或签到时抓的cookie都行。
+    name: "Bing每日图片"
+    cron: 45 0 9 * * *
+    脚本兼容: 金山文档（1.0），金山文档（2.0）
+    更新时间：20240408
+    环境变量名：imgbing
+    环境变量值：无（修改这里）
 */
 
 const logo = "艾默库 : https://github.com/imoki/sign_script"    // 仓库地址
-var sheetNameSubConfig = "ddai"; // 分配置表名称（修改这里，这里填表的名称，需要和UPDATE文件中的一致，自定义的）
-var pushHeader = "【钉钉AI】";    //（修改这里，这里给自己看的，随便填）
+var sheetNameSubConfig = "imgbing"; // 分配置表名称， （修改这里）
+var pushHeader = "【Bing每日图片】";    // （修改这里）
 var sheetNameConfig = "CONFIG"; // 总配置表
 var sheetNamePush = "PUSH"; // 推送表名称
 var sheetNameEmail = "EMAIL"; // 邮箱表
@@ -26,8 +24,6 @@ var messageNickname = 0; // 1为推送位置标识（昵称/单元格Ax（昵称
 var messageHeader = []; // 存放每个消息的头部，如：单元格A3。目的是分离附加消息和执行结果消息
 var messagePushHeader = pushHeader; // 存放在总消息的头部，默认是pushHeader,如：【xxxx】
 var version = 1 // 版本类型，自动识别并适配。默认为airscript 1.0，否则为2.0（Beta）
-var messageSuccess = "";
-var messageFail = "";
 
 var jsonPush = [
   { name: "bark", key: "xxxxxx", flag: "0" },
@@ -110,6 +106,38 @@ function writeMessageQueue(message){
       }
       
     }
+  }
+}
+
+// 直推，调用就直接就进行推送
+function pushDirect(message) {
+  console.log("✨ 推送直推")
+  if (message != "") {
+    // message = messagePushHeader + message // 消息头最前方默认存放：【xxxx】
+    let length = jsonPush.length;
+    let name;
+    let key;
+    for (let i = 0; i < length; i++) {
+      if (jsonPush[i].flag == 1) {
+        name = jsonPush[i].name;
+        key = jsonPush[i].key;
+        if (name == "bark") {
+          bark(message, key);
+        } else if (name == "pushplus") {
+          pushplus(message, key);
+        } else if (name == "ServerChan") {
+          serverchan(message, key);
+        } else if (name == "email") {
+          email(message);
+        } else if (name == "dingtalk") {
+          dingtalk(message, key);
+        } else if (name == "discord") {
+          discord(message, key);
+        }
+      }
+    }
+  } else {
+    console.log("🍳 消息为空不推送");
   }
 }
 
@@ -354,7 +382,7 @@ function discord(message, key) {
               }
           }   
           message = messageMerge()// 将消息数组融合为一条总消息
-          push(message); // 推送消息
+          // push(message); // 推送消息
       }else{
           for (let i = 2; i <= line; i++) {
               var cookie = Application.Range("A" + i).Text;
@@ -439,6 +467,70 @@ function getsign(data) {
 
 // =================共用结束===================
 
-function resultHandle(resp,pos,_0x7cd5b){posHttp+=597534^597535;var _0xb64dcg;_0x7cd5b="";_0xb64dcg=(724590^724590)+(598541^598536);if(messageNickname==(596755^596754)){_0x7cd5b=Application['\u0052\u0061\u006E\u0067\u0065']("\u0043"+pos)['\u0054\u0065\u0078\u0074'];if(_0x7cd5b==""){_0x7cd5b="\u5355\u5143\u683C\u0041"+pos+"";}}posLabel=pos-(776781^776783);messageHeader[posLabel]=" \uDE80\uD83D\u200D\uDC68\uD83D".split("").reverse().join("")+_0x7cd5b;flagRedeemReward=131578^131578;if(posHttp==(544904^544905)||qlSwitch!=(764910^764911)){resp=resp['\u006A\u0073\u006F\u006E']();code=resp["code"];respmsg=resp["\u006D\u0065\u0073\u0073\u0061\u0067\u0065"];if(code==(767512^767472)){content="\uD83C\uDF89\u0020"+"\u7B7E\u5230"+respmsg+"\u0020";messageSuccess+=content;url="sdraweRteg/nIkcehc/1v/moc.klatgnid.ialow-ipa//:sptth".split("").reverse().join("");resp=HTTP['\u0067\u0065\u0074'](url,{'\u0068\u0065\u0061\u0064\u0065\u0072\u0073':headers});}else if(code==(803956^804766)){content="\uD83D\uDCE2\u0020"+respmsg+"\u0020";messageSuccess+=content;flagResultFinish=646766^646767;}else{content="\u274C\u0020"+respmsg+"\u0020";messageFail+=content;flagResultFinish=606850^606851;}}if(posHttp==(778366^778364)||qlSwitch!=(844643^844642)){try{resp=resp['\u006A\u0073\u006F\u006E']();code=resp["code"];respmsg=resp["message"];var _0x48e=813680^813681;var _0x_0x6a4=411746^411746;var _0x132f8c=439124^439124;if(code==(854355^854715)){rewards=resp["\u0064\u0061\u0074\u0061"]["rewards"];for(j=789894^789894;j<rewards['\u006C\u0065\u006E\u0067\u0074\u0068'];j++){rewards_level=rewards[j]["\u0072\u0065\u0077\u0061\u0072\u0064\u0073\u005F\u006C\u0065\u0076\u0065\u006C"];_0x48e=rewards[j]["rewards_status"];if(_0x48e==(421327^421327)&&rewards_level==(484888^484889)){_0x_0x6a4=rewards[j]["\u0072\u0065\u0077\u0061\u0072\u0064\u0073\u005F\u0069\u0064"];_0x132f8c=rewards[j]["rewards_in"];break;}}console['\u006C\u006F\u0067']("\uD83C\uDF73\u0020\u0072\u0065\u0077\u0061\u0072\u0064\u0073\u005F\u0069\u0064\u003A"+_0x_0x6a4+":ni_sdrawer ".split("").reverse().join("")+_0x132f8c);}else{content="\u26D4\u0020"+respmsg+"\u0020";messageFail+=content;}if(_0x48e==(383158^383158)){if(_0x_0x6a4!=(642643^642643)&&_0x132f8c!=(885597^885597)){console['\u006C\u006F\u0067']("\u52B1\u5956\u53D6\u9886\u59CB\u5F00\uFF0C\u53D6\u9886\u672A\u52B1\u5956\u6709 \uDF73\uD83C".split("").reverse().join(""));url="\u0068\u0074\u0074\u0070\u0073\u003A\u002F\u002F\u0061\u0070\u0069\u002D\u0077\u006F\u006C\u0061\u0069\u002E\u0064\u0069\u006E\u0067\u0074\u0061\u006C\u006B\u002E\u0063\u006F\u006D\u002F\u0076\u0031\u002F\u0063\u0068\u0065\u0063\u006B\u0049\u006E\u002F\u0072\u0065\u0064\u0065\u0065\u006D\u0052\u0065\u0077\u0061\u0072\u0064";data={"\u0072\u0065\u0077\u0061\u0072\u0064\u0073\u005F\u0069\u0064":_0x_0x6a4,"\u0072\u0065\u0077\u0061\u0072\u0064\u0073\u005F\u0069\u006E":_0x132f8c};resp=HTTP['\u0070\u006F\u0073\u0074'](url,data,{'\u0068\u0065\u0061\u0064\u0065\u0072\u0073':headers});}else{flagResultFinish=720471^720470;}}else{flagResultFinish=160129^160128;}flagRedeemReward=143097^143096;}catch{flagResultFinish=387589^387588;}}if(posHttp==(279055^279052)||qlSwitch!=(434489^434488)){try{if(flagRedeemReward==(754359^754358)||qlSwitch==(215498^215499)){try{resp=resp['\u006A\u0073\u006F\u006E']();}catch{resp=resp;}code=resp["\u0063\u006F\u0064\u0065"];respmsg=resp["\u006D\u0065\u0073\u0073\u0061\u0067\u0065"];if(code==(806080^806696)){content="\uD83D\uDC8E\u0020\u9886\u53D6\u5956\u52B1\u6210\u529F\u0020";messageSuccess+=content;}else if(code==(299902^299148)||code==(944023^943229)){content="\uD83D\uDCE2\u0020"+respmsg+"\u0020";messageSuccess+=content;}else{content=" \u274C".split("").reverse().join("")+respmsg+"\u0020";messageFail+=content;}}flagResultFinish=662722^662723;}catch{flagResultFinish=734203^734202;}}sleep(190869^192069);if(messageOnlyError==(151361^151360)){messageArray[posLabel]=messageFail;}else{if(messageFail!=""){messageArray[posLabel]=messageFail+"\u0020"+messageSuccess;}else{messageArray[posLabel]=messageSuccess;}}if(messageArray[posLabel]!=""){console['\u006C\u006F\u0067'](messageArray[posLabel]);}return flagResultFinish;}
-function execHandle(cookie,pos){posHttp=960222^960222;qlpushFlag-=128902^128903;messageSuccess="";messageFail="";url="nIkcehc/1v/moc.klatgnid.ialow-ipa//:sptth".split("").reverse().join("");headers={"\u0043\u006F\u006F\u006B\u0069\u0065":cookie,"\u0044\u0069\u006E\u0067\u0054\u0061\u006C\u006B\u002D\u0046\u006C\u0061\u0067":1,"User-Agent":"\u004D\u006F\u007A\u0069\u006C\u006C\u0061\u002F\u0035\u002E\u0030\u0020\u0028\u0057\u0069\u006E\u0064\u006F\u0077\u0073\u0020\u004E\u0054\u0020\u0031\u0030\u002E\u0030\u003B\u0020\u0057\u0069\u006E\u0036\u0034\u003B\u0020\u0078\u0036\u0034\u0029\u0020\u0041\u0070\u0070\u006C\u0065\u0057\u0065\u0062\u004B\u0069\u0074\u002F\u0035\u0033\u0037\u002E\u0033\u0036\u0020\u0028\u004B\u0048\u0054\u004D\u004C\u002C\u0020\u006C\u0069\u006B\u0065\u0020\u0047\u0065\u0063\u006B\u006F\u0029\u0020\u0043\u0068\u0072\u006F\u006D\u0065\u002F\u0039\u0031\u002E\u0030\u002E\u0034\u0034\u0037\u0032\u002E\u0031\u0032\u0034\u0020\u0053\u0061\u0066\u0061\u0072\u0069\u002F\u0035\u0033\u0037\u002E\u0033\u0036\u0020\u0045\u0064\u0067\u002F\u0039\u0031\u002E\u0030\u002E\u0038\u0036\u0034\u002E\u0037\u0030"};data={};resp=HTTP['\u0070\u006F\u0073\u0074'](url,data,{"headers":headers});if(qlSwitch!=(739774^739775)){resultHandle(resp,pos);}}
+// 直接推送
+// 结果处理函数
+function resultHandle(resp, pos){
+    // 每次进来resultHandle则加一次请求
+    posHttp += 1    // 青龙适配，青龙微适配
 
+    let messageSuccess = "";
+    let messageFail = "";
+    let messageName = "";
+    // 推送昵称或单元格，还是不推送位置标识
+    if (messageNickname == 1) {
+        // 推送昵称或单元格
+        messageName = Application.Range("C" + pos).Text;
+        if(messageName == "")
+        {
+            messageName = "单元格A" + pos + "";
+        }
+    }
+    posLabel = pos-2 ;  // 存放下标，从0开始
+    messageHeader[posLabel] = "👨‍🚀 " + messageName
+    // console.log(messageName)
+
+    let url = "https://api.71xk.com/api/bing"
+    resp = HTTP.fetch(url, {
+        method: "get",
+        headers: {},
+        // data: data
+    });
+
+    resp = resp.binary().toString('base64')
+    // console.log(resp)
+    let qrcodeImage = 'data:image/png;base64,' + resp
+    // console.log(resp)
+    const range = Range('D' + pos)
+    // 向目标单元格插入图片
+    range.InsertImage(
+      qrcodeImage
+    )
+    console.log("✨ Bing每日图片获取成功" )
+    // message = "" 
+    // pushDirect(message)
+
+
+    // 青龙适配，青龙微适配
+    flagResultFinish = 1; // 签到结束
+
+    sleep(2000);
+
+
+  return flagResultFinish
+}
+
+// 具体的执行函数
+function execHandle(cookie, pos) {
+    // 清零操作，保证不同用户的消息的独立
+    // 青龙适配，青龙微适配
+    posHttp = 0 // 置空请求
+    qlpushFlag -= 1 // 一个用户只会执行一次execHandle，因此可用于记录当前用户
+    messageSuccess = "";
+    messageFail = "";
+
+    resp = ""
+
+    if(qlSwitch != 1){  // 选择金山文档
+        resultHandle(resp, pos)
+    }
+}

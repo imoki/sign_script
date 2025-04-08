@@ -1,16 +1,15 @@
 /*
-    name: "二维码生成"
+    name: "骚扰电话查询"
     cron: 45 0 9 * * *
     脚本兼容: 金山文档（1.0），金山文档（2.0）
-    更新时间：20240405
-    环境变量名：qrcode（修改这里）
+    更新时间：20240408
+    环境变量名：telsaorao
     环境变量值：无（修改这里）
-    备注：二维码生成工具
 */
 
 const logo = "艾默库 : https://github.com/imoki/sign_script"    // 仓库地址
-var sheetNameSubConfig = "qrcode"; // 分配置表名称， （修改这里）
-var pushHeader = "【二维码生成】";    // （修改这里）
+var sheetNameSubConfig = "telsaorao"; // 分配置表名称， （修改这里）
+var pushHeader = "【骚扰电话查询】";    // （修改这里）
 var sheetNameConfig = "CONFIG"; // 总配置表
 var sheetNamePush = "PUSH"; // 推送表名称
 var sheetNameEmail = "EMAIL"; // 邮箱表
@@ -468,6 +467,36 @@ function getsign(data) {
 
 // =================共用结束===================
 
+function formatPhoneInfo(response) {
+  try {
+    const data = typeof response === 'string' ? JSON.parse(response) : response;
+    
+    if (!data.success) {
+      return `${data.message || '查询失败'} ❌`;
+    }
+
+    const { province, city, operator } = data.info || {};
+    const operatorEmoji = {
+      '中国联通': '📶',
+      '中国移动': '📱',
+      '中国电信': '📞'
+    }[operator] || '📲';
+
+    const reports = (data.data || [])
+      .map(item => `${item.name}: ${item.msg} ${item.msg.includes('正常') ? '✅' : '⚠️'}`)
+      .join('\n');
+
+    return [
+      `${province}${city}｜${operator} ${operatorEmoji}`,
+      `检测报告：`,
+      reports
+    ].join('\n');
+    
+  } catch (e) {
+    return '响应解析失败 ❌';
+  }
+}
+
 // 直接推送
 // 结果处理函数
 function resultHandle(resp, pos){
@@ -490,29 +519,26 @@ function resultHandle(resp, pos){
     messageHeader[posLabel] = "👨‍🚀 " + messageName
     // console.log(messageName)
 
-    
-    let qrcodeContent = Range('D'+pos).Value2
-    // console.log(qrcodeContent)
-
-    let url = "https://api.pwmqr.com/qrcode/create/?url=" + qrcodeContent;
+    input = Range('D'+pos).Value2
+    let url = "https://api.71xk.com/api/saorao?tel=" + input
     resp = HTTP.fetch(url, {
         method: "get",
         headers: {},
         // data: data
     });
 
-    resp = resp.binary().toString('base64')
-    let qrcodeImage = 'data:image/png;base64,' + resp
+    resp = resp.json()
     // console.log(resp)
-    const range = Range('E' + pos)
-    // 向目标单元格插入图片
-    range.InsertImage(
-      qrcodeImage
-    )
-    console.log("✨ 二维码已生成" )
-    // message = "二维码已生成" 
-    // pushDirect(message)
 
+    // 提取信息
+    // 写入
+    output = formatPhoneInfo(resp)
+    console.log(output)
+    Application.Range('E'+pos).Value2  = output
+
+    console.log("✨ 获取成功" )
+    // message = "" 
+    // pushDirect(message)
 
 
     // 青龙适配，青龙微适配

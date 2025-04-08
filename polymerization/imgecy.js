@@ -1,18 +1,15 @@
 /*
-    name: "鸿星尔克"
-    cron: 10 30 9 * * *
-    脚本兼容: 金山文档（1.0）， 青龙
-    更新时间：20241226
-    环境变量名：hxek
-    环境变量值：填写xxx#memberId#enterpriseId
-    备注：需要memberId、enterpriseId。
-          青龙中的环境变量值第一个xxx为占位符，内容不用动，改后面两个就行。
-          抓“鸿星尔克”微信小程序。
+    name: "随机二次元图片"
+    cron: 45 0 9 * * *
+    脚本兼容: 金山文档（1.0），金山文档（2.0）
+    更新时间：20240408
+    环境变量名：imgecy（修改这里）
+    环境变量值：无（修改这里）
 */
 
 const logo = "艾默库 : https://github.com/imoki/sign_script"    // 仓库地址
-var sheetNameSubConfig = "hxek"; // 分配置表名称（修改这里，这里填表的名称，需要和UPDATE文件中的一致，自定义的）
-var pushHeader = "【鸿星尔克】";    //（修改这里，这里给自己看的，随便填）
+var sheetNameSubConfig = "imgecy"; // 分配置表名称， （修改这里）
+var pushHeader = "【随机二次元图片】";    // （修改这里）
 var sheetNameConfig = "CONFIG"; // 总配置表
 var sheetNamePush = "PUSH"; // 推送表名称
 var sheetNameEmail = "EMAIL"; // 邮箱表
@@ -109,6 +106,38 @@ function writeMessageQueue(message){
       }
       
     }
+  }
+}
+
+// 直推，调用就直接就进行推送
+function pushDirect(message) {
+  console.log("✨ 推送直推")
+  if (message != "") {
+    // message = messagePushHeader + message // 消息头最前方默认存放：【xxxx】
+    let length = jsonPush.length;
+    let name;
+    let key;
+    for (let i = 0; i < length; i++) {
+      if (jsonPush[i].flag == 1) {
+        name = jsonPush[i].name;
+        key = jsonPush[i].key;
+        if (name == "bark") {
+          bark(message, key);
+        } else if (name == "pushplus") {
+          pushplus(message, key);
+        } else if (name == "ServerChan") {
+          serverchan(message, key);
+        } else if (name == "email") {
+          email(message);
+        } else if (name == "dingtalk") {
+          dingtalk(message, key);
+        } else if (name == "discord") {
+          discord(message, key);
+        }
+      }
+    }
+  } else {
+    console.log("🍳 消息为空不推送");
   }
 }
 
@@ -353,7 +382,7 @@ function discord(message, key) {
               }
           }   
           message = messageMerge()// 将消息数组融合为一条总消息
-          push(message); // 推送消息
+          // push(message); // 推送消息
       }else{
           for (let i = 2; i <= line; i++) {
               var cookie = Application.Range("A" + i).Text;
@@ -437,47 +466,85 @@ function getsign(data) {
 }
 
 // =================共用结束===================
- 
 
-// 生成GMT+8时间戳
-function getDateTimeString() {
-  const now = new Date();
-  const year = now.getFullYear();
-  const month = (now.getMonth() + 1).toString().padStart(2, '0');
-  const day = now.getDate().toString().padStart(2, '0');
-  const hours = now.getHours().toString().padStart(2, '0');
-  const minutes = now.getMinutes().toString().padStart(2, '0');
-  const seconds = now.getSeconds().toString().padStart(2, '0');
-  return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+// 直接推送
+// 结果处理函数
+function resultHandle(resp, pos){
+    // 每次进来resultHandle则加一次请求
+    posHttp += 1    // 青龙适配，青龙微适配
+
+    let messageSuccess = "";
+    let messageFail = "";
+    let messageName = "";
+    // 推送昵称或单元格，还是不推送位置标识
+    if (messageNickname == 1) {
+        // 推送昵称或单元格
+        messageName = Application.Range("C" + pos).Text;
+        if(messageName == "")
+        {
+            messageName = "单元格A" + pos + "";
+        }
+    }
+    posLabel = pos-2 ;  // 存放下标，从0开始
+    messageHeader[posLabel] = "👨‍🚀 " + messageName
+    // console.log(messageName)
+
+    
+    let qrcodeContent = Range('D'+pos).Value2
+    // console.log(qrcodeContent)
+
+    let url = "https://img.xjh.me/random_img.php"
+    resp = HTTP.fetch(url, {
+        method: "get",
+        headers: {},
+        // data: data
+    });
+    htmlString = resp.text()
+    imageUrl = htmlString.match(/<img[^>]*src=['"]([^'"]+)['"]/i);
+    imageUrl = "https:" + imageUrl[1]
+    // console.log(imageUrl)
+    url = imageUrl
+    resp = HTTP.fetch(url, {
+        method: "get",
+        headers: {},
+        // data: data
+    });
+
+    resp = resp.binary().toString('base64')
+    // console.log(resp)
+    let qrcodeImage = 'data:image/png;base64,' + resp
+    // console.log(resp)
+    const range = Range('D' + pos)
+    // 向目标单元格插入图片
+    range.InsertImage(
+      qrcodeImage
+    )
+    console.log("✨ 二次元图片获取成功" )
+    // message = "" 
+    // pushDirect(message)
+
+
+    // 青龙适配，青龙微适配
+    flagResultFinish = 1; // 签到结束
+
+    sleep(2000);
+
+
+  return flagResultFinish
 }
 
-// 生成一定范围内的随机数
-function randint(min, max) {
-  return Math.floor(Math.random() * (max - min + 1)) + min;
+// 具体的执行函数
+function execHandle(cookie, pos) {
+    // 清零操作，保证不同用户的消息的独立
+    // 青龙适配，青龙微适配
+    posHttp = 0 // 置空请求
+    qlpushFlag -= 1 // 一个用户只会执行一次execHandle，因此可用于记录当前用户
+    messageSuccess = "";
+    messageFail = "";
+
+    resp = ""
+
+    if(qlSwitch != 1){  // 选择金山文档
+        resultHandle(resp, pos)
+    }
 }
-
-// json转参数
-function jsontoparam(jsonObj){
-  // console.log(jsonObj)
-  // "?xxx=xxx;xxx=xxx;"
-  result = ""
-  values = Object.values(jsonObj);
-  values.forEach((value, index) => {
-      key = Object.keys(jsonObj)[index]; // 获取对应的键
-      // if(value == "[object Object]")
-      // {
-      //   value = "{}"
-      // }
-      // console.log(key + ": " + value);
-      content = key + "=" + value + "&"
-      result += content 
-  });
-
-  result = result.substring(0, result.length - 1);
-  // console.log(result)
-  return result
-}
-
-function HXEK_SIGN(memberId,appid){signArry=[];secret="\u0064\u0061\u006D\u006F\u0067\u0069\u0063\u0038\u0038\u0038\u0038";timestamp=getDateTimeString();random_int=randint(1000000,9999999);raw_string="\u0074\u0069\u006D\u0065\u0073\u0074\u0061\u006D\u0070\u003D"+timestamp+"=dIsnart".split("").reverse().join("")+appid+timestamp+"\u0073\u0065\u0063\u0072\u0065\u0074\u003D"+secret+"=modnar".split("").reverse().join("")+random_int+"\u006D\u0065\u006D\u0062\u0065\u0072\u0049\u0064\u003D"+memberId;sign=getsign(raw_string);signArry=[sign,random_int,timestamp];return signArry;}
-function resultHandle(resp,pos,_0x3ef,_0xd5gegf,_0xc7d3d){var _0x08cdac=(766991^766989)+(431630^431623);_0x3ef="";_0x08cdac=235061^235060;var _0x7e508e;_0xd5gegf="";_0x7e508e="fblqfn".split("").reverse().join("");_0xc7d3d="";if(messageNickname==(801749^801748)){_0xc7d3d=Application['\u0052\u0061\u006E\u0067\u0065']("\u0043"+pos)['\u0054\u0065\u0078\u0074'];if(_0xc7d3d==""){_0xc7d3d="\u5355\u5143\u683C\u0041"+pos+"";}}posLabel=pos-(191824^191826);messageHeader[posLabel]=" \uDE80\uD83D\u200D\uDC68\uD83D".split("").reverse().join("")+_0xc7d3d;if(resp['\u0073\u0074\u0061\u0074\u0075\u0073']==(440302^440102)){resp=resp['\u006A\u0073\u006F\u006E']();errcode=resp["errcode"];if(errcode==(732233^732233)){memberSign=resp["\u0072\u0065\u0073\u0070\u006F\u006E\u0073\u0065"]["memberSign"];continuousCount=memberSign["\u0063\u006F\u006E\u0074\u0069\u006E\u0075\u006F\u0075\u0073\u0043\u006F\u0075\u006E\u0074"];integralCount=memberSign["integralCount"];points=resp["\u0072\u0065\u0073\u0070\u006F\u006E\u0073\u0065"]["points"];content="\uD83C\uDF89\u0020"+"\u5F53\u524D\u79EF\u5206\u003A"+points+"\u8FDE\u7EED\u7B7E\u5230\u003A"+continuousCount+" \u5929".split("").reverse().join("");_0x3ef+=content;}else if(errcode==900001){errmsg=resp["errmsg"];content=" \uDCE2\uD83D".split("").reverse().join("")+errmsg+"\u0020";_0x3ef+=content;}else{msg=" \u274C".split("").reverse().join("")+" \u8D25\u5931\u5230\u7B7E".split("").reverse().join("");content=msg+"\u0020";_0xd5gegf+=content;}}else{content=" \u274C".split("").reverse().join("")+"\u7B7E\u5230\u5931\u8D25\u0020";_0xd5gegf+=content;}flagResultFinish=278223^278222;sleep(267009^267473);if(messageOnlyError==(815312^815313)){messageArray[posLabel]=_0xd5gegf;}else{if(_0xd5gegf!=""){messageArray[posLabel]=_0xd5gegf+"\u0020"+_0x3ef;}else{messageArray[posLabel]=_0x3ef;}}if(messageArray[posLabel]!=""){console['\u006C\u006F\u0067'](messageArray[posLabel]);}return flagResultFinish;}
-function execHandle(cookie,pos){posHttp=375470^375470;qlpushFlag-=839394^839395;messageSuccess="";messageFail="";url1="\u0068\u0074\u0074\u0070\u0073\u003A\u002F\u002F\u0068\u006F\u0070\u0065\u002E\u0064\u0065\u006D\u006F\u0067\u0069\u0063\u002E\u0063\u006F\u006D\u002F\u0067\u0069\u0063\u002D\u0077\u0078\u002D\u0061\u0070\u0070\u002F\u006D\u0065\u006D\u0062\u0065\u0072\u005F\u0073\u0069\u0067\u006E\u002E\u006A\u0073\u006F\u006E";appid="\u0077\u0078\u0061\u0031\u0066\u0031\u0066\u0061\u0033\u0037\u0038\u0035\u0061\u0034\u0037\u0063\u0037\u0064";memberId=Application['\u0052\u0061\u006E\u0067\u0065']("\u0044"+pos)['\u0054\u0065\u0078\u0074'];enterpriseId=Application['\u0052\u0061\u006E\u0067\u0065']("\u0045"+pos)['\u0054\u0065\u0078\u0074'];signArry=HXEK_SIGN(memberId,appid);sign=signArry[449895^449895];random_int=signArry[190180^190181];timestamp=signArry[585220^585222];transId=appid+timestamp;headers={"\u0043\u006F\u006F\u006B\u0069\u0065":cookie,"\u0055\u0073\u0065\u0072\u002D\u0041\u0067\u0065\u006E\u0074":"\u004D\u006F\u007A\u0069\u006C\u006C\u0061\u002F\u0035\u002E\u0030\u0020\u0028\u0057\u0069\u006E\u0064\u006F\u0077\u0073\u0020\u004E\u0054\u0020\u0031\u0030\u002E\u0030\u003B\u0020\u0057\u0069\u006E\u0036\u0034\u003B\u0020\u0078\u0036\u0034\u0029\u0020\u0041\u0070\u0070\u006C\u0065\u0057\u0065\u0062\u004B\u0069\u0074\u002F\u0035\u0033\u0037\u002E\u0033\u0036\u0020\u0028\u004B\u0048\u0054\u004D\u004C\u002C\u0020\u006C\u0069\u006B\u0065\u0020\u0047\u0065\u0063\u006B\u006F\u0029\u0020\u0043\u0068\u0072\u006F\u006D\u0065\u002F\u0039\u0031\u002E\u0030\u002E\u0034\u0034\u0037\u0032\u002E\u0031\u0032\u0034\u0020\u0053\u0061\u0066\u0061\u0072\u0069\u002F\u0035\u0033\u0037\u002E\u0033\u0036\u0020\u0045\u0064\u0067\u002F\u0039\u0031\u002E\u0030\u002E\u0038\u0036\u0034\u002E\u0037\u0030",'Host':"\u0068\u006F\u0070\u0065\u002E\u0064\u0065\u006D\u006F\u0067\u0069\u0063\u002E\u0063\u006F\u006D",'xweb_xhr':"\u0031","\u0063\u0068\u0061\u006E\u006E\u0065\u006C\u0045\u006E\u0074\u0072\u0061\u006E\u0063\u0065":"\u0077\u0078\u005F\u0061\u0070\u0070","\u0073\u0069\u0067\u006E":enterpriseId,'Referer':"\u0068\u0074\u0074\u0070\u0073\u003A\u002F\u002F\u0073\u0065\u0072\u0076\u0069\u0063\u0065\u0077\u0065\u0063\u0068\u0061\u0074\u002E\u0063\u006F\u006D\u002F\u0077\u0078\u0061\u0031\u0066\u0031\u0066\u0061\u0033\u0037\u0038\u0035\u0061\u0034\u0037\u0063\u0037\u0064\u002F\u0035\u0035\u002F\u0070\u0061\u0067\u0065\u002D\u0066\u0072\u0061\u006D\u0065\u002E\u0068\u0074\u006D\u006C",'Content-Type':'application/x-www-form-urlencoded'};data={"path":"pages/points-mall/member-task/member-task","\u0071\u0075\u0065\u0072\u0079":{},"scene":1256,"\u0072\u0065\u0066\u0065\u0072\u0072\u0065\u0072\u0049\u006E\u0066\u006F":{},"\u0061\u0070\u0069\u0043\u0061\u0074\u0065\u0067\u006F\u0072\u0079":"default",'memberId':memberId,"\u0063\u006C\u0069\u0071\u0075\u0065\u0049\u0064":"\u002D\u0031","\u0063\u006C\u0069\u0071\u0075\u0065\u004D\u0065\u006D\u0062\u0065\u0072\u0049\u0064":"\u002D\u0031","\u0075\u0073\u0065\u0043\u006C\u0069\u0071\u0075\u0065":"\u0030","\u0065\u006E\u0074\u0065\u0072\u0070\u0072\u0069\u0073\u0065\u0049\u0064":enterpriseId,'appid':appid,'gicWxaVersion':"\u0033\u002E\u0039\u002E\u0031\u0036",'random':random_int,'sign':sign,'timestamp':timestamp,'transId':transId};resp=HTTP['\u0070\u006F\u0073\u0074'](url1,data,{"headers":headers});if(qlSwitch!=(202215^202214)){resultHandle(resp,pos);}}

@@ -1,7 +1,7 @@
 /*
     脚本名称：UPDATE.js
     脚本兼容: airsript 1.0、airscript 2.0
-    更新时间：20250406
+    更新时间：20250408
     备注：更新脚本。用于自动生成表格，以及追加表格数据
           适配airsript 1.0版本及airscript 2.0版本
     其他：若想添加新内容，请搜索（修改这里），按照格式修改
@@ -68,19 +68,19 @@ var configBody = [
     { name: 'xingzuo', note: '星座运势',},
     { name: 'tzgsc', note: '挑战古诗词',},
     { name: 'chinadsl', note: '宽带技术网',},
-    { name: 'xxx', note: '', isAlive: '否',},
-    { name: 'xxx', note: '', isAlive: '否',},
+    { name: 'imgecy', note: '随机二次元图片',},
+    { name: 'imgbing', note: 'Bing每日图片',},
     { name: 'ztemall', note: '中兴商城',},
     { name: 'wnflb', note: '万能福利吧',},
     { name: 'wangzhe', note: '王者荣耀英雄介绍',},
     { name: 'rsdjs', note: '人生倒计时',},
     { name: 'fwxs', note: '废文小说',},
-    { name: 'hxek', note: '鸿星尔克',},
+    { name: 'imgavatar', note: '随机头像',},
     { name: '神回复', note: '神回复',},
-    { name: 'xxx', note: '', isAlive: '否',},
-    { name: 'xxx', note: '', isAlive: '否',},
-    { name: 'ddai', note: '钉钉AI',},
-    { name: 'xxx', note: '', isAlive: '否',},
+    { name: 'imglandscape', note: '随机风景图片',},
+    { name: 'miyu', note: '谜语', },
+    { name: 'telsaorao', note: '骚扰电话查询',},
+    { name: 'favicon', note: '网站图标获取',},
     { name: 'xxx', note: '', isAlive: '否',},
     { name: 'kyt', note: '科研通',},
     { name: 'parsdata', note: '伊朗域名注册优惠码',},
@@ -93,7 +93,7 @@ var configBody = [
     { name: 'xxx', note: '', isAlive: '否',},
     { name: 'xxx', note: '', isAlive: '否',},
     { name: 'qcs', note: '屈臣氏',},
-    { name: 'hdl', note: '海底捞',},
+    { name: 'xxx', note: '', isAlive: '否',},
     { name: 'hzh', note: '华住会',},
     { name: 'eswxlt', note: '恩山无线论坛',},
     { name: 'xxx', note: '', isAlive: '否',},
@@ -302,7 +302,26 @@ var subConfigWangzhe = [
   ['xxxxxxxx2', '否', '昵称2', '']
 ]
 
+// 定制化分配置表内容，imgecy
+var subConfigImgecy = [
+  ['cookie(默认20个)', '是否执行(是/否)', '账号名称(可不填写)', '图片(自动生成)'],
+  ['xxxxxxxx1', '是', '昵称1', ''],
+  ['xxxxxxxx2', '否', '昵称2', '']
+]
 
+// 定制化分配置表内容，telsaorao
+var subConfigTelsaorao = [
+  ['cookie(默认20个)', '是否执行(是/否)', '账号名称(可不填写)', '手机号','检测报告(自动生成)'],
+  ['xxxxxxxx1', '是', '昵称1', '', ''],
+  ['xxxxxxxx2', '否', '昵称2', '', '']
+]
+
+// 定制化分配置表内容，favicon
+var subConfigFavicon = [
+  ['cookie(默认20个)', '是否执行(是/否)', '账号名称(可不填写)', '域名','网站图标(自动生成)'],
+  ['xxxxxxxx1', '是', '昵称1', 'github.com', ''],
+  ['xxxxxxxx2', '否', '昵称2', '', '']
+]
 
 // 定制化表
 var subConfig = {
@@ -326,6 +345,9 @@ var subConfig = {
   "steamrank" : subConfigSteamrank,
   "xingzuo" : subConfigXingzuo,
   "wangzhe" : subConfigWangzhe,
+  "imgecy" : subConfigImgecy,
+  "telsaorao" : subConfigTelsaorao,
+  "favicon" : subConfigFavicon,
 }
 // var mosaic = "xxxxxxxx" // 马赛克
 // var strFail = "否"
