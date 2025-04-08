@@ -87,20 +87,20 @@ var configBody = [
     { name: 'quarksave', note: '夸克订阅更新自动转存',},
     { name: 'dailynewscn', note: '中国日报',},
     { name: 'telgsd', note: '手机号归属地',},
-    { name: 'dwz', note: '短网址生成'},
-    { name: 'xxx', note: '', isAlive: '否',},
+    { name: 'dwz', note: '短网址生成',},
+    { name: 'fjzh', note: '简繁体转换',},
     { name: 'xpnc', note: '兴攀农场',},
-    { name: 'xxx', note: '', isAlive: '否',},
-    { name: 'xxx', note: '', isAlive: '否',},
+    { name: 'qwxh', note: '趣味笑话',},
+    { name: 'rshy', note: '人生话语',},
     { name: 'qcs', note: '屈臣氏',},
-    { name: 'xxx', note: '', isAlive: '否',},
+    { name: 'meiju', note: '随机美句摘抄文案',},
     { name: 'hzh', note: '华住会',},
     { name: 'eswxlt', note: '恩山无线论坛',},
-    { name: 'xxx', note: '', isAlive: '否',},
+    { name: 'weimei', note: '随机唯美文案',},
     { name: 'xmdl', note: '熊猫网络',},
-    { name: 'xxx', note: '', isAlive: '否',},
+    { name: 'lnglat', note: '经纬度解析',},
     { name: 'hfweather', note: '和风天气', pushPriority: '1',},
-    { name: 'xxx', note: '', isAlive: '否',},
+    { name: 'piaofang', note: '电影票房排行',},
     { name: 'ciba', note: '词霸每日一句',},
     { name: 'deepseek', note: 'deepseek分析工具',},
     
@@ -351,6 +351,20 @@ var subConfigDwz = [
   ['xxxxxxxx2', '否', '昵称2', '', '']
 ]
 
+// 定制化分配置表内容，fjzh
+var subConfigFjzh = [
+  ['cookie(默认20个)', '是否执行(是/否)', '账号名称(可不填写)', '简体','繁体(自动生成)'],
+  ['xxxxxxxx1', '是', '昵称1', '龙', ''],
+  ['xxxxxxxx2', '否', '昵称2', '', '']
+]
+
+// 定制化分配置表内容，lnglat
+var subConfigLnglat = [
+  ['cookie(默认20个)', '是否执行(是/否)', '账号名称(可不填写)', '经度', '纬度','结果(自动生成)'],
+  ['xxxxxxxx1', '是', '昵称1', '', ''],
+  ['xxxxxxxx2', '否', '昵称2', '', '']
+]
+
 // 定制化表
 var subConfig = {
   "ddmc"  : subConfigDdmc, 
@@ -380,6 +394,8 @@ var subConfig = {
   "favicon" : subConfigFavicon,
   "telgsd" : subConfigTelgsd,
   "dwz" : subConfigDwz,
+  "fjzh" : subConfigFjzh,
+  "lnglat" : subConfigLnglat,
 }
 // var mosaic = "xxxxxxxx" // 马赛克
 // var strFail = "否"
