@@ -61,7 +61,7 @@
         <img src="https://i.ibb.co/j982QxGx/10.jpg" width="50" height="50" style="border-radius: 50%; margin: 10px;">
     </a>
     <a style="text-align: center;">
-        <img src="https://i.ibb.co/nsXVvk46/11.jp" width="50" height="50" style="border-radius: 50%; margin: 10px;">
+        <img src="https://s21.ax1x.com/2025/04/08/pEgAgpR.jpg" width="50" height="50" style="border-radius: 50%; margin: 10px;">
     </a>
     <a style="text-align: center;">
         <img src="https://i.ibb.co/4rT0Pxs/12.jpg" width="50" height="50" style="border-radius: 50%; margin: 10px;">
