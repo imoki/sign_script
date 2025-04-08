@@ -1,5 +1,5 @@
 /*
-    name: "万能福利吧自动签到"
+    name: "万能福利吧"
     cron: 45 0 9 * * *
     脚本兼容: 金山文档（1.0），金山文档（2.0）
     更新时间：20241226
@@ -488,7 +488,7 @@ function execHandle(cookie, pos) {
   posLabel = pos-2 ;  // 存放下标，从0开始
   messageHeader[posLabel] = "👨‍🚀 " + messageName
   // try {
-    var url1 = "https://www.wnflb2023.com/plugin.php?id=fx_checkin:list"; // 获取formhash、判断签到成功+获取积分
+    var url1 = "https://www.wnflb2023.com/plugin.php?id=fx_checkin:list"; // 获取formhash、判断成功+获取积分
     var url2 = "https://www.wnflb2023.com/plugin.php?id=fx_checkin%3Acheckin&infloat=yes&handlekey=fx_checkin&inajax=1&ajaxtarget=fwin_content_fx_checkin" // 签到
 
     headers={

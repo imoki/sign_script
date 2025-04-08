@@ -1,5 +1,5 @@
 /*
-    name: "葫芦侠3楼自动签到"
+    name: "葫芦侠3楼"
     cron: 45 0 9 * * *
     脚本兼容: 金山文档（1.0）
     更新时间：20241226
@@ -518,7 +518,7 @@ function execHandle(cookie, pos) {
 
       resp = resp.json();
       console.log(resp)
-      // 签到状态：0为失败，1为成功。
+      // 状态：0为失败，1为成功。
       status = resp['status']
       if(status == 1)
       {

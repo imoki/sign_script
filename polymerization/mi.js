@@ -6,8 +6,8 @@
     环境变量名：无
     环境变量值：无
     备注：需要Cookie。用抓包工具抓取“小米商城”APP所需的值。
-          签到，做任务，自动获取最新任务列表。
-          若提示更新，请将任务列表响应发到 https://github.com/imoki/mi/ 仓库的issues中。
+          做任务及自动获取最新任务列表。
+          若提示更新或报错，请将任务列表响应发到 https://github.com/imoki/mi/ 仓库的issues中。
           提交到imoki/mi仓库issues的抓包内容为：抓取小米商城app的https://shop-api.retail.mi.com/mtop/navi/venue/batch包的响应体，将响应全部发送到issues中，请务必参考issues模板发送。
           如何判断提交的响应体格式是否正确：响应中含有doneInSingleAward。
     在github中发送issues:

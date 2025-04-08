@@ -1,5 +1,5 @@
 /*
-    name: "golo汽修大师自动签到"
+    name: "golo汽修大师"
     cron: 45 0 9 * * *
     脚本兼容: 金山文档（1.0），金山文档（2.0）
     更新时间：20241226
@@ -7,8 +7,7 @@
     环境变量值：无
     备注：需要用户名和密码。
           golo汽修大师app或网页的密码。
-          脚本是利用网站的api进行签到的，因此使用此脚本签到时app会自动退出登录！
-          但是网站的依旧是正常的登录状态，网站签到的积分和app签到的积分是互通的。
+          使用此脚本时app会自动退出登录，网站和app的积分是互通的。
           golo汽修大师网址:https://cicp.cnlaunch.com
 */
 
@@ -520,7 +519,7 @@ function login(url, headers, data){
 function sign(url, headers, data){
   messageSuccess = ""
   messageFail = ""
-  flagstatus = 0  // 记录签到成功状态。0代表签到失败，1代表签到成功
+  flagstatus = 0  // 记录成功状态。0代表失败，1代表成功
 
   // {"code":1,"msg":"签到成功","time":"","data":{"score":1}}
   // {"code":0,"msg":"参数不正确","time":"","data":{}}

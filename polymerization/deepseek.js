@@ -463,8 +463,6 @@ function resultHandle(resp, pos){
 
         // （修改这里，这里就是自己写了，根据抓包的响应自行修改）
         // 接收到的响应数据是json格式，如下，假设有2种情况
-        // 情况1：{"code": "0","message": "签到成功"}
-        // 情况2：{"code":"-1","message":"请先登录"}    
         // content = resp["data"]["choices"][0]["message"]["content"] // 通过resp["键名"]的方式获取值.假设响应数据是情况1，则读取到数字“0”
         content = resp["choices"][0]["message"]["content"]
         messageSuccess += content;
@@ -481,7 +479,7 @@ function resultHandle(resp, pos){
   // }
 
     // 青龙适配，青龙微适配
-    flagResultFinish = 1; // 签到结束
+    flagResultFinish = 1; // 结束
 
   sleep(2000);
   if (messageOnlyError == 1) {
@@ -636,7 +634,7 @@ function execHandle(cookie, pos) {
     
     // console.log(log)
 
-    let url = "https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions"; // 签到url（修改这里，这里填抓包获取到的地址）
+    let url = "https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions"; // url（修改这里，这里填抓包获取到的地址）
     let model = Application.Range("D" + pos).Text;
     let prompt_system = Application.Range("E" + pos).Text;// "你是一个日志分析专家，请你对数据进行分析，并极其简要的说明哪些运行失败了"
     let log = getlog()

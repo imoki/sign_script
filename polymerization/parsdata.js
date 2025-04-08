@@ -575,9 +575,7 @@ function resultHandle(resp, pos){
         
 
         // （修改这里，这里就是自己写了，根据抓包的响应自行修改）
-        // 接收到的响应数据是json格式，如下，假设有2种情况
-        // 情况1：{"code": "0","message": "签到成功"}
-        // 情况2：{"code":"-1","message":"请先登录"}    
+        // 接收到的响应数据是json格式，如下，假设有2种情况  
 
 //         <div id="uccClient_ucdCart_System_divFreeDomainAjax" class="freeDomain-code">
     
@@ -617,7 +615,7 @@ function resultHandle(resp, pos){
         {
             flagTrue = Reg[i].test(html); // 判断是否存在字符串
             if (flagTrue == true) {
-                let result = Reg[i].exec(html); // 提取匹配的字符串，["你已经连续签到 1 天，再接再厉！"," 1 "]
+                let result = Reg[i].exec(html); // 提取匹配的字符串，["你已经连续成功 1 天，再接再厉！"," 1 "]
                 // result = result[0];
                 result = result[1];
                 result = result.trim()  // 去掉前后空格
@@ -662,7 +660,7 @@ function resultHandle(resp, pos){
   // }
 
     // 青龙适配，青龙微适配
-    flagResultFinish = 1; // 签到结束
+    flagResultFinish = 1; // 结束
 
   sleep(2000);
   if (messageOnlyError == 1) {
@@ -694,7 +692,7 @@ function execHandle(cookie, pos) {
     messageFail = "";
 
     // 查询https://www.parsdata.com/en-US/Default.aspx?ajax=1&sys=data&out=FDAjax
-    let url = "https://www.parsdata.com/en-US/Default.aspx?ajax=1&sys=data&out=FDAjax"; // 签到url（修改这里，这里填抓包获取到的地址）
+    let url = "https://www.parsdata.com/en-US/Default.aspx?ajax=1&sys=data&out=FDAjax"; // url（修改这里，这里填抓包获取到的地址）
 
     // （修改这里，这里填抓包获取header，全部抄进来就可以了，按照如下用引号包裹的格式，其中小写的cookie是从表格中读取到的值。）
     headers= {

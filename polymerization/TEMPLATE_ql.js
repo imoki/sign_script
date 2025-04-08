@@ -497,7 +497,7 @@ function resultHandle(resp, pos){
   // }
 
     // 青龙适配，青龙微适配
-    flagResultFinish = 1; // 签到结束
+    flagResultFinish = 1; // 结束
 
   sleep(2000);
   if (messageOnlyError == 1) {
@@ -528,7 +528,7 @@ function execHandle(cookie, pos) {
     messageSuccess = "";
     messageFail = "";
 
-    let url = "https://bbs.mouxue.com/user-signin.htm"; // 签到url（修改这里，这里填抓包获取到的地址）
+    let url = "https://bbs.mouxue.com/user-signin.htm"; // url（修改这里，这里填抓包获取到的地址）
 
     // （修改这里，这里填抓包获取header，全部抄进来就可以了，按照如下用引号包裹的格式，其中小写的cookie是从表格中读取到的值。）
     headers= {

@@ -493,7 +493,7 @@ function resultHandle(resp, pos){
   // }
 
     // 青龙适配，青龙微适配
-    flagResultFinish = 1; // 签到结束
+    flagResultFinish = 1; // 结束
 
   sleep(2000);
   if (messageOnlyError == 1) {
@@ -525,9 +525,8 @@ function execHandle(cookie, pos) {
     messageFail = "";
 
   // try {
-    var url1 = "https://bbs.kanxue.com/user-signin.htm"; // 论坛签到
+    var url1 = "https://bbs.kanxue.com/user-signin.htm"; // 论坛
 
-    // 签到
     headers= {
       'User-Agent': 'HD1910(Android/7.1.2) (pediy.UNICFBC0DD/1.0.5) Weex/0.26.0 720x1280',
       'Cookie': cookie,

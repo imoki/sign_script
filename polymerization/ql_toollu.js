@@ -460,7 +460,7 @@ function resultHandle(resp, pos){
     // console.log(html)
     let flagTrue = Reg.test(html); // 判断是否存在字符串
     if (resp.status == 200 && flagTrue == true) {
-        let result = Reg.exec(html); // 提取匹配的字符串，["你已经连续签到 1 天，再接再厉！"," 1 "]
+        let result = Reg.exec(html); // 提取匹配的字符串，["你已经连续成功 1 天，再接再厉！"," 1 "]
         result = result[0];
         content =  "🎉 " + result + "签到成功 ";
         messageSuccess += content
@@ -470,7 +470,7 @@ function resultHandle(resp, pos){
     }
 
     // 青龙适配，青龙微适配
-    flagResultFinish = 1; // 签到结束
+    flagResultFinish = 1; // 结束
 
     sleep(2000);
     if (messageOnlyError == 1) {

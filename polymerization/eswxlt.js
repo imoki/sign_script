@@ -472,7 +472,7 @@ function resultHandle(resp, pos){
 
         // 成功
         // {"code":0,"msg":"","data":{"signcount":1,"signpoint":10,"today_history":"","is_alert":1}}   
-        // 重复签到、失败
+        // 重复、失败
         // {"code":1,"msg":""}
         content = "🎉 签到成功 "  // // 给自己看的，双引号内可以随便写
 
@@ -491,7 +491,7 @@ function resultHandle(resp, pos){
   // }
 
     // 青龙适配，青龙微适配
-    flagResultFinish = 1; // 签到结束
+    flagResultFinish = 1; // 结束
 
   sleep(2000);
   if (messageOnlyError == 1) {
@@ -522,7 +522,7 @@ function execHandle(cookie, pos) {
     messageSuccess = "";
     messageFail = "";
 
-    let url = "https://www.right.com.cn/forum/home.php?mod=spacecp&ac=credit&op=log&suboperation=creditrulelog"; // 签到url（修改这里，这里填抓包获取到的地址）
+    let url = "https://www.right.com.cn/forum/home.php?mod=spacecp&ac=credit&op=log&suboperation=creditrulelog"; // url（修改这里，这里填抓包获取到的地址）
 
     // （修改这里，这里填抓包获取header，全部抄进来就可以了，按照如下用引号包裹的格式，其中小写的cookie是从表格中读取到的值。）
     headers= {

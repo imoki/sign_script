@@ -1014,7 +1014,7 @@ function resultHandle(resp, pos){
   messageFail = result[2]
 
   // 青龙适配，青龙微适配
-  flagResultFinish = 1; // 签到结束
+  flagResultFinish = 1; // 结束
 
   sleep(2000);
   if (messageOnlyError == 1) {

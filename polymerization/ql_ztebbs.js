@@ -486,7 +486,7 @@ function resultHandle(resp, pos){
     }
 
     // 青龙适配，青龙微适配
-    flagResultFinish = 1; // 签到结束   
+    flagResultFinish = 1; // 结束   
     
 
   sleep(2000);
@@ -520,11 +520,11 @@ function execHandle(cookie, pos) {
     messageFail = "";
 
   // try {
-    var url1 = "https://api-bbs.ztedevices.com/points/home/pointsRegister"; // 社区签到
-    // var url2 = "https://www.ztemall.com/index.php/topapi" // 商城签到
+    var url1 = "https://api-bbs.ztedevices.com/points/home/pointsRegister"; // 社区
+    // var url2 = "https://www.ztemall.com/index.php/topapi" // 商城
     // ztemallcookie = Application.Range("D" + pos).Text;  // 商城的cookie
     
-    // 社区签到
+    // 社区
     // {"status":200,"msg":"success","data":{"list":[{"day":"4.30","energy":0,"tab":1},{"day":"5.1","energy":0,"tab":1},{"day":"5.2","energy":0,"tab":1},{"day":"5.3","energy":1,"tab":2},{"day":"5.4","energy":2,"tab":3},{"day":"5.5","energy":3,"tab":3},{"day":"5.6","energy":4,"tab":3}],"msg":"签到成功！经验 +10 流星 +1"","continueDays":1}}
     // {"status":200,"msg":"success","data":{"list":[{"day":"4.30","energy":0,"tab":1},{"day":"5.1","energy":0,"tab":1},{"day":"5.2","energy":0,"tab":1},{"day":"5.3","energy":1,"tab":2},{"day":"5.4","energy":2,"tab":3},{"day":"5.5","energy":3,"tab":3},{"day":"5.6","energy":4,"tab":3}],"msg":"签到成功","continueDays":1}}
     // {"status":400,"msg":"请求数据异常！","data":[]}

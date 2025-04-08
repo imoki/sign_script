@@ -461,47 +461,8 @@ function resultHandle(resp, pos){
     content = msgmain[1]
     messageSuccess += content;
 
-    // if (resp.status == 200) {
-    //     resp = resp.json(); // 返回json格式则resp.json()。否则为resp.text()，此时就要用正则处理响应
-    //     console.log(resp)
-        
-
-    //     // （修改这里，这里就是自己写了，根据抓包的响应自行修改）
-    //     // 接收到的响应数据是json格式，如下，假设有2种情况
-    //     // 情况1：{"code": "0","message": "签到成功"}
-    //     // 情况2：{"code":"-1","message":"请先登录"}    
-    //     respcode = resp["code"] // 通过resp["键名"]的方式获取值.假设响应数据是情况1，则读取到数字“0”
-
-    //     if(respcode == 0 )   // 通过code值来判断是不是签到成功，由抓包的情况1知道，0代表签到成功了,所以让code与0比较
-    //     {
-    //         content = "🎉 签到成功" + ""
-    //         messageSuccess += content;
-    //         // console.log(content)
-    //     }else{
-    //         respmsg = resp["message"]   // 通过resp["键名"]的方式获取值，假设响应数据是情况1，这里取到的值就是“签到成功”
-    //         if(respmsg == "请先登录"){
-    //             content = "❌ " + respmsg + ""
-    //             messageFail += content;
-    //         }else{
-    //             content = "📢 " + respmsg + ""
-    //             messageSuccess += content;
-    //         }
-            
-    //         // console.log(content)
-    //     }
-
-    // } else {
-    //     content = "❌ 签到失败"
-    //     messageFail += content;
-    //     // console.log(content);
-    // }
-
-  // } catch {
-  //   messageFail += messageName + "失败";
-  // }
-
     // 青龙适配，青龙微适配
-    flagResultFinish = 1; // 签到结束
+    flagResultFinish = 1; // 结束
 
   sleep(2000);
   if (messageOnlyError == 1) {
@@ -532,7 +493,7 @@ function execHandle(cookie, pos) {
     messageSuccess = "";
     messageFail = "";
 
-    // let url = "https://bbs.mouxue.com/user-signin.htm"; // 签到url（修改这里，这里填抓包获取到的地址）
+    // let url = "https://bbs.mouxue.com/user-signin.htm"; // url（修改这里，这里填抓包获取到的地址）
 
     // // （修改这里，这里填抓包获取header，全部抄进来就可以了，按照如下用引号包裹的格式，其中小写的cookie是从表格中读取到的值。）
     // headers= {

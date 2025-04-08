@@ -1,5 +1,5 @@
 /*
-    name: "熊猫代理"
+    name: "熊猫网络"
     cron: 45 0 9 * * *
     脚本兼容: 金山文档（2.0）
     更新时间：20241106
@@ -8,7 +8,7 @@
 */
 
 var sheetNameSubConfig = "xmdl"; // 分配置表名称
-var pushHeader = "【熊猫代理】";
+var pushHeader = "【熊猫网络】";
 var sheetNameConfig = "CONFIG"; // 总配置表
 var sheetNamePush = "PUSH"; // 推送表名称
 var sheetNameEmail = "EMAIL"; // 邮箱表

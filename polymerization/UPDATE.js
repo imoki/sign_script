@@ -34,7 +34,7 @@ var configBody = [
     { name: 'remind', note: '日期提醒工具',},
     { name: 'qrcode', note: '二维码生成工具',},
     { name: 'jitang', note: '鸡汤',},
-    { name: 'tieba', note: '百度贴吧',},
+    { name: 'imgcover', note: '随机封面',},
     { name: 'weekplan', note: '周安排工具',},
     { name: 'todayhistory', note: '历史上的今天',},
     { name: 'oilprice', note: '今日油价',},
@@ -45,7 +45,7 @@ var configBody = [
     { name: 'wanan', note: '晚安问候语',},
     { name: 'bilihot', note: '哔哩哔哩热搜榜',},
     { name: 'dyhot', note: '抖音热搜榜',},
-    { name: 'ddmc_ddyt', note: '叮咚买菜-叮咚鱼塘',},
+    { name: 'ddmc_ddyt', note: '叮咚鱼塘',},
     { name: 'wbhot', note: '微博热搜榜',},
     { name: 'zhhot', note: '知乎热搜榜',},
     { name: 'bdhot', note: '百度热搜榜',},
@@ -97,7 +97,7 @@ var configBody = [
     { name: 'hzh', note: '华住会',},
     { name: 'eswxlt', note: '恩山无线论坛',},
     { name: 'xxx', note: '', isAlive: '否',},
-    { name: 'xmdl', note: '熊猫代理',},
+    { name: 'xmdl', note: '熊猫网络',},
     { name: 'xxx', note: '', isAlive: '否',},
     { name: 'hfweather', note: '和风天气', pushPriority: '1',},
     { name: 'xxx', note: '', isAlive: '否',},
@@ -182,13 +182,6 @@ var subConfigGolo = [
   ['xxxxxxxx2', '否', '昵称2', '此格填用户名', '此格填密码']
 ]
 
-// 定制化分配置表内容，hxek
-var subConfigHxek = [
-  ['cookie(默认20个)', '是否执行(是/否)', '账号名称(可不填写)', "memberId", "enterpriseId"],
-  ['xxxxxxxx1', '是', '昵称1', 'xxx', 'xxx'],
-  ['xxxxxxxx2', '否', '昵称2', 'xxx', 'xxx']
-]
-
 // 定制化分配置表内容，parsdata
 var subConfigParsdata = [
   ['cookie(默认20个)', '是否执行(是/否)', '账号名称(可不填写)', '优惠码'],
@@ -196,14 +189,7 @@ var subConfigParsdata = [
   ['xxxxxxxx2', '否', '昵称2', '']
 ]
 
-// 定制化分配置表内容，海底捞
-var subConfigHdl = [
-  ['cookie(默认20个)', '是否执行(是/否)', '账号名称(可不填写)', 'uid'],
-  ['xxxxxxxx1', '是', '昵称1', ''],
-  ['xxxxxxxx2', '否', '昵称2', '']
-]
-
-// 定制化分配置表内容，屈臣氏
+// 定制化分配置表内容，qcs
 var subConfigQcs = [
   ['cookie(默认20个)', '是否执行(是/否)', '账号名称(可不填写)', 'openId', 'unionId'],
   ['xxxxxxxx1', '是', '昵称1', '', ''],
@@ -217,7 +203,7 @@ var subConfigEswxlt = [
   ['xxxxxxxx2', '否', '昵称2', '', '']
 ]
 
-// 定制化分配置表内容，xmdl熊猫代理
+// 定制化分配置表内容，xmdl
 var subConfigXmdl = [
   ['cookie(默认20个)', '是否执行(是/否)', '账号名称(可不填写)', 'username', 'password'],
   ['xxxxxxxx1', '是', '昵称1', '此格填用户名', '此格填密码'],
@@ -328,9 +314,7 @@ var subConfig = {
   "ddmc"  : subConfigDdmc, 
   "wps"  : subConfigWps,
   "golo"  : subConfigGolo,
-  "hxek" : subConfigHxek,
   "parsdata":subConfigParsdata,
-  "hdl":subConfigHdl,
   "qcs":subConfigQcs,
   "eswxlt":subConfigEswxlt,
   "xmdl":subConfigXmdl,

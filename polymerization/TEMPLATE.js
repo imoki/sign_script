@@ -1,4 +1,4 @@
-// 某雪自动签到（修改这里，这里填是什么签到）
+// 某雪（修改这里，这里填是什么名称）
 // 20240512 （修改这里）
 
 var sheetNameSubConfig = "mouxue"; // 分配置表名称（修改这里，这里填表的名称，需要和UPDATE文件中的一致，自定义的）
@@ -379,7 +379,7 @@ function execHandle(cookie, pos) {
 
   // =================修改这块区域，区域开始=================
 
-  url1 = "https://bbs.mouxue.com/user-signin.htm"; // 签到url（修改这里，这里填抓包获取到的地址）
+  url1 = "https://bbs.mouxue.com/user-signin.htm"; // url（修改这里，这里填抓包获取到的地址）
 
   // （修改这里，这里填抓包获取header，全部抄进来就可以了，按照如下用引号包裹的格式，其中小写的cookie是从表格中读取到的值。）
   headers= {

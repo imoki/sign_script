@@ -487,7 +487,7 @@ function resultHandle(resp, pos){
     }
 
     // 青龙适配，青龙微适配
-    flagResultFinish = 1; // 签到结束
+    flagResultFinish = 1; // 结束
 
     if (messageOnlyError == 1) {
         messageArray[posLabel] = messageFail;
@@ -518,7 +518,6 @@ function execHandle(cookie, pos) {
     messageSuccess = "";
     messageFail = "";
 
-    // 签到
     var url;
     // url1 = 'https://hybrid.ximalaya.com/web-activity/signIn/v2/signIn?v=new'
     url = 'https://hybrid.ximalaya.com/web-activity/signIn/v2/signIn'

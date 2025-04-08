@@ -1,16 +1,15 @@
 /*
-    name: "词霸每日一句"
+    name: "随机封面"
     cron: 45 0 9 * * *
-    脚本兼容: 金山文档（1.0），金山文档（2.0）， 青龙
-    更新时间：20241126
-    环境变量名：ciba
-    环境变量值：无
-    备注：无
+    脚本兼容: 金山文档（1.0），金山文档（2.0）
+    更新时间：20240408
+    环境变量名：imgcover
+    环境变量值：无（修改这里）
 */
 
 const logo = "艾默库 : https://github.com/imoki/sign_script"    // 仓库地址
-var sheetNameSubConfig = "ciba"; // 分配置表名称， （修改这里）
-var pushHeader = "【词霸每日一句】";    // （修改这里）
+var sheetNameSubConfig = "imgcover"; // 分配置表名称， （修改这里）
+var pushHeader = "【随机封面】";    // （修改这里）
 var sheetNameConfig = "CONFIG"; // 总配置表
 var sheetNamePush = "PUSH"; // 推送表名称
 var sheetNameEmail = "EMAIL"; // 邮箱表
@@ -107,6 +106,38 @@ function writeMessageQueue(message){
       }
       
     }
+  }
+}
+
+// 直推，调用就直接就进行推送
+function pushDirect(message) {
+  console.log("✨ 推送直推")
+  if (message != "") {
+    // message = messagePushHeader + message // 消息头最前方默认存放：【xxxx】
+    let length = jsonPush.length;
+    let name;
+    let key;
+    for (let i = 0; i < length; i++) {
+      if (jsonPush[i].flag == 1) {
+        name = jsonPush[i].name;
+        key = jsonPush[i].key;
+        if (name == "bark") {
+          bark(message, key);
+        } else if (name == "pushplus") {
+          pushplus(message, key);
+        } else if (name == "ServerChan") {
+          serverchan(message, key);
+        } else if (name == "email") {
+          email(message);
+        } else if (name == "dingtalk") {
+          dingtalk(message, key);
+        } else if (name == "discord") {
+          discord(message, key);
+        }
+      }
+    }
+  } else {
+    console.log("🍳 消息为空不推送");
   }
 }
 
@@ -351,7 +382,7 @@ function discord(message, key) {
               }
           }   
           message = messageMerge()// 将消息数组融合为一条总消息
-          push(message); // 推送消息
+          // push(message); // 推送消息
       }else{
           for (let i = 2; i <= line; i++) {
               var cookie = Application.Range("A" + i).Text;
@@ -436,6 +467,7 @@ function getsign(data) {
 
 // =================共用结束===================
 
+// 直接推送
 // 结果处理函数
 function resultHandle(resp, pos){
     // 每次进来resultHandle则加一次请求
@@ -454,64 +486,35 @@ function resultHandle(resp, pos){
         }
     }
     posLabel = pos-2 ;  // 存放下标，从0开始
-    // messageHeader[posLabel] = "👨‍🚀 " + messageName
-    messageHeader[posLabel] = ""
+    messageHeader[posLabel] = "👨‍🚀 " + messageName
     // console.log(messageName)
 
-    if (resp.status == 200) {
-        resp = resp.json(); // 返回json格式则resp.json()。否则为resp.text()，此时就要用正则处理响应
-        // console.log(resp)
-        
+    let url = "https://api.71xk.com/api/picture/t1"
+    resp = HTTP.fetch(url, {
+        method: "get",
+        headers: {},
+        // data: data
+    });
 
-        // （修改这里，这里就是自己写了，根据抓包的响应自行修改）
-        // 接收到的响应数据是json格式，如下，假设有2种情况
-        // 情况1：{"code": "0","message": "成功"}
-        // 情况2：{"code":"-1","message":"请先登录"}    
-        respnote = resp["note"] // 通过resp["键名"]的方式获取值.假设响应数据是情况1，则读取到数字“0”
-        respcontent = resp["content"] 
+    resp = resp.binary().toString('base64')
+    // console.log(resp)
+    let qrcodeImage = 'data:image/png;base64,' + resp
+    // console.log(resp)
+    const range = Range('D' + pos)
+    // 向目标单元格插入图片
+    range.InsertImage(
+      qrcodeImage
+    )
+    console.log("✨ 获取成功" )
+    // message = "" 
+    // pushDirect(message)
 
-        cn = Application.Range("D" + pos).Text;
-        en = Application.Range("E" + pos).Text;
-        if(cn == "是"){
-          content = respnote + "\n"
-          messageSuccess += content;
-        }
-        
-        if(en == "是"){
-          content = respcontent + "\n"
-          messageSuccess += content;
-        }
-        
-
-    } else {
-        content = "❌ 词霸每日一句" + "\n"
-        messageFail += content;
-        // console.log(content);
-    }
-
-  // } catch {
-  //   messageFail += messageName + "失败";
-  // }
 
     // 青龙适配，青龙微适配
     flagResultFinish = 1; // 结束
 
-  sleep(2000);
-  if (messageOnlyError == 1) {
-    messageArray[posLabel] =  messageFail;
-  } else {
-      if(messageFail != ""){
-        messageArray[posLabel] = messageFail + " " + messageSuccess;
-      }else{
-        messageArray[posLabel] = messageSuccess;
-      }
-  }
+    sleep(2000);
 
-  if(messageArray[posLabel] != "")
-  {
-    console.log(messageArray[posLabel]);
-  }
-//   console.log(messageArray)
 
   return flagResultFinish
 }
@@ -525,54 +528,7 @@ function execHandle(cookie, pos) {
     messageSuccess = "";
     messageFail = "";
 
-    let url = "https://open.iciba.com/dsapi/"; // url（修改这里，这里填抓包获取到的地址）
-
-    // （修改这里，这里填抓包获取header，全部抄进来就可以了，按照如下用引号包裹的格式，其中小写的cookie是从表格中读取到的值。）
-    headers= {
-      // "Cookie": cookie,
-      "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36 Edg/91.0.864.70",
-    }
-
-    // （修改这里，这里填抓包获取data，全部抄进来就可以了，按照如下用引号包裹的格式。POST请求才需要这个，GET请求就不用它了）
-    data = {
-      "csrf_token":"",
-    }
-    
-    // // （修改这里，以下请求方式三选一即可)
-    // // 请求方式1：POST请求，抓包的data数据格式是 {"aaa":"xxx","bbb":"xxx"} 。则用这个
-    // resp = HTTP.post(
-    //   url,
-    //   JSON.stringify(data),
-    //   { headers: headers }
-    // );
-
-    // // 请求方式2：POST请求，抓包的data数据格式是 aaa=xxx&bbb=xxx 。则用这个
-    // resp = HTTP.post(
-    //   url,
-    //   data,
-    //   { headers: headers }
-    // );
-
-    // 请求方式3：GET请求，无data数据。则用这个
-    if(qlSwitch != 1){  // 金山文档
-      // resp = HTTP.fetch(url, {
-      //     method: "get",
-      //     headers: headers,
-      //     // data: data
-      // });
-      resp = HTTP.get(url, {headers: headers,});
-    }else{  // 青龙
-        data = {}
-        option = "get"
-        resp = HTTP.post(
-            url,
-            data,
-            { headers: headers },
-            option
-        );
-    }
-
-
+    resp = ""
 
     if(qlSwitch != 1){  // 选择金山文档
         resultHandle(resp, pos)

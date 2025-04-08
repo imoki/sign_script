@@ -1,5 +1,5 @@
 /*
-    name: "叮咚买菜-叮咚鱼塘自动签到"
+    name: "叮咚鱼塘"
     cron: 45 0 9 * * *
     脚本兼容: 金山文档（1.0），金山文档（2.0）
     更新时间：20241025
@@ -11,7 +11,7 @@
 
 var sheetNameSubConfig = "ddmc"; // 分配置表名称
 let sheetNameSubConfig2 = "ddmc_ddyt";
-var pushHeader = "【叮咚买菜-叮咚鱼塘】";
+var pushHeader = "【叮咚鱼塘】";
 var sheetNameConfig = "CONFIG"; // 总配置表
 var sheetNamePush = "PUSH"; // 推送表名称
 var sheetNameEmail = "EMAIL"; // 邮箱表
@@ -444,9 +444,9 @@ function execHandle(cookie, pos) {
     let userTaskLogId = []
 
     let url = [
-      'https://sunquan.api.ddxq.mobi/api/v2/user/signin/',//  签到积分
-      'https://farm.api.ddxq.mobi/api/v2/task/achieve?api_version=9.1.0&app_client_id=1&station_id=&stationId=&native_version=&app_version=10.15.0&OSVersion=15&CityId=0201&uid=&latitude=40.123389&longitude=116.345477&lat=40.123389&lng=116.345477&device_token=&gameId=1&taskCode=DAILY_SIGN',  // 签到
-      'https://farm.api.ddxq.mobi/api/v2/task/achieve?api_version=9.1.0&app_client_id=1&station_id=&stationId=&native_version=&app_version=10.1.2&OSVersion=15&CityId=0201&uid=&latitude=40.123389&longitude=116.345477&lat=40.123389&lng=116.345477&device_token=&gameId=1&taskCode=CONTINUOUS_SIGN',  // 签到2
+      'https://sunquan.api.ddxq.mobi/api/v2/user/signin/',//  积分
+      'https://farm.api.ddxq.mobi/api/v2/task/achieve?api_version=9.1.0&app_client_id=1&station_id=&stationId=&native_version=&app_version=10.15.0&OSVersion=15&CityId=0201&uid=&latitude=40.123389&longitude=116.345477&lat=40.123389&lng=116.345477&device_token=&gameId=1&taskCode=DAILY_SIGN',  // 每日
+      'https://farm.api.ddxq.mobi/api/v2/task/achieve?api_version=9.1.0&app_client_id=1&station_id=&stationId=&native_version=&app_version=10.1.2&OSVersion=15&CityId=0201&uid=&latitude=40.123389&longitude=116.345477&lat=40.123389&lng=116.345477&device_token=&gameId=1&taskCode=CONTINUOUS_SIGN',  // 每日2
       'https://farm.api.ddxq.mobi/api/v2/props/feed?api_version=9.1.0&app_client_id=1&station_id=&stationId=&native_version&app_version=10.0.1&OSVersion=15&CityId=0201&uid=&latitude=40.123389&longitude=116.345477&lat=40.123389&lng=116.345477&device_token=&gameId=1&propsId=' + propsId + '&seedId=' + seedId + '&cityCode=0201&feedPro=0&triggerMultiFeed=1',// 喂饲料
       'https://farm.api.ddxq.mobi/api/v2/task/list?latitude=40.123389&longitude=116.345477&env=PE&station_id=&city_number=0201&api_version=9.44.0&app_client_id=3&native_version=10.15.0&h5_source=&page_type=2&gameId=1',  // 获取任务taskCode
       'https://farm.api.ddxq.mobi/api/v2/task/achieve?api_version=9.1.0&app_client_id=1&station_id=&stationId=&native_version=&app_version=10.15.0&OSVersion=15&CityId=0201&uid=&latitude=40.123389&longitude=116.345477&lat=40.123389&lng=116.345477&device_token=&gameId=1&taskCode=',  // 完成任务
@@ -509,7 +509,6 @@ function execHandle(cookie, pos) {
       code = resp["code"];
       msg = resp["msg"];
       if(code == 0){
-        // content = "帐号：" + messageName + "积分签到成功 "
         content = "🎉 " + "积分签到成功\n"
         messageSuccess += content
         console.log(content);
@@ -528,8 +527,8 @@ function execHandle(cookie, pos) {
       console.log(content);
     }
 
-    // 签到领饲料
-    let flagSign = 0; // 标识是否签到领取饲料
+    // 领饲料
+    let flagSign = 0; // 标识是否领取饲料
     let tempmessageFail = "";  // 记录临时失败的消息
     // resp = HTTP.fetch(url[1], {
     //   method: "get",

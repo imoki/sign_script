@@ -471,7 +471,7 @@ function resultHandle(resp, pos){
     }
 
     if(posHttp == 2 || qlSwitch != 1){  // 第二次进来时用
-        console.log("🍳 进行签到")
+        console.log("🍳 进行任务")
         url2 = ""
         // 正则匹配
         Reg = [
@@ -490,7 +490,7 @@ function resultHandle(resp, pos){
         {
             flagTrue = Reg[i].test(html); // 判断是否存在字符串
             if (flagTrue == true) {
-                let result = Reg[i].exec(html); // 提取匹配的字符串，["你已经连续签到 1 天，再接再厉！"," 1 "]
+                let result = Reg[i].exec(html); // 提取匹配的字符串，["你已经连续成功 1 天，再接再厉！"," 1 "]
                 // result = result[0];
                 result = result[1];
                 // content = valueName[i] + ":" + result + " "
@@ -503,7 +503,7 @@ function resultHandle(resp, pos){
             }
         }
 
-        // 获取签到数据
+        // 获取数据
         // 请求方式3：GET请求，无data数据。则用这个
         resp = HTTP.get(
         url2,
@@ -514,8 +514,8 @@ function resultHandle(resp, pos){
 
 
     if(posHttp == 3 || qlSwitch != 1){  // 第3次进来时用
-        console.log("🍳 查询签到天数")
-        // 查询连续签到天数
+        console.log("🍳 查询成功天数")
+        // 查询连续天数
         // 正则匹配
         Reg = [
         /<\/span>(.+?) <b class="caret">/i,
@@ -539,7 +539,7 @@ function resultHandle(resp, pos){
         {
             flagTrue = Reg[i].test(html); // 判断是否存在字符串
             if (flagTrue == true) {
-                let result = Reg[i].exec(html); // 提取匹配的字符串，["你已经连续签到 1 天，再接再厉！"," 1 "]
+                let result = Reg[i].exec(html); // 提取匹配的字符串，["你已经连续成功 1 天，再接再厉！"," 1 "]
                 // result = result[0];
                 result = result[1];
                 content = "🎉 " + valueName[i] + ":" + result + valueEnd[i] + " "
@@ -551,7 +551,7 @@ function resultHandle(resp, pos){
             }
         }
         // 青龙适配，青龙微适配
-        flagResultFinish = 1; // 签到结束
+        flagResultFinish = 1; // 结束
     }
 
 
@@ -587,7 +587,7 @@ function execHandle(cookie, pos) {
 
   // =================修改这块区域，区域开始=================
 
-  url = "https://xn--pxtr7m.net/qiandao"; // 签到url（修改这里，这里填抓包获取到的地址）
+  url = "https://xn--pxtr7m.net/qiandao"; // url（修改这里，这里填抓包获取到的地址）
 
   // （修改这里，这里填抓包获取header，全部抄进来就可以了，按照如下用引号包裹的格式，其中小写的cookie是从表格中读取到的值。）
   headers= {
