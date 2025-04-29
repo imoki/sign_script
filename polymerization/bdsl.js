@@ -24,6 +24,9 @@ var messageNickname = 0; // 1为推送位置标识（昵称/单元格Ax（昵称
 var messageHeader = []; // 存放每个消息的头部，如：单元格A3。目的是分离附加消息和执行结果消息
 var messagePushHeader = pushHeader; // 存放在总消息的头部，默认是pushHeader,如：【xxxx】
 var version = 1 // 版本类型，自动识别并适配。默认为airscript 1.0，否则为2.0（Beta）
+var separator = "##########MOKU##########" // 分割符，分割消息。可用于PUSH.js灵活推送
+var maxMessageLength = 400;  // 设置最大长度，超过这个长度则分片发送
+var messageDistance = 100; // 消息距离，用于匹配100字符内最近的行
 
 var jsonPush = [
   { name: "bark", key: "xxxxxx", flag: "0" },
@@ -467,6 +470,56 @@ function getsign(data) {
 
 // =================共用结束===================
 
+// =================消息分片处理相关开始===================
+// 去除首尾换行和空格
+function customTrim(str) {
+  return str.replace(/^\s+|\s+$/g, '');
+}
+
+// 纯长度分片
+function splitMessageSimple(data) {
+    let chunks = [];
+    for (let i = 0; i < data.length; i += maxMessageLength) {
+      console.log(i, i + maxMessageLength)
+        chunks.push(data.slice(i, i + maxMessageLength));
+    }
+    return chunks
+
+    // chunks.forEach((chunk, index) => {
+    //     // let message = `${index + 1}/${chunks.length}: ${chunk}`;
+    //     bark(message, key)
+    // });
+}
+
+
+// 消息分片，以换行符为分割，自动检索切割位置符号
+function splitMessage(data) {
+    let chunks = [];
+    let start = 0;
+
+    while (start < data.length) {
+        let end = start + maxMessageLength;
+        if (end >= data.length) {
+            chunks.push(data.slice(start));
+            break;
+        }
+
+        // 查找距离 maxMessageLength 在 20 字符以内的最近的换行符
+        let newlineIndex = data.lastIndexOf('【', end + parseInt(messageDistance));
+        // console.log(newlineIndex)
+        if (newlineIndex > start && newlineIndex >= end - parseInt(messageDistance)) {
+            end = newlineIndex;
+        }
+        chunks.push(data.slice(start, end));
+        start = end;
+    }
+
+     return chunks
+}
+
+// =================消息分片处理相关结束===================
+
+
 // 直接推送
 // 结果处理函数
 function resultHandle(resp, pos){
@@ -505,16 +558,42 @@ function resultHandle(resp, pos){
     // 青龙适配，青龙微适配
     flagResultFinish = 1; // 结束
 
-  sleep(2000);
-  if (messageOnlyError == 1) {
-    messageArray[posLabel] =  messageFail;
-  } else {
-      if(messageFail != ""){
-        messageArray[posLabel] = messageFail + " " + messageSuccess;
-      }else{
-        messageArray[posLabel] = messageSuccess;
+  // 检查是否直接推送
+  flag_pushdirect = Application.Range("D" + pos).Text
+  if(flag_pushdirect == "是") {
+    // console.log("🚀 直接推送")
+    // pushDirect(messageSuccess);
+    message = messageSuccess
+    // 方式1：按照指定分割符分片  separator
+    shards = message.split(separator); // // 分割符分片数据，一级分割
+    let chunks = []
+    for(let i=0; i<shards.length; i++){
+      strTrim = customTrim(shards[i]) + "\n\n" // 消息内间隔。去除首位空格和换行，然后在末尾拼接2个换行。
+      chunks = splitMessage(strTrim)  // 长度限制分割，二级分割
+      // console.log(chunks)
+      // console.log(chunks.length)
+      for (let j = 0; j < chunks.length; j++) {
+          // pushMessage(chunks[j], msgCurrentDict.methodPush, "【" + msgCurrentDict.note + "】",)
+          message = chunks[j]
+          // console.log(message)
+          pushDirect(message);
+          sleep(2000)
       }
+    }
+
+  } else {
+    if (messageOnlyError == 1) {
+      messageArray[posLabel] =  messageFail;
+    } else {
+        if(messageFail != ""){
+          messageArray[posLabel] = messageFail + " " + messageSuccess;
+        }else{
+          messageArray[posLabel] = messageSuccess;
+        }
+    }
   }
+
+  sleep(2000);
 
   // if(messageArray[posLabel] != "")
   // {

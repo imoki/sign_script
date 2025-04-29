@@ -17,6 +17,9 @@ var messageNickname = 0; // 1为推送位置标识（昵称/单元格Ax（昵称
 var messageHeader = []; // 存放每个消息的头部，如：单元格A3。目的是分离附加消息和执行结果消息
 var messagePushHeader = pushHeader; // 存放在总消息的头部，默认是pushHeader,如：【xxxx】
 var version = 1 // 版本类型，自动识别并适配。默认为airscript 1.0，否则为2.0（Beta）
+var separator = "##########MOKU##########" // 分割符，分割消息。可用于PUSH.js灵活推送
+var maxMessageLength = 400;  // 设置最大长度，超过这个长度则分片发送
+var messageDistance = 100; // 消息距离，用于匹配100字符内最近的行
 
 var jsonPush = [
   { name: "bark", key: "xxxxxx", flag: "0" },

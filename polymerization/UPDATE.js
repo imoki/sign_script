@@ -11,6 +11,9 @@ var confiWorkbook = 'CONFIG'  // 主配置表名称
 var pushWorkbook  = 'PUSH' // 推送表的名称
 var emailWorkbook = 'EMAIL' // 邮箱表的名称
 var version = 1 // 版本类型，自动识别并适配。默认为airscript 1.0，否则为2.0（Beta）
+var separator = "##########MOKU##########" // 分割符，分割消息。可用于PUSH.js灵活推送
+var maxMessageLength = 400;  // 设置最大长度，超过这个长度则分片发送
+var messageDistance = 100; // 消息距离，用于匹配100字符内最近的行
 
 // 表中激活的区域的行数和列数
 var workbook = [] // 存储已存在表数组
