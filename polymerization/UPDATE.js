@@ -378,9 +378,9 @@ var subConfigdailynewscn = [
 
 // 定制化分配置表内容，airabsorbed
 var subConfigairabsorbed = [
-  ['cookie(默认20个)', '是否执行(是/否)', '账号名称(可不填写)', '直推（是/否）'],
-  ['xxxxxxxx1', '是', '昵称1', '是',],
-  ['xxxxxxxx2', '否', '昵称2', '',]
+  ['cookie(默认20个)', '是否执行(是/否)', '账号名称(可不填写)', '直推（是/否）', '省份'],
+  ['xxxxxxxx1', '是', '昵称1', '是', '北京'],
+  ['xxxxxxxx2', '否', '昵称2', '', '']
 ]
 
 // 定制化分配置表内容，wbhot

@@ -519,12 +519,12 @@ function resultHandle(resp, pos){
     }
   }
 
-  sleep(2000);
+  // sleep(2000);
 
-  if(messageArray[posLabel] != "")
-  {
-    console.log(messageArray[posLabel]);
-  }
+  // if(messageArray[posLabel] != "")
+  // {
+  //   console.log(messageArray[posLabel]);
+  // }
 //   console.log(messageArray)
 
   return flagResultFinish

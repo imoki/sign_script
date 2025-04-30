@@ -1,8 +1,8 @@
 /*
     name: "全国空气吸收剂量率"
     cron: 45 0 9 * * *
-    脚本兼容: 金山文档（1.0），金山文档（2.0）
-    更新时间：20240406
+    脚本兼容: 金山文档（1.0）
+    更新时间：20240430
     环境变量名：airabsorbed（修改这里）
     环境变量值：无（修改这里）
     备注：全国空气吸收剂量率
@@ -544,6 +544,8 @@ function resultHandle(resp, pos){
      messageHeader[posLabel] = ""
     // console.log(messageName)
 
+    // 获取用户配置的省份(从E列)
+    let province = Application.Range("E" + pos).Text.trim() || "全国";
     // area = Range("D" + pos).Value2
     let url = "https://api.03c3.cn/api/airAbsorbedDoseRate"
     resp = HTTP.fetch(url, {
@@ -552,14 +554,136 @@ function resultHandle(resp, pos){
         // data: data
     });
     radiationData = resp.json()
+    // radiationData = {"code":200,"msg":"ok","data":[{"city":"北京 (北京万柳中路站)","value":"92 nGy/h","date":"2025-04-29"},{"city":"天津 (南开复康路站)","value":"69 nGy/h","date":"2025-04-29"},{"city":"河北 (石家庄槐岭路站)","value":"61 nGy/h","date":"2025-04-29"},{"city":"山西 (太原长治路站)","value":"87 nGy/h","date":"2025-04-29"},{"city":"内蒙 (内蒙古环境监测中心站)","value":"106 nGy/h","date":"2025-04-29"},{"city":"辽宁 (沈阳市东陵站)","value":"68 nGy/h","date":"2025-04-29"},{"city":"吉林 (长春青年路站)","value":"75 nGy/h","date":"2025-04-29"},{"city":"黑龙江 (哈尔滨海星街站)","value":"95 nGy/h","date":"2025-04-29"},{"city":"上海 (普陀沪太路站)","value":"66 nGy/h","date":"2025-04-29"},{"city":"江苏 (南京新城科技园站)","value":"58 nGy/h","date":"2025-04-29"},{"city":"浙江 (杭州三义村站)","value":"84 nGy/h","date":"2025-04-29"},{"city":"安徽 (合肥怀宁路站)","value":"74 nGy/h","date":"2025-04-29"},{"city":"福建 (福州市福飞北路站)","value":"102 nGy/h","date":"2025-04-29"},{"city":"江西 (南昌洪都北大道站)","value":"74 nGy/h","date":"2025-04-29"},{"city":"山东 (济南经十路站)","value":"68 nGy/h","date":"2025-04-29"}]}
 
     // console.log(radiationData)
     
-    const formatRadiation = (data) => 
-      data.map(item => {
-        const valueNum = parseFloat(item.value);
-        return `🌐 ${item.city}\n${getMeterEmoji(valueNum)} 剂量率：${item.value} \n📅 ${item.date}`;
-      }).join('\n\n');
+    // const formatRadiation = (data) => 
+    //   data.map(item => {
+    //     const valueNum = parseFloat(item.value);
+    //     return `🌐 ${item.city}\n${getMeterEmoji(valueNum)} 剂量率：${item.value} \n📅 ${item.date}`;
+    //   }).join('\n\n');
+
+    // 省份过滤逻辑
+    const filterByProvince = (data, target) => {
+      const provinceMap = {
+        // 直辖市
+        "北京": "北京",
+        "北京市": "北京",
+        "北平": "北京", // 兼容历史称呼
+        "沪": "上海",
+        "申城": "上海",
+        "津": "天津",
+        "渝": "重庆",
+      
+        // 自治区
+        "内蒙": "内蒙古",
+        "内蒙古": "内蒙古",
+        "宁夏": "宁夏回族自治区",
+        "宁夏回族": "宁夏回族自治区",
+        "新疆": "新疆维吾尔自治区",
+        "新疆省": "新疆维吾尔自治区",
+        "西藏": "西藏自治区",
+        "藏区": "西藏自治区",
+        "广西": "广西壮族自治区",
+        "广西省": "广西壮族自治区",
+      
+        // 特别行政区
+        "香港": "香港特别行政区",
+        "HK": "香港特别行政区",
+        "澳门": "澳门特别行政区",
+        "MAC": "澳门特别行政区",
+        "台湾": "台湾省",
+        "TW": "台湾省",
+      
+        // 省份（含常见简称）
+        "黑省": "黑龙江",
+        "黑龙江": "黑龙江",
+        "吉省": "吉林",
+        "吉林": "吉林",
+        "辽省": "辽宁",
+        "辽宁": "辽宁",
+        
+        "冀": "河北",
+        "河北": "河北",
+        "晋": "山西",
+        "山西": "山西",
+        
+        "鲁": "山东",
+        "山东": "山东",
+        "苏": "江苏",
+        "江苏": "江苏",
+        "浙": "浙江",
+        "浙江": "浙江",
+        "皖": "安徽",
+        "安徽": "安徽",
+        "闽": "福建",
+        "福建": "福建",
+        "赣": "江西",
+        "江西": "江西",
+        
+        "豫": "河南",
+        "河南": "河南",
+        "鄂": "湖北",
+        "湖北": "湖北",
+        "湘": "湖南",
+        "湖南": "湖南",
+        
+        "粤": "广东",
+        "广东": "广东",
+        "琼": "海南",
+        "海南": "海南",
+        
+        "蜀": "四川",
+        "川": "四川",
+        "四川": "四川",
+        "黔": "贵州",
+        "贵州": "贵州",
+        "滇": "云南",
+        "云南": "云南",
+        
+        "陕": "陕西",
+        "秦": "陕西",
+        "陕西": "陕西",
+        "甘": "甘肃",
+        "陇": "甘肃",
+        "甘肃": "甘肃",
+        "青": "青海",
+        "青海": "青海"
+      };
+
+      // 当目标为"全国"或未定义时直接返回全部
+      if (!target || target === "全国") return data;
+
+      const normalizedProvince = provinceMap[target] || target;
+      // console.log(normalizedProvince)
+      return data.filter(item => 
+        item.city.startsWith(normalizedProvince)
+        // console.log(item.city.startsWith(normalizedProvince))
+      );
+    };
+
+    // 改造格式化函数
+    const formatRadiation = (data) => {
+      const filteredData = province === "全国" ? 
+        data : 
+        filterByProvince(data, province);
+      // [{"city":"北京 (北京万柳中路站)","value":"92 nGy/h","date":"2025-04-29"}]
+      // console.log(filteredData)
+      if(filteredData.length === 0){
+        return `❌ 未找到【${province}】的监测数据`;
+      }
+
+      item = filteredData[0]
+      const doseValue = parseFloat(item.value.match(/\d+/)[0]); 
+      return `📅 ${item.date}\n🌐 ${item.city}\n${getMeterEmoji(doseValue)} 剂量率：${item.value}`
+      // return filteredData.map(item => {
+      //   // 从"91 nGy/h"提取数值
+      //   const doseValue = parseFloat(item.value.match(/\d+/)[0]); 
+      //   // console.log(`🌐 ${item.city} \n ${getMeterEmoji(doseValue)} 剂量率：${item.value}  \n 📅 ${item.date}`)
+      //   return `🌐 ${item.city} \n ${getMeterEmoji(doseValue)} 剂量率：${item.value}  \n 📅 ${item.date}`;
+      // }).join('\n\n');
+    };
 
     // 辅助函数：生成动态仪表符号
     const getMeterEmoji = (val) => {
@@ -568,12 +692,14 @@ function resultHandle(resp, pos){
 
     content = formatRadiation(radiationData.data)
     messageSuccess += content
+    // console.log(content)
 
     // 青龙适配，青龙微适配
     flagResultFinish = 1; // 结束
 
   // 检查是否直接推送
   flag_pushdirect = Application.Range("D" + pos).Text
+  // flag_pushdirect = "否"  // 测试
   if(flag_pushdirect == "是") {
     // console.log("🚀 直接推送")
     // pushDirect(messageSuccess);
@@ -607,12 +733,12 @@ function resultHandle(resp, pos){
     }
   }
 
-  sleep(2000);
+  // sleep(2000);
 
-  if(messageArray[posLabel] != "")
-  {
-    console.log(messageArray[posLabel]);
-  }
+  // if(messageArray[posLabel] != "")
+  // {
+  //   console.log(messageArray[posLabel]);
+  // }
 
   return flagResultFinish
 }
