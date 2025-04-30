@@ -1,8 +1,8 @@
 /*
     name: "微博热搜榜"
     cron: 45 0 9 * * *
-    脚本兼容: 金山文档（1.0），金山文档（2.0）
-    更新时间：20240406
+    脚本兼容: 金山文档（1.0）
+    更新时间：20240430
     环境变量名：wbhot
     环境变量值：无（修改这里）
 */
@@ -553,13 +553,29 @@ function resultHandle(resp, pos){
     resp = resp.text()
     // console.log(resp)
     content = resp
-    messageSuccess += content
+    let lines = content.split('\n');
+    let formattedContent = '';
+    for(let line of lines) {
+        // let match = line.match(/^(\d+),\s*(.+?)\.\s*(\d+\.?\d*万)$/);
+        // let match = line.match(/^(\d+),\s*([^\u0000-\u007F]+.+?)\.\s*(\d+\.?\d*万)$/);
+        let match = line.match(/^(\d+),\s*(.+?)(\d+\.?\d*万)$/);
+        // console.log(match)
+        if(match) {
+            let [, rank, title, heat] = match;
+            // console.log(`${rank}. ${title} 🔥${heat}\n`)
+            formattedContent += `${rank}. ${title} 🔥${heat}\n`;
+        }
+    }
+    
+    messageSuccess += formattedContent
+    // console.log(messageSuccess)
 
     // 青龙适配，青龙微适配
     flagResultFinish = 1; // 结束
 
   // 检查是否直接推送
   flag_pushdirect = Application.Range("D" + pos).Text
+  // flag_pushdirect = "否" // 测试
   if(flag_pushdirect == "是") {
     // console.log("🚀 直接推送")
     // pushDirect(messageSuccess);

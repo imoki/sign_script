@@ -259,7 +259,7 @@ var subConfigWeekplan = [
 var subConfigOilprice = [
   ['cookie(默认20个)', '是否执行(是/否)', '账号名称(可不填写)', '地区', '直推（是/否）'],
   ['xxxxxxxx1', '是', '昵称1', '北京', '否'],
-  ['xxxxxxxx2', '否', '昵称2', '']
+  ['xxxxxxxx2', '否', '昵称2', '', '']
 ]
 
 
@@ -371,9 +371,9 @@ var subConfigLnglat = [
 // 直接推送类
 // 定制化分配置表内容，dailynewscn
 var subConfigdailynewscn = [
-  ['cookie(默认20个)', '是否执行(是/否)', '账号名称(可不填写)', '直推（是/否）'],
-  ['xxxxxxxx1', '是', '昵称1', '是',],
-  ['xxxxxxxx2', '否', '昵称2', '',]
+  ['cookie(默认20个)', '是否执行(是/否)', '账号名称(可不填写)', '直推（是/否）', '新闻条数'],
+  ['xxxxxxxx1', '是', '昵称1', '是', '全部'],
+  ['xxxxxxxx2', '否', '昵称2', '', '10']
 ]
 
 // 定制化分配置表内容，airabsorbed

@@ -1,8 +1,8 @@
 /*
     name: "中国日报"
     cron: 45 0 9 * * *
-    脚本兼容: 金山文档（1.0），金山文档（2.0）
-    更新时间：20240408
+    脚本兼容: 金山文档（1.0）
+    更新时间：20240430
     环境变量名：dailynewscn
     环境变量值：无（修改这里）
 */
@@ -552,7 +552,24 @@ function resultHandle(resp, pos){
     resp = resp.text()
     // console.log(resp)
     content = resp
-    messageSuccess += content
+    // messageSuccess += content
+    // console.log(content)
+    
+    // 按E列数值截取条目
+    let count = Application.Range("E" + pos).Text
+    if (count == "全部") {
+      messageSuccess += content
+    } else {
+      let limit = parseInt(count) || 10; // 默认取10条
+      limit += 1;  // 这个占了一行，所以要加1。----中国日报----
+      let items = content.split('\n')
+          .filter(item => item.match(/^\d+：/)) // 过滤有效条目
+          .slice(0, limit); // 截取前N条
+          
+      messageSuccess += items.join('\n'); // 重新组合有效条目
+    }
+    
+    // console.log(messageSuccess)
 
     // 青龙适配，青龙微适配
     flagResultFinish = 1; // 签到结束

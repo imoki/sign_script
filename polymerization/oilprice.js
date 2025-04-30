@@ -591,7 +591,8 @@ function resultHandle(resp, pos){
     flagResultFinish = 1; // 结束
 
   // 检查是否直接推送
-  flag_pushdirect = Application.Range("D" + pos).Text
+  // 从E列读取是否直接推送
+  flag_pushdirect = Application.Range("E" + pos).Text
   if(flag_pushdirect == "是") {
     // console.log("🚀 直接推送")
     // pushDirect(messageSuccess);
