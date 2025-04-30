@@ -1,7 +1,7 @@
 /*
     脚本名称：UPDATE.js
     脚本兼容: airsript 1.0、airscript 2.0
-    更新时间：20250408
+    更新时间：20250430
     备注：更新脚本。用于自动生成表格，以及追加表格数据
           适配airsript 1.0版本及airscript 2.0版本
     其他：若想添加新内容，请搜索（修改这里），按照格式修改
@@ -79,7 +79,7 @@ var configBody = [
     { name: 'rsdjs', note: '人生倒计时',},
     { name: 'fwxs', note: '废文小说',},
     { name: 'imgavatar', note: '随机头像',},
-    { name: '神回复', note: '神回复',},
+    { name: 'shenhuifu', note: '神回复',},
     { name: 'imglandscape', note: '随机风景图片',},
     { name: 'miyu', note: '谜语', },
     { name: 'telsaorao', note: '骚扰电话查询',},
@@ -257,8 +257,8 @@ var subConfigWeekplan = [
 
 // 定制化分配置表内容，oilprice
 var subConfigOilprice = [
-  ['cookie(默认20个)', '是否执行(是/否)', '账号名称(可不填写)', '地区'],
-  ['xxxxxxxx1', '是', '昵称1', '北京'],
+  ['cookie(默认20个)', '是否执行(是/否)', '账号名称(可不填写)', '地区', '直推（是/否）'],
+  ['xxxxxxxx1', '是', '昵称1', '北京', '否'],
   ['xxxxxxxx2', '否', '昵称2', '']
 ]
 
@@ -279,9 +279,9 @@ var subConfigSteamrank = [
 
 // 定制化分配置表内容，xingzuo
 var subConfigXingzuo = [
-  ['cookie(默认20个)', '是否执行(是/否)', '账号名称(可不填写)', '星座'],
-  ['xxxxxxxx1', '是', '昵称1', '白羊座'],
-  ['xxxxxxxx2', '否', '昵称2', '']
+  ['cookie(默认20个)', '是否执行(是/否)', '账号名称(可不填写)', '星座', '直推（是/否）'],
+  ['xxxxxxxx1', '是', '昵称1', '白羊座', '是'],
+  ['xxxxxxxx2', '否', '昵称2', '', '']
 ]
 
 // 定制化分配置表内容，wangzhe
@@ -368,6 +368,113 @@ var subConfigLnglat = [
   ['xxxxxxxx2', '否', '昵称2', '', '', '']
 ]
 
+// 直接推送类
+// 定制化分配置表内容，dailynewscn
+var subConfigdailynewscn = [
+  ['cookie(默认20个)', '是否执行(是/否)', '账号名称(可不填写)', '直推（是/否）'],
+  ['xxxxxxxx1', '是', '昵称1', '是',],
+  ['xxxxxxxx2', '否', '昵称2', '',]
+]
+
+// 定制化分配置表内容，airabsorbed
+var subConfigairabsorbed = [
+  ['cookie(默认20个)', '是否执行(是/否)', '账号名称(可不填写)', '直推（是/否）'],
+  ['xxxxxxxx1', '是', '昵称1', '是',],
+  ['xxxxxxxx2', '否', '昵称2', '',]
+]
+
+// 定制化分配置表内容，wbhot
+var subConfigwbhot = [
+  ['cookie(默认20个)', '是否执行(是/否)', '账号名称(可不填写)', '直推（是/否）'],
+  ['xxxxxxxx1', '是', '昵称1', '是',],
+  ['xxxxxxxx2', '否', '昵称2', '',]
+]
+
+// 定制化分配置表内容，zhhot
+var subConfigzhhot = [
+  ['cookie(默认20个)', '是否执行(是/否)', '账号名称(可不填写)', '直推（是/否）'],
+  ['xxxxxxxx1', '是', '昵称1', '是',],
+  ['xxxxxxxx2', '否', '昵称2', '',]
+]
+
+// 定制化分配置表内容，bdhot
+var subConfigbdhot = [
+  ['cookie(默认20个)', '是否执行(是/否)', '账号名称(可不填写)', '直推（是/否）'],
+  ['xxxxxxxx1', '是', '昵称1', '是',],
+  ['xxxxxxxx2', '否', '昵称2', '',]
+]
+
+// 定制化分配置表内容，ssphot
+var subConfigssphot = [
+  ['cookie(默认20个)', '是否执行(是/否)', '账号名称(可不填写)', '直推（是/否）'],
+  ['xxxxxxxx1', '是', '昵称1', '是',],
+  ['xxxxxxxx2', '否', '昵称2', '',]
+]
+
+// 定制化分配置表内容，kfc
+var subConfigkfc = [
+  ['cookie(默认20个)', '是否执行(是/否)', '账号名称(可不填写)', '直推（是/否）'],
+  ['xxxxxxxx1', '是', '昵称1', '是',],
+  ['xxxxxxxx2', '否', '昵称2', '',]
+]
+
+// 定制化分配置表内容，miyu
+var subConfigmiyu = [
+  ['cookie(默认20个)', '是否执行(是/否)', '账号名称(可不填写)', '直推（是/否）'],
+  ['xxxxxxxx1', '是', '昵称1', '是',],
+  ['xxxxxxxx2', '否', '昵称2', '',]
+]
+
+// 定制化分配置表内容，todayhistory
+var subConfigtodayhistory = [
+  ['cookie(默认20个)', '是否执行(是/否)', '账号名称(可不填写)', '直推（是/否）'],
+  ['xxxxxxxx1', '是', '昵称1', '是',],
+  ['xxxxxxxx2', '否', '昵称2', '',]
+]
+
+// 定制化分配置表内容，zaoan
+var subConfigzaoan = [
+  ['cookie(默认20个)', '是否执行(是/否)', '账号名称(可不填写)', '直推（是/否）'],
+  ['xxxxxxxx1', '是', '昵称1', '是',],
+  ['xxxxxxxx2', '否', '昵称2', '',]
+]
+
+// 定制化分配置表内容，wanan
+var subConfigwanan = [
+  ['cookie(默认20个)', '是否执行(是/否)', '账号名称(可不填写)', '直推（是/否）'],
+  ['xxxxxxxx1', '是', '昵称1', '是',],
+  ['xxxxxxxx2', '否', '昵称2', '',]
+]
+
+// 定制化分配置表内容，oneyan
+var subConfigoneyan = [
+  ['cookie(默认20个)', '是否执行(是/否)', '账号名称(可不填写)', '直推（是/否）'],
+  ['xxxxxxxx1', '是', '昵称1', '是',],
+  ['xxxxxxxx2', '否', '昵称2', '',]
+]
+
+// 定制化分配置表内容，chouq
+var subConfigchouq = [
+  ['cookie(默认20个)', '是否执行(是/否)', '账号名称(可不填写)', '直推（是/否）'],
+  ['xxxxxxxx1', '是', '昵称1', '是',],
+  ['xxxxxxxx2', '否', '昵称2', '',]
+]
+
+// 定制化分配置表内容，tzgsc
+var subConfigtzgsc = [
+  ['cookie(默认20个)', '是否执行(是/否)', '账号名称(可不填写)', '直推（是/否）'],
+  ['xxxxxxxx1', '是', '昵称1', '是',],
+  ['xxxxxxxx2', '否', '昵称2', '',]
+]
+
+// 定制化分配置表内容，shenhuifu
+var subConfigshenhuifu = [
+  ['cookie(默认20个)', '是否执行(是/否)', '账号名称(可不填写)', '直推（是/否）'],
+  ['xxxxxxxx1', '是', '昵称1', '是',],
+  ['xxxxxxxx2', '否', '昵称2', '',]
+]
+
+
 // 定制化表
 var subConfig = {
   "ddmc"  : subConfigDdmc, 
@@ -399,6 +506,22 @@ var subConfig = {
   "dwz" : subConfigDwz,
   "fjzh" : subConfigFjzh,
   "lnglat" : subConfigLnglat,
+  // 直推
+  "dailynewscn" : subConfigdailynewscn,
+  "airabsorbed" : subConfigairabsorbed,
+  "wbhot" : subConfigwbhot,
+  "zhhot" : subConfigzhhot,
+  "bdhot" : subConfigbdhot,
+  "ssphot" : subConfigssphot,
+  "kfc" : subConfigkfc,
+  "miyu" : subConfigmiyu,
+  "todayhistory" : subConfigtodayhistory,
+  "zaoan" : subConfigzaoan,
+  "wanan" : subConfigwanan,
+  "oneyan" : subConfigoneyan,
+  "chouq" : subConfigchouq,
+  "tzgsc" : subConfigtzgsc,
+  "shenhuifu" : subConfigshenhuifu,
 }
 // var mosaic = "xxxxxxxx" // 马赛克
 // var strFail = "否"
