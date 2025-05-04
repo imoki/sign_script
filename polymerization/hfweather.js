@@ -45,6 +45,10 @@ var jsonPush = [
   { name: "email", key: "xxxxxx", flag: "0" },
   { name: "dingtalk", key: "xxxxxx", flag: "0" },
   { name: "discord", key: "xxxxxx", flag: "0" },
+  { name: "qywx", key: "xxxxxx", flag: "0" },
+  { name: "xizhi", key: "xxxxxx", flag: "0" },
+  { name: "jishida", key: "xxxxxx", flag: "0" },
+  { name: "wxpusher", key: "xxxxxx", flag: "0" },
 ]; // 推送数据，flag=1则推送
 var jsonEmail = {
   server: "",
@@ -155,6 +159,14 @@ function pushDirect(message) {
           dingtalk(message, key);
         } else if (name == "discord") {
           discord(message, key);
+        }else if (name == "qywx"){
+          qywx(message, key);
+        } else if (name == "xizhi") {
+          xizhi(message, key);
+        }else if (name == "jishida"){
+          jishida(message, key);
+        }else if (name == "wxpusher"){
+          wxpusher(message, key)
         }
       }
     }
@@ -195,6 +207,13 @@ function push(message) {
   // }
 }
 
+// 使用正则表达式匹配以'http://'或'https://'开头的字符串
+function isHttpOrHttpsUrl(url) {
+    // '^'表示字符串的开始，'i'表示不区分大小写
+    const regex = /^(http:\/\/|https:\/\/)/i;
+    // match() 方法返回一个包含匹配结果的数组，如果没有匹配项则返回 null
+    return url.match(regex) !== null;
+}
 
 // 推送bark消息
 function bark(message, key) {
@@ -320,6 +339,118 @@ function discord(message, key) {
   let url = key;
   let resp = HTTP.post(url, { content: message });
   //console.log(resp.text())
+  sleep(5000);
+}
+
+
+// 企业微信群推送机器人
+function qywx(message, key) {
+  message = messagePushHeader + "\n" + message // 消息头最前方默认存放：【xxxx】
+  let url = ""
+  if(isHttpOrHttpsUrl(key)){  // 以http开头
+    url = key
+  }else{
+    url = "https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=" + key;
+  }
+   
+  data = {
+    "msgtype": "text",
+    "text": {
+        "content": message
+    }
+  }
+  let resp = HTTP.post(url, data);
+  // console.log(resp.json())
+  sleep(5000);
+}
+
+// 息知 https://xizhi.qqoq.net/{key}.send?title=标题&content=内容
+function xizhi(message, key) {
+  message = message.replace(/\n/g, '\n\n'); // 单独适配，将一个换行变成两个，以实现换行
+  message = encodeURIComponent(message)
+  let url = ""
+  if(isHttpOrHttpsUrl(key)){  // 以http开头
+    url = key + "?title=" + messagePushHeader + "&content=" + message;
+  }else{
+    url = "https://xizhi.qqoq.net/" + key + ".send?title=" + messagePushHeader + "&content=" + message;  // 增加标题
+  }
+  // let resp = HTTP.fetch(url, {
+  //   method: "get",
+  // });
+  headers = {}
+  resp = HTTP.get(url, {headers: headers,});
+  sleep(5000);
+}
+
+// jishida http://push.ijingniu.cn/send?key=&head=&body=
+function jishida(message, key) {
+  message = encodeURIComponent(message)
+  let url = ""
+  if(isHttpOrHttpsUrl(key)){  // 以http开头
+    url = key + "&head=" + messagePushHeader + "&body=" + message;
+  }else{
+    url = "http://push.ijingniu.cn/send?key=" + key + "&head=" + messagePushHeader + "&body=" + message;  // 增加标题
+  }
+  // let resp = HTTP.fetch(url, {
+  //   method: "get",
+  // });
+  headers = {}
+  resp = HTTP.get(url, {headers: headers,});
+  sleep(5000);
+}
+
+// wxpusher 适配两种模式：极简推送、标准推送
+function wxpusher(message, key) {
+  message = message.replace(/\n/g, '<br>'); // 单独适配，将/n换行变成<br>，以实现换行
+  message = encodeURIComponent(message)
+  let keyarry= key.split("|") // 使用|作为分隔符
+  if(keyarry.length == 1){ 
+    // console.log("采用SPT极简推送")
+    // https://wxpusher.zjiecode.com/api/send/message/你获取到的SPT/你要发送的内容
+    // https://wxpusher.zjiecode.com/api/send/message/xxxx/ThisIsSendContent
+    let url = ""
+    if(isHttpOrHttpsUrl(key)){  // 以http开头
+      // end = key.slice(-1)
+      if(key.endsWith("/")){
+        // 形如：https://wxpusher.zjiecode.com/api/send/message/你获取到的SPT/
+        url = key + message 
+      }else if(key.endsWith("ThisIsSendContent")){
+        // 形如：https://wxpusher.zjiecode.com/api/send/message/xxxx/ThisIsSendContent
+        key = key.slice(0, -"ThisIsSendContent".length);  // 去掉末尾的"ThisIsSendContent"
+        url = key + message 
+      }else{
+        // 形如：https://wxpusher.zjiecode.com/api/send/message/你获取到的SPT
+        url = key + "/" + message  
+      }
+    }else{
+      // 形如：你获取到的SPT
+      url = "https://wxpusher.zjiecode.com/api/send/message/" + key + "/" + message
+    }
+    // console.log(url)
+    // let resp = HTTP.fetch(url, {
+    //   method: "get",
+    // });
+    headers = {}
+    resp = HTTP.get(url, {headers: headers,});
+    // console.log(resp.text())
+  }else{
+    // console.log("采用标准推送")
+    let appToken = keyarry[0]
+    let uid = keyarry[1]
+    let url = ""
+    if(isHttpOrHttpsUrl(key)){  // 以http开头
+      url = key + "&verifyPayType=0&content=" + message 
+    }else{
+      url = "https://wxpusher.zjiecode.com/api/send/message/?appToken=" + appToken + "&uid=" + uid + "&verifyPayType=0&content=" + message 
+    }
+    // console.log(url)
+    // let resp = HTTP.fetch(url, {
+    //   method: "get",
+    // });
+    headers = {}
+    resp = HTTP.get(url, {headers: headers,});
+    // console.log(resp.json())
+  }
   sleep(5000);
 }
 
