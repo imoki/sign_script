@@ -2,7 +2,7 @@
     name: "和风天气"
     cron: 45 0 9 * * *
     脚本兼容: 金山文档（2.0）
-    更新时间：20250113
+    更新时间：20250504
     环境变量名：hfweather
     环境变量值：API KEY
     备注：需要 API KEY。访问https://console.qweather.com/#/apps?lang=zh 注册免费订阅获取API KEY。
@@ -129,6 +129,38 @@ function writeMessageQueue(message){
     }
   }
 
+}
+
+// 直推，调用就直接就进行推送
+function pushDirect(message) {
+  console.log("✨ 推送直推")
+  if (message != "") {
+    // message = messagePushHeader + message // 消息头最前方默认存放：【xxxx】
+    let length = jsonPush.length;
+    let name;
+    let key;
+    for (let i = 0; i < length; i++) {
+      if (jsonPush[i].flag == 1) {
+        name = jsonPush[i].name;
+        key = jsonPush[i].key;
+        if (name == "bark") {
+          bark(message, key);
+        } else if (name == "pushplus") {
+          pushplus(message, key);
+        } else if (name == "ServerChan") {
+          serverchan(message, key);
+        } else if (name == "email") {
+          email(message);
+        } else if (name == "dingtalk") {
+          dingtalk(message, key);
+        } else if (name == "discord") {
+          discord(message, key);
+        }
+      }
+    }
+  } else {
+    console.log("🍳 消息为空不推送");
+  }
 }
 
 // 总推送
@@ -987,6 +1019,56 @@ function modeHandel(pos, mode){
 
 // =========================天气处理接口结束========================
 
+
+// =================消息分片处理相关开始===================
+// 去除首尾换行和空格
+function customTrim(str) {
+  return str.replace(/^\s+|\s+$/g, '');
+}
+
+// 纯长度分片
+function splitMessageSimple(data) {
+    let chunks = [];
+    for (let i = 0; i < data.length; i += maxMessageLength) {
+      console.log(i, i + maxMessageLength)
+        chunks.push(data.slice(i, i + maxMessageLength));
+    }
+    return chunks
+
+    // chunks.forEach((chunk, index) => {
+    //     // let message = `${index + 1}/${chunks.length}: ${chunk}`;
+    //     bark(message, key)
+    // });
+}
+
+
+// 消息分片，以换行符为分割，自动检索切割位置符号
+function splitMessage(data) {
+    let chunks = [];
+    let start = 0;
+
+    while (start < data.length) {
+        let end = start + maxMessageLength;
+        if (end >= data.length) {
+            chunks.push(data.slice(start));
+            break;
+        }
+
+        // 查找距离 maxMessageLength 在 20 字符以内的最近的换行符
+        let newlineIndex = data.lastIndexOf('【', end + parseInt(messageDistance));
+        // console.log(newlineIndex)
+        if (newlineIndex > start && newlineIndex >= end - parseInt(messageDistance)) {
+            end = newlineIndex;
+        }
+        chunks.push(data.slice(start, end));
+        start = end;
+    }
+
+     return chunks
+}
+
+// =================消息分片处理相关结束===================
+
 // 结果处理函数
 function resultHandle(resp, pos){
   // 每次进来resultHandle则加一次请求
@@ -1010,17 +1092,20 @@ function resultHandle(resp, pos){
   messageHeader[posLabel] = ""
   // console.log(messageName)
 
-
+  // 实际运行
   result = modeHandel(pos, mode)
   respcode = result[0]
   messageSuccess = result[1]
   messageFail = result[2]
 
+  // messageSuccess = "测试" // 测试
+
+
   // 青龙适配，青龙微适配
   flagResultFinish = 1; // 结束
 
   // 检查是否直接推送
-  flag_pushdirect = Application.Range("D" + pos).Text
+  flag_pushdirect = Application.Range("S" + pos).Text
   if(flag_pushdirect == "是") {
     // console.log("🚀 直接推送")
     // pushDirect(messageSuccess);
@@ -1056,10 +1141,10 @@ function resultHandle(resp, pos){
 
   sleep(2000);
 
-  if(messageArray[posLabel] != "")
-  {
-    // console.log(messageArray[posLabel]);
-  }
+  // if(messageArray[posLabel] != "")
+  // {
+  //   // console.log(messageArray[posLabel]);
+  // }
 //   console.log(messageArray)
 
   return flagResultFinish
